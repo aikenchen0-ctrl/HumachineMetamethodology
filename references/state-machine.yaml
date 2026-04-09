@@ -1,0 +1,1043 @@
+machine_version: 1
+machine_id: problem-structuring-agentic-mvp
+source_contract: state-contracts.yaml
+source_policy: terminology-policy.md
+source_alignment_policy: references/source-alignment-policy.md
+source_advanced_mode: references/advanced-mode.md
+source_screen_critique_mode: references/screen-and-critique-mode.md
+source_template_mode: references/template-mode.md
+source_library_mode: references/library-and-weighting-mode.md
+source_orchestration_mode: references/orchestration-and-memory-mode.md
+source_variant_mode: references/variant-and-composition-mode.md
+source_traversal_mode: references/traversal-and-invention-mode.md
+source_discovery_mode: references/discovery-and-hypothesis-mode.md
+source_portfolio_mode: references/portfolio-and-optimization-mode.md
+source_governance_mode: references/governance-and-feedback-mode.md
+source_representation_mode: references/representation-and-serialization-mode.md
+
+start_state: problem_intake
+terminal_states:
+  - finish
+
+design_notes:
+  - "MVP 状态机保持单主线推进，不在状态机内部直接展开并行执行。"
+  - "分支只在 branch_plan_generation 中被定义为计划对象，不被当作新的状态节点。"
+  - "回退优先回到最早出错且修复成本最低的状态。"
+  - "若 advanced mode 被激活，则基础主线不变，但 finish 前需要额外产出高级产物链。"
+
+global_thresholds:
+  min_completeness_to_proceed: 70
+  min_consistency_to_proceed: 70
+  min_confidence_to_finish: 0.60
+  max_failed_revision_cycles: 3
+  max_active_branches_per_round: 3
+
+global_invariants:
+  - "任意时刻只允许一个主状态处于运行中。"
+  - "所有状态迁移都必须以显式 artifact 或显式判断为依据，不允许仅凭隐式语义跳转。"
+  - "若上游主产物不存在，则禁止进入下游状态。"
+  - "若评估报告中仍有 blocking_issues，则禁止进入 finish。"
+  - "MVP 中的 branch_plan 只能作为计划，不作为执行结果。"
+  - "若 advanced mode 被激活，则 solution-set.json 不存在时禁止进入 finish。"
+  - "若任一扩展模式被激活，则必须存在 mode-resolution.json。"
+  - "若 evaluation-report.xml 中 missing_required_outputs 非空，则禁止进入 finish。"
+  - "若 evaluation-report.xml 使用 self_score，则必须同时给出 score_reason，且 self_score 不得替代 same_source_consistency、cross_format_consistency 或 fact_validation_chain。"
+
+source_alignment_rules:
+  - "当当前轮任务明确是对齐 metaPrompt.md 或 agentic-nested-state-machine.opml 时，默认只激活 source-aligned core。"
+  - "在 source alignment 轮次中，orchestration_and_memory_mode 只默认覆盖 orchestration-plan.json、execution-supervision.json、executor-interface.json、executor-capability-registry.json、memory-pruning.json 与 writeback-ledger.json。"
+  - "runtime/provider/governance 运维层 artifact 属于 derived runtime extension，不得因为一般分支、共享文件、执行监督或治理诉求自动激活。"
+  - "只有当前任务明确涉及真实 runtime signal、外部 service hook、provider topology、持续 drift monitor 或长期治理运维时，derived runtime extension 才允许进入 required_outputs。"
+
+advanced_mode:
+  activation_if:
+    - "用户明确要求 metaPrompt 的步骤 3 到 8。"
+    - "用户明确要求资源图、行动者网络图、功能物场、流分析、SAFC、USIT32 或解决方案集。"
+    - "当前问题已经完成基础结构化，但仍需要系统级建模。"
+    - "当前问题已经明确是系统问题，且仅靠 constraints-matrix 无法支撑后续求解。"
+  sequence:
+    - resource-graph.json
+    - actor-network.json
+    - function-field-model.json
+    - flow-analysis.json
+    - safc-model.json
+    - contradiction-analysis.json
+    - solution-set.json
+  optional_outputs:
+    - multi-screen-analysis.json
+  finish_guard_when_active:
+    - "至少一个深度系统模型已生成。"
+    - "solution-set.json 已生成。"
+    - "关键矛盾或关键阻滞点已显式记录。"
+    - "critique-report.json 已生成。"
+    - "loop-decision.json 中 advanced_mode_status 不能是 incomplete。"
+
+template_mode:
+  activation_if:
+    - "用户明确要求模板链、变量映射、批量探索、收敛剪枝记录或共享上下文结构。"
+    - "当前方法已经稳定到可以复用，且后续任务需要重复应用同一分析链。"
+  optional_outputs:
+    - template-chain.json
+    - pruning-notes.json
+    - shared-context-map.json
+  finish_guard_when_active:
+    - "若已声明启用 template mode，则至少应生成 template-chain.json。"
+
+library_and_weighting_mode:
+  activation_if:
+    - "用户明确要求名词变量、参数库、效应库、临时库、提示引导、图格式选择或权重排序。"
+    - "当前分析已经产生稳定术语、参数或多方案排序需求，适合继续库化或显式求权重。"
+    - "当前需要显式排序，但尚未给出人类权重，或需要记录权重来源与兜底方法。"
+  optional_outputs:
+    - glossary.json
+    - parameter-library.json
+    - effect-library.json
+    - temporary-library.json
+    - prompt-guidance.json
+    - graph-format-selection.json
+    - checklist-summary.json
+    - decision-weighting.json
+  finish_guard_when_active:
+    - "若已声明启用 library and weighting mode，则至少应生成一个库化或权重产物。"
+
+orchestration_and_memory_mode:
+  activation_if:
+    - "用户明确要求分支类型设计、执行监督、共享上下文或记忆剪枝。"
+    - "当前问题已经进入多分支或多执行路径阶段，需要正式定义并行/串行/挂起与可见上下文范围。"
+  optional_outputs:
+    - orchestration-plan.json
+    - execution-supervision.json
+    - executor-interface.json
+    - executor-capability-registry.json
+    - executor-capability-version-policy.json
+    - executor-capability-discovery.json
+    - executor-runtime-hook.json
+    - runtime-event-source-contract.json
+    - runtime-event-source-registry.json
+    - runtime-event-schema-version-policy.json
+    - runtime-event-source-service-hook.json
+    - runtime-schema-registry-hook.json
+    - memory-pruning.json
+    - writeback-ledger.json
+    - capability-update-ledger.json
+    - consumer-compatibility-probe.json
+    - consumer-registry.json
+    - consumer-registry-version-policy.json
+    - consumer-runtime-discovery.json
+    - consumer-registry-service-hook.json
+    - capability-migration-ledger.json
+    - runtime-event-schema-migration-ledger.json
+    - consumer-registry-migration-ledger.json
+    - source-of-truth-drift-report.json
+    - source-of-truth-reconciliation-ledger.json
+    - source-of-truth-drift-monitor.json
+    - drift-monitor-scheduler.json
+    - drift-scheduler-service-hook.json
+    - auto-reconcile-policy.json
+    - alert-routing-policy.json
+    - alert-delivery-contract.json
+    - delivery-provider-capability-matrix.json
+    - provider-health-check.json
+    - provider-health-telemetry.json
+    - provider-telemetry-stream-contract.json
+    - channel-failover-policy.json
+    - circuit-breaker-policy.json
+    - circuit-breaker-hysteresis-policy.json
+    - anomaly-scoring-policy.json
+    - adaptive-threshold-policy.json
+    - telemetry-baseline-evolution.json
+    - human-escalation-workflow.json
+    - human-escalation-channel.json
+    - drift-scan-ledger.json
+    - delivery-failover-ledger.json
+    - provider-recovery-switch-ledger.json
+    - recovery-canary-policy.json
+    - threshold-adaptation-ledger.json
+    - anomaly-model-recalibration.json
+    - threshold-governance-workflow.json
+    - threshold-governance-ledger.json
+    - baseline-governance-service-hook.json
+    - anomaly-model-registry.json
+    - threshold-policy-registry.json
+    - governance-sync-ledger.json
+    - governance-source-drift-report.json
+    - governance-source-reconciliation-ledger.json
+    - governance-approval-channel.json
+    - governance-review-scheduler.json
+    - governance-alert-routing-policy.json
+    - governance-review-cadence.json
+    - governance-review-ops-ledger.json
+    - governance-provider-capability-matrix.json
+    - governance-channel-failover-policy.json
+    - governance-delivery-failover-ledger.json
+  finish_guard_when_active:
+    - "若已声明启用 orchestration and memory mode，则 orchestration-plan.json 已生成。"
+    - "若已声明启用 orchestration and memory mode，则 execution-supervision.json 已生成。"
+    - "若已声明启用 orchestration and memory mode，则 executor-interface.json 已生成。"
+    - "若已声明启用 orchestration and memory mode，则 executor-capability-registry.json 已生成。"
+    - "若 capability registry 进入版本化、兼容性判断或外部消费场景，则 executor-capability-version-policy.json 已生成。"
+    - "若存在挂起路径、剪枝路径或平行分叉，则 memory-pruning.json 已生成。"
+    - "若 execution-supervision.json 中存在非空 shared_file_contracts、非空 environment_observation_rules 或非空 checkpoint_writebacks，则 writeback-ledger.json 已生成。"
+    - "若 executor-capability-discovery.json 已生成，则 capability-update-ledger.json 已生成。"
+    - "若 capability discovery 依赖 runtime 信号，则 executor-runtime-hook.json 已生成。"
+    - "若 runtime hook 依赖事件源契约，则 runtime-event-source-contract.json 已生成。"
+    - "若 runtime source 进入 source-of-truth 注册或 schema 版本化场景，则 runtime-event-source-registry.json 与 runtime-event-schema-version-policy.json 已生成。"
+    - "若 runtime source、schema registry 或 consumer source-of-truth 通过真实 service 暴露，则对应 service hook 已生成。"
+    - "若存在 consumer 版本探测或兼容性断裂判断，则 consumer-compatibility-probe.json 已生成。"
+    - "若 compatibility 依赖 consumer source-of-truth 或 runtime consumer 识别，则 consumer-registry.json 与 consumer-runtime-discovery.json 已生成。"
+    - "若 consumer source-of-truth 进入版本化或 identity schema 迁移场景，则 consumer-registry-version-policy.json 已生成。"
+    - "若 capability-update-ledger.json 中发生版本变更、兼容性破坏或弃用绑定，则 capability-migration-ledger.json 已生成。"
+    - "若 runtime event schema 发生版本变化、字段弃用或兼容断裂，则 runtime-event-schema-migration-ledger.json 已生成。"
+    - "若 consumer registry 发生版本变化、identity mapping 变化或 consumer id 弃用，则 consumer-registry-migration-ledger.json 已生成。"
+    - "若比较 service/source registry/runtime observation 后存在 drift，则 source-of-truth-drift-report.json 已生成。"
+    - "若 drift 进入修复或 reconciliation 路径，则 source-of-truth-reconciliation-ledger.json 已生成。"
+    - "若需要持续 drift 监测，则 source-of-truth-drift-monitor.json 已生成。"
+    - "若 drift monitor 需要调度运行，则 drift-monitor-scheduler.json 已生成。"
+    - "若 drift monitor 需要接入真实 scheduler，则 drift-scheduler-service-hook.json 已生成。"
+    - "若允许 auto reconcile，则 auto-reconcile-policy.json 已生成。"
+    - "若 drift 需要告警分发，则 alert-routing-policy.json 已生成。"
+    - "若告警需要接入真实投递通道，则 alert-delivery-contract.json 已生成。"
+    - "若告警或升级依赖多个 provider/多个通道，则 delivery-provider-capability-matrix.json 与 channel-failover-policy.json 已生成。"
+    - "若 provider failover 依赖健康状态，则 provider-health-check.json 已生成。"
+    - "若 provider 健康需要以遥测窗口而不是单点探测判断，则 provider-health-telemetry.json 已生成。"
+    - "若 provider 健康依赖持续遥测流，则 provider-telemetry-stream-contract.json 已生成。"
+    - "若 provider failover 需要熔断/恢复切回，则 circuit-breaker-policy.json 已生成。"
+    - "若需要防抖、回差和防止频繁开闭，则 circuit-breaker-hysteresis-policy.json 已生成。"
+    - "若需要基于遥测做异常评分，则 anomaly-scoring-policy.json 已生成。"
+    - "若阈值需要随基线漂移自适应，则 adaptive-threshold-policy.json 已生成。"
+    - "若遥测基线会长期演化，则 telemetry-baseline-evolution.json 已生成。"
+    - "若 drift 需要人工审核闸门，则 human-escalation-workflow.json 已生成。"
+    - "若人工审核需要接入真实升级通道，则 human-escalation-channel.json 已生成。"
+    - "若 drift monitor 已实际触发扫描，则 drift-scan-ledger.json 已生成。"
+    - "若发生 provider 或 channel failover，则 delivery-failover-ledger.json 已生成。"
+    - "若 provider 发生恢复切回，则 provider-recovery-switch-ledger.json 已生成。"
+    - "若 provider 恢复切回需要金丝雀放量，则 recovery-canary-policy.json 已生成。"
+    - "若已执行阈值自适应或冻结/回滚，则 threshold-adaptation-ledger.json 已生成。"
+    - "若异常评分模型发生重标定，则 anomaly-model-recalibration.json 已生成。"
+    - "若阈值治理进入审批、冻结、覆盖或审计流程，则 threshold-governance-workflow.json 与 threshold-governance-ledger.json 已生成。"
+    - "若长期治理依赖外部 baseline service、anomaly model registry 或 threshold policy registry，则对应治理 source-of-truth 契约已生成。"
+    - "若外部治理系统与本地治理状态发生同步，则 governance-sync-ledger.json 已生成。"
+    - "若外部治理 source 与本地治理状态之间发生 drift，则 governance-source-drift-report.json 已生成。"
+    - "若治理 drift 进入修复路径，则 governance-source-reconciliation-ledger.json 已生成。"
+    - "若长期治理需要接入外部审批通道，则 governance-approval-channel.json 已生成。"
+    - "若已执行外部治理同步，则 governance-sync-ledger.json 已生成。"
+    - "若长期治理需要持续审查调度，则 governance-review-scheduler.json 与 governance-review-cadence.json 已生成。"
+    - "若治理 drift 需要专用告警路由，则 governance-alert-routing-policy.json 已生成。"
+    - "若治理审查已实际运行，则 governance-review-ops-ledger.json 已生成。"
+    - "若治理告警或审批依赖多个 provider/多个通道，则 governance-provider-capability-matrix.json 与 governance-channel-failover-policy.json 已生成。"
+    - "若治理告警或审批发生 provider/channel failover，则 governance-delivery-failover-ledger.json 已生成。"
+
+variant_and_composition_mode:
+  activation_if:
+    - "用户明确要求多个方案变体、步骤规范化或方案重组。"
+    - "当前输出已经形成两个及以上可比较替代项，且存在共享步骤或可重组步骤。"
+  optional_outputs:
+    - variant-set.json
+    - step-normalization.json
+    - composition-plan.json
+  finish_guard_when_active:
+    - "若已声明启用 variant and composition mode，则至少应生成 variant-set.json 或 composition-plan.json。"
+
+traversal_and_invention_mode:
+  activation_if:
+    - "用户明确要求微观发散遍历、IFR、启发式过滤、40个发明措施或措施联合体。"
+    - "当前问题已经识别出主矛盾，但仍缺系统化解空间展开。"
+    - "用户明确要求适当剃刀、维度锚定、黑盒化，或强调要停留在正确维度上。"
+  optional_outputs:
+    - traversal-plan.json
+    - heuristic-filters.json
+    - invention-measures.json
+    - measure-combinations.json
+  finish_guard_when_active:
+    - "若已声明启用 traversal and invention mode，则至少应生成 traversal-plan.json 或 invention-measures.json。"
+
+discovery_and_hypothesis_mode:
+  activation_if:
+    - "用户明确要求潜在需求发现、需求可见性塑造、场域创造需求、认知节能需求、需求不可见障碍、早期试用者信号、开放澄清模式、软剪枝或现实反馈钩子。"
+    - "当前问题仍处于模糊现状与模糊目标状态之间，需要先做需求可见性和假设治理。"
+    - "基础链路的 visible_demand / real_demand_hypothesis 已不足以承载潜在需求、可见性障碍或开放假设治理。"
+  optional_outputs:
+    - demand-visibility.json
+    - hypothesis-register.json
+    - feedback-hooks.json
+  finish_guard_when_active:
+    - "若已声明启用 discovery and hypothesis mode，则至少应生成 demand-visibility.json 或 hypothesis-register.json。"
+
+portfolio_and_optimization_mode:
+  activation_if:
+    - "用户明确要求方法论分支、近似最优比较、状态空间矩阵、研究计划或执行路线图。"
+    - "当前问题已经形成多目标、多路径、多约束的组合决策，需要显式比较近似最优。"
+    - "用户明确要求五向接近最优、层次分析法、成对比较矩阵，或要求研究计划与执行计划分层。"
+  optional_outputs:
+    - state-space-matrix.json
+    - methodology-portfolio.json
+    - method-branch-map.json
+    - research-plan.json
+    - execution-roadmap.json
+    - optimization-report.json
+  finish_guard_when_active:
+    - "若已声明启用 portfolio and optimization mode，则至少应生成 methodology-portfolio.json 或 optimization-report.json。"
+
+governance_and_feedback_mode:
+  activation_if:
+    - "用户明确要求人类可视修改、覆盖规则、交互风格或现实反馈台账。"
+    - "当前流程包含明确的人类审核点、覆盖点或现实世界反馈回写需求。"
+    - "用户明确要求选择式/启发式提问、人设权重优先，或要求无人输入时才回退自动权重。"
+    - "已存在 ranking/weighting 结果，但还需要显式定义人类覆盖它的优先级和作用范围。"
+  optional_outputs:
+    - interaction-policy.json
+    - governance-checkpoints.json
+    - override-policy.json
+    - feedback-ledger.json
+  finish_guard_when_active:
+    - "若已声明启用 governance and feedback mode，则至少应生成 interaction-policy.json 或 governance-checkpoints.json 或 override-policy.json 或 feedback-ledger.json。"
+
+representation_and_serialization_mode:
+  activation_if:
+    - "用户明确要求 xml、Mermaid、DAG、三元组或数学逻辑格式导出。"
+    - "当前分析结果已经足够稳定，且下一步需要以特定表示层格式被其他步骤消费。"
+    - "下游明确需要标签化输出、交互顺序图、依赖图、三元组压缩或逻辑条件表达。"
+  optional_outputs:
+    - xml-rewrite.xml
+    - sequence-diagram.mmd
+    - representation-bundle.json
+  finish_guard_when_active:
+    - "若已声明启用 representation and serialization mode，则至少应生成 xml-rewrite.xml 或 representation-bundle.json。"
+
+mode_attachment_rules:
+  advanced_mode:
+    activation_check_state: semantic_clarification
+    attach_after_states:
+      - demand_constraint_modeling
+      - branch_plan_generation
+      - evaluation_validation
+      - loop_or_finish
+    required_all_of:
+      - resource-graph.json
+      - actor-network.json
+      - function-field-model.json
+      - flow-analysis.json
+      - safc-model.json
+      - contradiction-analysis.json
+      - solution-set.json
+    optional_outputs:
+      - multi-screen-analysis.json
+      - critique-report.json
+  template_mode:
+    activation_check_state: semantic_clarification
+    attach_after_states:
+      - loop_or_finish
+    required_all_of:
+      - template-chain.json
+    optional_outputs:
+      - pruning-notes.json
+      - shared-context-map.json
+      - checklist-migration-pointer.json
+      - checklist-migration-pointer-registry.json
+  library_and_weighting_mode:
+    activation_check_state: branch_plan_generation
+    attach_after_states:
+      - semantic_clarification
+      - demand_constraint_modeling
+      - branch_plan_generation
+      - loop_or_finish
+    required_any_of:
+      - glossary.json
+      - parameter-library.json
+      - effect-library.json
+      - temporary-library.json
+      - prompt-guidance.json
+      - graph-format-selection.json
+      - checklist-summary.json
+      - decision-weighting.json
+    optional_outputs:
+      - checklist-migration-map.json
+  orchestration_and_memory_mode:
+    activation_check_state: branch_plan_generation
+    attach_after_states:
+      - branch_plan_generation
+      - loop_or_finish
+    required_all_of:
+      - orchestration-plan.json
+      - execution-supervision.json
+    optional_outputs:
+      - memory-pruning.json
+  variant_and_composition_mode:
+    activation_check_state: branch_plan_generation
+    attach_after_states:
+      - branch_plan_generation
+      - loop_or_finish
+    required_any_of:
+      - variant-set.json
+      - composition-plan.json
+  traversal_and_invention_mode:
+    activation_check_state: branch_plan_generation
+    attach_after_states:
+      - branch_plan_generation
+      - evaluation_validation
+      - loop_or_finish
+    required_any_of:
+      - traversal-plan.json
+      - invention-measures.json
+  discovery_and_hypothesis_mode:
+    activation_check_state: semantic_clarification
+    attach_after_states:
+      - semantic_clarification
+      - loop_or_finish
+    required_any_of:
+      - demand-visibility.json
+      - hypothesis-register.json
+  portfolio_and_optimization_mode:
+    activation_check_state: branch_plan_generation
+    attach_after_states:
+      - demand_constraint_modeling
+      - branch_plan_generation
+      - evaluation_validation
+      - loop_or_finish
+    required_any_of:
+      - methodology-portfolio.json
+      - optimization-report.json
+  governance_and_feedback_mode:
+    activation_check_state: evaluation_validation
+    attach_after_states:
+      - semantic_clarification
+      - evaluation_validation
+      - loop_or_finish
+    required_any_of:
+      - interaction-policy.json
+      - governance-checkpoints.json
+      - override-policy.json
+      - feedback-ledger.json
+  representation_and_serialization_mode:
+    activation_check_state: semantic_clarification
+    attach_after_states:
+      - semantic_clarification
+      - branch_plan_generation
+      - loop_or_finish
+    required_any_of:
+      - xml-rewrite.xml
+      - representation-bundle.json
+
+mode_inference_signals:
+  advanced_mode:
+    - "当前对象是系统、流程或方法体系，而不是单个一步动作。"
+    - "constraints-matrix.json 中 actors、frictions 与 hidden_conditions 已形成系统级张力。"
+    - "branch-plan.json 中出现图建模、流分析、矛盾分析或系统级求解意图。"
+  template_mode:
+    - "branch-plan.json 或 solution-set.json 已形成可复用步骤链。"
+    - "当前轮输出存在稳定 handoff 结构或显式变量映射需求。"
+  library_and_weighting_mode:
+    - "problem-brief.json 与 constraints-matrix.json 中已有稳定术语、参数或排序目标。"
+    - "evaluation-report.xml 指出需要显式权重、排序依据或格式选择。"
+    - "当前轮次仍缺权重来源、fallback weighting 或 ranking scope 的显式记录。"
+  orchestration_and_memory_mode:
+    - "branch-plan.json 中存在多个可并列处理的分支或多个不同执行单元。"
+    - "branch-plan.json 中存在共享事实与局部假设需要隔离记录。"
+    - "evaluation-report.xml 指出需要显式监督、挂起路径、异步协同或记忆剪枝。"
+  variant_and_composition_mode:
+    - "branch-plan.json 中存在两个及以上可比较替代路径。"
+    - "多个方案共享实质相同步骤，适合归一化与重组。"
+  traversal_and_invention_mode:
+    - "constraints-matrix.json 或 contradiction-analysis.json 已识别主矛盾。"
+    - "solution-set.json 仍缺系统化发散展开。"
+    - "当前轮次仍缺显式的剃刀过滤、黑盒化规则或措施联合体解释。"
+  discovery_and_hypothesis_mode:
+    - "problem-brief.json 中 ambiguities、open_questions 或 confirmation_loop_status 显示问题仍不稳定。"
+    - "需求形成机制仍依赖高不确定假设。"
+    - "当前轮次仍缺 latent demand、visibility barriers 或可逆假设治理层。"
+  portfolio_and_optimization_mode:
+    - "branch-plan.json 或 solution-set.json 中存在多目标、多约束、多路径比较。"
+    - "evaluation-report.xml 指出需要排序、路线图或近似最优比较。"
+    - "当前轮次仍缺研究计划与执行计划分层，或缺显式权重方法与近似最优解释。"
+  governance_and_feedback_mode:
+    - "constraints-matrix.json 中存在授权边界、人工覆盖点或现实反馈闭环。"
+    - "branch-plan.json 中包含审核、批准、升级或人工接管节点。"
+    - "当前轮次存在 ranking 与人类指令的潜在冲突，但 override 优先级或覆盖范围尚未显式定义。"
+    - "当前轮次仍缺显式提问风格、覆盖优先级或现实反馈回写台账。"
+  representation_and_serialization_mode:
+    - "branch-plan.json 已形成稳定 DAG 或交互顺序。"
+    - "下游明确需要 XML、Mermaid、三元组或图格式导出。"
+    - "当前轮次仍缺显式格式选择、导出目标映射或表示层选择理由。"
+
+mode_resolution_policy:
+  owner_state: branch_plan_generation
+  required_fields:
+    - resolved_modes
+    - mode_sources
+    - activation_reasons
+    - source_alignment_basis
+    - attach_after_states
+    - required_outputs
+    - optional_outputs
+    - requested_outputs
+    - blocked_outputs
+    - source_aligned_core_outputs
+    - blocked_derived_runtime_outputs
+    - stage_requirements
+    - dispatch_actions
+    - scope_alignment_status
+    - resolution_status
+  rules:
+    - "若当前轮存在 scope drift，则 stage_dispatch_target 默认优先回到 branch_plan_generation 或更早的 scope-definition 层，而不是继续扩展 downstream 运维产物。"
+    - "若当前轮是 source alignment，则 mode-resolution.json 必须显式记录 source_alignment_basis、source_aligned_core_outputs、blocked_derived_runtime_outputs 与 scope_alignment_status。"
+    - "若当前轮不涉及真实 runtime/service/provider/governance 运维目标，则 derived runtime extension 不得进入 required_outputs；若被点名但当前轮不生成，必须写入 blocked_outputs 与 blocked_derived_runtime_outputs。"
+    - "当没有扩展模式被激活时，resolved_modes 允许为空数组，但 mode-resolution.json 仍应存在。"
+    - "branch_plan_generation 必须同时检查用户显式要求与 mode_inference_signals，不得只依赖用户点名。"
+    - "若某模式满足两条及以上系统推断信号，即使用户未点名也应激活，并把来源标记为 system_inference。"
+    - "当某模式 activation_if 被满足时，必须把该模式写入 resolved_modes。"
+    - "每个已激活模式都必须给出 activation_reasons。"
+    - "每个已激活模式都必须给出 attach_after_states 与 required_outputs。"
+    - "每个已激活模式都必须把自身对应的阶段要求展开写入 stage_requirements。"
+    - "每个已激活模式都必须给出 dispatch_actions，至少说明阶段缺口对应的默认回退状态。"
+    - "若用户显式点名某个原本 optional 的产物，则必须把它写入 requested_outputs，并同时提升到 required_outputs。"
+    - "若当前轮是 source-aligned review，且请求的是 `critique-report.json` 这类高阶 review 产物，则可把它写入 requested_outputs 而不自动视为 advanced_mode 完成。"
+    - "若某产物当前无法生成但用户要求了它，必须写入 blocked_outputs，并在 evaluation-report 中解释原因。"
+
+mode_aware_state_requirements:
+  after_semantic_clarification:
+    discovery_and_hypothesis_mode:
+      required_any_of:
+        - demand-visibility.json
+        - hypothesis-register.json
+    representation_and_serialization_mode:
+      required_any_of:
+        - xml-rewrite.xml
+        - representation-bundle.json
+  after_demand_constraint_modeling:
+    advanced_mode:
+      required_any_of:
+        - resource-graph.json
+        - actor-network.json
+    portfolio_and_optimization_mode:
+      required_any_of:
+        - state-space-matrix.json
+    library_and_weighting_mode:
+      required_any_of:
+        - parameter-library.json
+        - effect-library.json
+  after_branch_plan_generation:
+    orchestration_and_memory_mode:
+      required_all_of:
+        - orchestration-plan.json
+        - execution-supervision.json
+        - executor-interface.json
+        - executor-capability-registry.json
+    variant_and_composition_mode:
+      required_any_of:
+        - variant-set.json
+        - step-normalization.json
+    traversal_and_invention_mode:
+      required_any_of:
+        - traversal-plan.json
+        - heuristic-filters.json
+    portfolio_and_optimization_mode:
+      required_any_of:
+        - methodology-portfolio.json
+        - method-branch-map.json
+    representation_and_serialization_mode:
+      required_any_of:
+        - sequence-diagram.mmd
+        - representation-bundle.json
+  before_finish:
+    advanced_mode:
+      required_all_of:
+        - solution-set.json
+        - critique-report.json
+      optional_any_of:
+        - multi-screen-analysis.json
+    template_mode:
+      required_all_of:
+        - template-chain.json
+    library_and_weighting_mode:
+      required_any_of:
+        - glossary.json
+        - prompt-guidance.json
+        - graph-format-selection.json
+        - checklist-summary.json
+        - decision-weighting.json
+    orchestration_and_memory_mode:
+      required_any_of:
+        - memory-pruning.json
+        - writeback-ledger.json
+        - capability-update-ledger.json
+        - capability-migration-ledger.json
+        - drift-scan-ledger.json
+        - orchestration-plan.json
+    variant_and_composition_mode:
+      required_any_of:
+        - variant-set.json
+        - composition-plan.json
+    traversal_and_invention_mode:
+      required_any_of:
+        - invention-measures.json
+        - measure-combinations.json
+    discovery_and_hypothesis_mode:
+      required_any_of:
+        - feedback-hooks.json
+        - demand-visibility.json
+    portfolio_and_optimization_mode:
+      required_any_of:
+        - optimization-report.json
+        - execution-roadmap.json
+    governance_and_feedback_mode:
+      required_any_of:
+        - interaction-policy.json
+        - governance-checkpoints.json
+        - override-policy.json
+        - feedback-ledger.json
+    representation_and_serialization_mode:
+      required_any_of:
+        - xml-rewrite.xml
+        - representation-bundle.json
+
+stage_dispatch_policy:
+  after_semantic_clarification:
+    missing_route: semantic_clarification
+  after_demand_constraint_modeling:
+    missing_route: demand_constraint_modeling
+  after_branch_plan_generation:
+    missing_route: branch_plan_generation
+  before_finish:
+    missing_route: loop_or_finish
+  rules:
+    - "若当前轮存在 scope drift，则 stage_dispatch_target 默认优先回到 branch_plan_generation 或更早的 scope-definition 层，而不是继续扩展 downstream 运维产物。"
+    - "若 missing_stage_outputs 在某个阶段非空，则 recommended_action 不能为 proceed。"
+    - "若只有一个阶段存在缺口，则 stage_dispatch_target 取该阶段的 missing_route。"
+    - "若多个阶段同时缺口，则 stage_dispatch_target 取最早阶段的 missing_route。"
+    - "若缺口只涉及最终验收产物，则 stage_dispatch_target 取 loop_or_finish。"
+    - "若缺口与阶段无法对应，则 stage_dispatch_target 默认取 recommended_loop_target；若后者为空，则默认取 evaluation_validation。"
+
+orchestration_dispatch_rules:
+  branch_classes:
+    parallel_worker:
+      use_when:
+        - "同一问题定义。"
+        - "不改变问题空间。"
+        - "只是多个执行单元处理不同 todo。"
+    parallel_branch:
+      use_when:
+        - "同一历史记忆。"
+        - "允许修改约束或假设。"
+        - "会进入不同问题空间。"
+    suspended_traversal:
+      use_when:
+        - "当前证据不足。"
+        - "路径暂时搁置而不是永久删除。"
+    parallel_fork:
+      use_when:
+        - "不共享完整历史记忆。"
+        - "未来不保证合并。"
+    serial_branch:
+      use_when:
+        - "存在严格先后顺序的因果链任务。"
+  rules:
+    - "若当前轮是 source alignment，则默认先完成 source-aligned orchestration core，不得跳到 runtime/provider/governance 运维层。"
+    - "若多个 todo 共享同一问题定义且只是在执行层拆分，则必须标记为 parallel_worker，而不是 parallel_branch。"
+    - "若分支修改约束、假设或问题空间，则必须标记为 parallel_branch。"
+    - "若路径只是暂时排除并允许未来恢复，则必须标记为 suspended_traversal，并在 memory-pruning.json 中写明恢复条件。"
+    - "若路径不共享完整历史记忆且预期不整体合并，则必须标记为 parallel_fork。"
+    - "若 orchestration-plan.json 中出现 parallel_worker、parallel_branch 或 parallel_fork，则 execution-supervision.json 必须存在。"
+    - "若 execution-supervision.json 已存在，则 executor-interface.json 必须存在，并把每个 assignment_unit 压成显式 todo_packet。"
+    - "若 executor-interface.json 已存在，则 executor-capability-registry.json 必须存在，并覆盖所有 executor_kind_bindings。"
+    - "若 executor-capability-registry.json 已进入版本化、兼容性判断或将被外部执行器消费，则 executor-capability-version-policy.json 必须存在，并声明兼容窗口。"
+    - "若需要动态发现执行器可用性、能力、上下文窗口或权限曲面，则 executor-capability-discovery.json 必须存在。"
+    - "若 discovery 依赖 runtime 信号、外部探针或环境回调，则 executor-runtime-hook.json 必须存在。"
+    - "若 runtime hook 依赖事件源定义、payload 契约或 replay 语义，则 runtime-event-source-contract.json 必须存在。"
+    - "若 runtime event source 进入 source-of-truth 注册或 schema 版本化场景，则 runtime-event-source-registry.json 与 runtime-event-schema-version-policy.json 必须存在。"
+    - "若 runtime event source、schema registry 或 consumer source-of-truth 通过真实 service 暴露，则对应 service hook 必须存在。"
+    - "若 source-of-truth 需要持续 drift 监测，则 source-of-truth-drift-monitor.json 必须存在。"
+    - "若 drift monitor 需要按周期、事件或节流规则运行，则 drift-monitor-scheduler.json 必须存在。"
+    - "若 drift monitor 需要接入真实 scheduler，则 drift-scheduler-service-hook.json 必须存在。"
+    - "若 orchestration-plan.json 中出现 suspended_traversal，或 memory-pruning.json 中存在 pruned_paths / suspended_paths，则 before_finish 前必须存在 memory-pruning.json。"
+    - "若 shared_context_strategy 不是 none，则 execution-supervision.json 必须显式记录 context_visibility、worker_scopes 与 prohibited_cross_branch_writes。"
+    - "若启用 orchestration_and_memory_mode，则执行节点必须把上游上下文视为 reference_context，而不是可任意改写的工作记忆。"
+    - "若采用共享文件或环境变化协同，则 execution-supervision.json 必须显式记录 shared_file_contracts 与 environment_observation_rules。"
+    - "默认 direct_message_policy 为 disallowed；若允许直接通信，必须显式说明理由与边界。"
+    - "若 todo 是由上游节点逐项分配的，则 execution-supervision.json 必须显式记录 todo_distribution_policy。"
+    - "若分工依赖可见上下文范围或权限差异，则 execution-supervision.json 必须显式记录 visibility_classes 与 permission_classes。"
+    - "executor-interface.json 必须显式记录 reference_context_refs、executor_kind_bindings、artifact_io_contracts、visibility_bindings、permission_bindings、writable_targets、expected_writebacks 与 completion_signals。"
+    - "executor-interface.json 必须为每个 execution_unit 给出 failure_signals、resume_signals 与 checkpoint_hook_bindings。"
+    - "若不同 execution_unit 对应不同执行器类型，则 executor-interface.json 必须显式区分 executor_kind_bindings，不得只写一个笼统 executor。"
+    - "executor-interface.json 必须为每个 execution_unit 给出 required_capability_bindings 与 fallback_bindings。"
+    - "executor-capability-registry.json 必须显式记录 capability_matrix、context_window_classes、permission_surfaces、unsupported_actions 与 fallback_routes。"
+    - "executor-capability-registry.json 必须显式记录 registry_schema_version、registry_revision、compatibility_window 与 compatibility_mode。"
+    - "executor-capability-version-policy.json 必须显式记录 supported_executor_interface_versions、deprecation_rules、compatibility_fallback_rules 与 migration_entrypoints。"
+    - "executor-capability-discovery.json 必须显式记录 observed_capabilities、observed_availability、capability_gaps 与 update_candidates。"
+    - "executor-runtime-hook.json 必须显式记录 signal_sources、probe_channels、expected_runtime_signals、signal_normalization_rules 与 hook_failure_routes。"
+    - "若 executor-capability-discovery.json 已存在，则 capability-update-ledger.json 必须记录 applied_updates、rejected_updates、fallback_revisions 与 resulting_registry_state。"
+    - "若 compatibility 需要基于 runtime consumer 请求或 probe 结果判断，则 consumer-compatibility-probe.json 必须记录 blocked_consumers、downgraded_consumers、selected_compatibility_routes 与 resulting_probe_state。"
+    - "若 compatibility 需要基于 consumer source-of-truth 或 runtime consumer 识别判断，则 consumer-registry.json 必须记录 consumers、consumer_classes、known_requested_versions 与 downgrade_preferences。"
+    - "若 compatibility probe 依赖运行时 consumer 识别，则 consumer-runtime-discovery.json 必须记录 observed_consumers、observed_requested_versions、consumer_identity_rules 与 unresolved_consumer_identities。"
+    - "若 capability-update-ledger.json 改变了 registry version、compatibility_mode 或 deprecation_rules，则 capability-migration-ledger.json 必须记录 migration_steps、compatibility_checks 与 blocked_consumers。"
+    - "runtime-event-source-registry.json 必须记录 source_of_truth、current_source_versions、supported_event_schema_versions 与 source_status。"
+    - "runtime-event-schema-version-policy.json 必须记录 supported_payload_versions、field_coercion_rules、deprecation_rules 与 replay_compatibility_rules。"
+    - "consumer-registry-version-policy.json 必须记录 consumer_identity_schema_version、supported_identity_formats、deprecation_rules 与 migration_entrypoints。"
+    - "若 runtime event schema 发生变化，则 runtime-event-schema-migration-ledger.json 必须记录 field_mapping_changes、deprecated_event_fields 与 blocked_producers。"
+    - "若 consumer source-of-truth 发生迁移，则 consumer-registry-migration-ledger.json 必须记录 identity_mapping_changes、deprecated_consumer_ids 与 blocked_consumers。"
+    - "runtime-event-source-service-hook.json 必须记录 endpoint_profiles、discovery_queries、health_checks、source_registration_fields 与 failure_routes。"
+    - "runtime-schema-registry-hook.json 必须记录 schema_subjects、version_queries、compatibility_queries、replay_queries 与 failure_routes。"
+    - "consumer-registry-service-hook.json 必须记录 identity_lookup_keys、downgrade_lookup_fields、last_seen_queries 与 failure_routes。"
+    - "若 service hook 与 registry/runtime observation 之间出现差异，则 source-of-truth-drift-report.json 必须记录 version_drifts、schema_drifts、identity_drifts、severity_per_drift 与 blocked_routes。"
+    - "若 source-of-truth-drift-report.json 已存在，则 source-of-truth-reconciliation-ledger.json 必须记录 applied_reconciliations、rejected_reconciliations、fallback_revisions 与 resulting_source_of_truth_state。"
+    - "source-of-truth-drift-monitor.json 必须记录 scan_triggers、scan_cadence、comparison_keys、severity_thresholds 与 pause_conditions。"
+    - "drift-monitor-scheduler.json 必须记录 cadence、trigger_sources、throttle_rules、retry_intervals、maintenance_windows 与 pause_rules。"
+    - "若允许自动修复，则 auto-reconcile-policy.json 必须记录 auto_apply_rules、human_review_gates、irreversible_blockers 与 rollback_rules。"
+    - "若 drift 需要告警分发，则 alert-routing-policy.json 必须记录 severity_bands、routing_rules、delivery_channels、suppression_rules 与 ack_rules。"
+    - "若告警需要通过真实投递通道发送，则 alert-delivery-contract.json 必须记录 payload_templates、severity_delivery_map、ack_callbacks 与 retry_profiles。"
+    - "若告警或升级依赖多个 provider/多个通道，则 delivery-provider-capability-matrix.json 必须记录 channel_support、ack_support、retry_support、rate_limits 与 provider_status。"
+    - "若存在主备 provider 或多通道回退，则 channel-failover-policy.json 必须记录 primary_providers、secondary_providers、failover_triggers、cooldown_rules 与 recovery_rules。"
+    - "若 provider failover 依赖健康状态，则 provider-health-check.json 必须记录 health_endpoints、probe_rules、failure_thresholds、recovery_thresholds 与 status_mapping。"
+    - "若 provider 健康需要基于时间窗遥测判断，则 provider-health-telemetry.json 必须记录 success_rates、latency_bands、error_rates、jitter_signals 与 derived_health_state。"
+    - "若 provider 健康依赖持续遥测流，则 provider-telemetry-stream-contract.json 必须记录 metric_sources、sample_frequencies、aggregation_windows、missing_sample_policy 与 late_arrival_policy。"
+    - "若需要熔断、半开恢复或回切，则 circuit-breaker-policy.json 必须记录 open_triggers、half_open_rules、close_rules、cooldown_windows 与 recovery_switch_rules。"
+    - "若需要防抖和回差控制，则 circuit-breaker-hysteresis-policy.json 必须记录 open_thresholds、close_thresholds、debounce_windows、flapping_rules 与 suppression_rules。"
+    - "若恢复判断依赖异常评分，则 anomaly-scoring-policy.json 必须记录 feature_weights、scoring_formula、severity_mapping 与 minimum_evidence。"
+    - "若阈值需要自适应，则 adaptive-threshold-policy.json 必须记录 baseline_windows、update_rules、drift_adjustment_rules、freeze_conditions 与 rollback_conditions。"
+    - "若遥测基线会长期演化，则 telemetry-baseline-evolution.json 必须记录 baseline_versions、seasonality_rules、drift_triggers 与 update_frequency。"
+    - "若 blocking drift 进入人工路径，则 human-escalation-workflow.json 必须记录 escalation_levels、review_gates、responder_roles、response_slas 与 closure_conditions。"
+    - "若人工升级需要接入真实通道，则 human-escalation-channel.json 必须记录 intake_modes、assignment_rules、ack_slas、closure_callbacks 与 fallback_channels。"
+    - "若 drift monitor 实际触发扫描，则 drift-scan-ledger.json 必须记录 detected_drifts、actions_taken、skipped_actions、escalations 与 next_scan_plan。"
+    - "若 delivery 或 escalation 发生 provider/channel failover，则 delivery-failover-ledger.json 必须记录 failover_events、attempted_providers、selected_providers、dropped_messages 与 resulting_delivery_state。"
+    - "若 provider 从 unavailable 恢复并发生回切，则 provider-recovery-switch-ledger.json 必须记录 breaker_transitions、recovered_providers、switch_back_events 与 resulting_provider_state。"
+    - "若 provider 恢复切回需要金丝雀放量，则 recovery-canary-policy.json 必须记录 initial_traffic_split、ramp_stages、observation_metrics、success_thresholds 与 rollback_triggers。"
+    - "若阈值已根据遥测自适应更新、冻结或回滚，则 threshold-adaptation-ledger.json 必须记录 anomaly_scores、applied_threshold_updates、frozen_thresholds、rejected_updates 与 resulting_threshold_state。"
+    - "若异常评分模型发生重标定，则 anomaly-model-recalibration.json 必须记录 old_feature_weights、new_feature_weights、feature_replacements、validation_checks 与 resulting_model_state。"
+    - "若阈值治理进入长期审批或人工覆盖，则 threshold-governance-workflow.json 必须记录 governance_levels、approval_gates、override_roles、audit_requirements 与 rollback_authority。"
+    - "若 threshold governance 发生批准、拒绝、冻结、覆盖或审计，则 threshold-governance-ledger.json 必须记录 approval_events、rejected_changes、frozen_controls、manual_overrides、audit_records 与 resulting_governance_state。"
+    - "若长期治理依赖外部 baseline service，则 baseline-governance-service-hook.json 必须记录 baseline_queries、freeze_queries、version_queries 与 failure_routes。"
+    - "若长期治理依赖外部 anomaly model registry，则 anomaly-model-registry.json 必须记录 model_versions、feature_sets、feature_weights、calibration_status 与 compatibility_windows。"
+    - "若长期治理依赖外部 threshold policy registry，则 threshold-policy-registry.json 必须记录 threshold_versions、controlled_thresholds、approval_status、activation_windows 与 freeze_states。"
+    - "若外部治理系统与本地治理状态发生同步，则 governance-sync-ledger.json 必须记录 sync_events、accepted_updates、rejected_updates、audit_deltas 与 resulting_governance_sync_state。"
+    - "若外部治理 source 与本地治理状态发生 drift，则 governance-source-drift-report.json 必须记录 baseline_drifts、model_drifts、threshold_policy_drifts、severity_per_drift 与 blocked_governance_routes。"
+    - "若治理 drift 进入修复或协调，则 governance-source-reconciliation-ledger.json 必须记录 applied_reconciliations、rejected_reconciliations、fallback_revisions 与 resulting_governance_source_state。"
+    - "若长期治理需要接入外部审批通道，则 governance-approval-channel.json 必须记录 approval_callbacks、rejection_callbacks、escalation_routes、sla_profiles 与 closure_callbacks。"
+    - "若长期治理需要持续审查调度，则 governance-review-scheduler.json 必须记录 cadence、trigger_sources、throttle_rules、maintenance_windows 与 pause_rules。"
+    - "若治理 drift 需要专用告警路由，则 governance-alert-routing-policy.json 必须记录 severity_bands、routing_rules、delivery_channels、suppression_rules 与 ack_rules。"
+    - "若治理审查存在固定周期或升级时点，则 governance-review-cadence.json 必须记录 review_cycles、review_windows、escalation_windows、freeze_windows 与 recheck_rules。"
+    - "若治理审查已实际运行，则 governance-review-ops-ledger.json 必须记录 triggered_reviews、delivered_alerts、approval_events、escalations 与 next_review_plan。"
+    - "若治理告警或审批依赖多个 provider/多个通道，则 governance-provider-capability-matrix.json 必须记录 channel_support、ack_support、retry_support、rate_limits 与 provider_status。"
+    - "若治理告警或审批存在主备 provider，则 governance-channel-failover-policy.json 必须记录 primary_providers、secondary_providers、failover_triggers、cooldown_rules 与 recovery_rules。"
+    - "若治理告警或审批发生 provider/channel failover，则 governance-delivery-failover-ledger.json 必须记录 failover_events、attempted_providers、selected_providers、dropped_messages 与 resulting_delivery_state。"
+    - "若某 execution_unit 所需能力不在 capability_matrix 中，或权限/上下文窗口不满足，则不得直接 finish，必须走 fallback_bindings 或 escalation_routes。"
+    - "若 execution-supervision.json 中定义了非空 checkpoint_writebacks、非空 shared_file_contracts 或非空 environment_observation_rules，则 loop_or_finish 前必须生成 writeback-ledger.json。"
+    - "writeback-ledger.json 必须记录 observed_writebacks、checkpoint_results、merge_decisions 与 final_shared_state。"
+
+guard_definitions:
+  enter_if:
+    description: "进入状态所需满足的前置条件。"
+  branch_if:
+    description: "允许生成多分支计划的条件；只作用于 branch_plan_generation。"
+  prune_if:
+    description: "允许裁剪分支或回退问题空间的条件；默认由 evaluation_validation 提供依据。"
+  loop_if:
+    description: "当前状态不能安全推进，必须回退修补时触发。"
+  done_if:
+    description: "当前状态的主产物已满足进入下一状态的最小完成条件。"
+
+branching_policy:
+  owner_state: branch_plan_generation
+  branch_if:
+    - "从 constraints-matrix.json 中可识别出 2 个及以上可独立验证的子问题。"
+    - "任意两个候选分支之间不存在未显式记录的控制依赖。"
+    - "每个分支都能写出独立的 validation_target。"
+    - "本轮 active branches 数量不超过 max_active_branches_per_round。"
+  do_not_branch_if:
+    - "不同候选分支共享同一个未解决前提。"
+    - "分支只是同一句话的不同措辞，而不是不同任务。"
+    - "拆分后任一分支无法单独验证。"
+  output_requirement:
+    - "所有分支必须写入 branch-plan.json。"
+    - "每个分支必须包含 branch_id、goal、dependencies、parallelizable、validation_target。"
+  note: "MVP 只做分支规划，不在状态机中展开 worker 执行。"
+
+pruning_policy:
+  owner_state: evaluation_validation
+  prune_if:
+    - "同一路径连续 2 次 revision 后没有新增证据或新增结构信息。"
+    - "该路径对应的 completeness_score 或 consistency_score 连续低于阈值。"
+    - "该路径依赖于已被判定失效的关键假设。"
+    - "该路径与当前 clarified_scope 或 excluded_scope 明显冲突。"
+  do_not_prune_if:
+    - "只是暂时缺少证据，但尚未验证其无效。"
+    - "该路径是唯一剩余可行方向。"
+  prune_action:
+    - "在 evaluation-report.xml 中显式记录被裁剪对象与裁剪理由。"
+    - "在 loop-decision.json 中把裁剪结果转成 required_repairs 或 stop_reason。"
+
+loop_policy:
+  owner_state: loop_or_finish
+  loop_if:
+    - "evaluation-report.xml 的 recommended_action 为 loop_back。"
+    - "存在 blocking_issues。"
+    - "推荐回退目标状态已明确。"
+  revise_in_place_if:
+    - "问题不涉及状态边界重建，只需补齐字段、改写术语或修复计划依赖。"
+  finish_if:
+    - "recommended_action 为 proceed 或 stop。"
+    - "blocking_issues 为空。"
+    - "completeness_score 与 consistency_score 均达到阈值。"
+    - "confidence 不低于 min_confidence_to_finish。"
+
+states:
+  - state_id: problem_intake
+    enter_if:
+      - "收到用户原始请求。"
+    branch_if: []
+    prune_if: []
+    loop_if:
+      - "raw_request 为空或只有无效占位文本。"
+      - "无法判断 task_mode，且无法形成默认 multi_step 判定。"
+      - "当前已知上下文过载，无法提取最小必要背景。"
+    done_if:
+      - "intake-record.json 已生成。"
+      - "raw_request 非空。"
+      - "task_mode 已判定。"
+      - "intake_gaps 已显式记录。"
+    next_on_done: semantic_clarification
+    next_on_loop: problem_intake
+    next_on_block: problem_intake
+
+  - state_id: semantic_clarification
+    enter_if:
+      - "intake-record.json 存在。"
+      - "intake_status 为 ready 或 needs_more_context。"
+    branch_if: []
+    prune_if: []
+    loop_if:
+      - "核心术语仍存在多义，且会改变后续建模方向。"
+      - "normalized_problem 无法稳定形成。"
+      - "用户意图假设过弱，无法支撑需求约束建模。"
+      - "显性问题陈述与真实需求假设仍被混写，且会扭曲后续建模。"
+    done_if:
+      - "problem-brief.json 已生成。"
+      - "normalized_problem 非空。"
+      - "term_map 非空。"
+      - "variable_map 已列出。"
+      - "clarification_mode 已显式记录。"
+      - "confirmation_loop_status 已显式记录。"
+      - "clarification_status 为 ready。"
+    next_on_done: demand_constraint_modeling
+    next_on_loop: semantic_clarification
+    next_on_block: semantic_clarification
+
+  - state_id: demand_constraint_modeling
+    enter_if:
+      - "problem-brief.json 存在。"
+      - "clarification_status 不是 blocked。"
+    branch_if: []
+    prune_if:
+      - "某个假设与 clarified_scope 明显冲突。"
+      - "某项约束不是可判断陈述，只是空泛口号。"
+    loop_if:
+      - "actors 无法识别。"
+      - "constraints、resources、frictions 中任一核心字段为空。"
+      - "goal_state 被错误写成具体实现方案。"
+      - "goal_state 仍不稳定，但 anti-goals 或 survival extremes 尚未显式写出。"
+    done_if:
+      - "constraints-matrix.json 已生成。"
+      - "current_state 与 goal_state 均已记录。"
+      - "system_profile 已显式记录。"
+      - "objective_function 已显式记录。"
+      - "survival_extremes 已显式记录。"
+      - "actors、constraints、resources、frictions 均非空。"
+      - "actor_network_roles、actor_thresholds、harmful_functions、hidden_conditions、compensating_costs 已显式记录。"
+      - "authorization_boundaries 已显式记录。"
+      - "modeling_status 为 ready。"
+    next_on_done: branch_plan_generation
+    next_on_loop: semantic_clarification
+    next_on_block: demand_constraint_modeling
+
+  - state_id: branch_plan_generation
+    enter_if:
+      - "constraints-matrix.json 存在。"
+      - "modeling_status 为 ready。"
+    branch_if:
+      - "满足 branching_policy.branch_if 的全部条件。"
+    prune_if:
+      - "某个候选分支没有独立 validation_target。"
+      - "某个候选分支只是命名不同，实质重复。"
+      - "某个候选分支依赖未被声明的上游结果。"
+    loop_if:
+      - "无法形成至少一个可执行分支。"
+      - "recommended_execution_order 无法给出。"
+      - "unresolved_couplings 过多，导致计划不可执行。"
+    done_if:
+      - "mode-resolution.json 已生成。"
+      - "mode-resolution.json 已显式记录 stage_requirements 与 dispatch_actions。"
+      - "branch-plan.json 已生成。"
+      - "branches 非空。"
+      - "每个分支都具备 goal、dependencies、validation_target。"
+      - "dag_view 与 triple_view 已显式记录。"
+      - "planning_status 为 ready 或 over_split。"
+    next_on_done: evaluation_validation
+    next_on_loop: demand_constraint_modeling
+    next_on_block: branch_plan_generation
+
+  - state_id: evaluation_validation
+    enter_if:
+      - "problem-brief.json、constraints-matrix.json、branch-plan.json 均存在。"
+      - "mode-resolution.json 存在。"
+    branch_if: []
+    prune_if:
+      - "满足 pruning_policy.prune_if 的任一条件。"
+    loop_if:
+      - "checked_artifacts 不完整。"
+      - "completeness_score 低于 min_completeness_to_proceed。"
+      - "consistency_score 低于 min_consistency_to_proceed。"
+      - "blocking_issues 非空。"
+      - "missing_required_outputs 非空。"
+      - "missing_stage_outputs 非空。"
+      - "recommended_action 为 revise 或 loop_back。"
+    done_if:
+      - "evaluation-report.xml 已生成。"
+      - "recommended_action 已给出。"
+      - "blocking_issues 已显式记录。"
+      - "same_source_consistency、cross_format_consistency、fact_validation_chain、unverifiable_assumptions 已显式记录。"
+      - "mode_requirement_checks、missing_required_outputs、requested_output_status 已显式记录。"
+      - "stage_requirement_checks、missing_stage_outputs、dispatch_recommendations 已显式记录。"
+      - "scope_alignment_checks、scope_drift_findings、blocked_scope_expansions 已显式记录。"
+    next_on_done: loop_or_finish
+    next_on_loop: loop_or_finish
+    next_on_block: evaluation_validation
+
+  - state_id: loop_or_finish
+    enter_if:
+      - "evaluation-report.xml 存在。"
+    branch_if: []
+    prune_if:
+      - "根据 evaluation-report.xml 中的 blocking_issues 与 recommended_loop_target，丢弃已判定无效的路径。"
+    loop_if:
+      - "decision 为 loop。"
+      - "decision 为 revise_in_place。"
+    done_if:
+      - "loop-decision.json 已生成。"
+      - "decision 已确定。"
+      - "若 decision 为 loop，则 loop_target_state 非空。"
+      - "若 decision 为 finish，则 blocking_issues 为空。"
+      - "advanced_mode_status 已显式记录。"
+      - "unresolved_mode_requirements 已显式记录。"
+      - "stage_dispatch_target 已显式记录。"
+      - "scope_alignment_decision 与 scope_repair_target 已显式记录。"
+    next_on_done:
+      finish_if: finish
+      loop_if: dynamic_loop_target
+      revise_if: dynamic_loop_target
+    next_on_loop: dynamic_loop_target
+    next_on_block: loop_or_finish
+
+transitions:
+  - from: problem_intake
+    to: semantic_clarification
+    when:
+      - "problem_intake.done_if 全部满足。"
+    effect:
+      - "开始问题去歧义与术语重写。"
+
+  - from: semantic_clarification
+    to: demand_constraint_modeling
+    when:
+      - "semantic_clarification.done_if 全部满足。"
+    effect:
+      - "开始构造最小问题模型。"
+
+  - from: semantic_clarification
+    to: problem_intake
+    when:
+      - "semantic_clarification.loop_if 中与用户意图或原始问题缺失相关的条件成立。"
+    effect:
+      - "回退补齐原始问题和立场信息。"
+
+  - from: demand_constraint_modeling
+    to: branch_plan_generation
+    when:
+      - "demand_constraint_modeling.done_if 全部满足。"
+    effect:
+      - "开始拆分任务并生成分支计划。"
+
+  - from: demand_constraint_modeling
+    to: semantic_clarification
+    when:
+      - "目标状态、术语边界或纳入范围需要重写。"
+    effect:
+      - "回退修复问题表达。"
+
+  - from: branch_plan_generation
+    to: evaluation_validation
+    when:
+      - "branch_plan_generation.done_if 全部满足。"
+    effect:
+      - "对分支计划做完整性和一致性评估。"
+
+  - from: branch_plan_generation
+    to: demand_constraint_modeling
+    when:
+      - "branch_plan_generation.loop_if 任一条件成立。"
+    effect:
+      - "回退修复约束模型或重新拆分问题。"
+
+  - from: evaluation_validation
+    to: loop_or_finish
+    when:
+      - "evaluation_validation.done_if 全部满足。"
+    effect:
+      - "根据评估报告作出正式决策。"
+
+  - from: loop_or_finish
+    to: problem_intake
+    when:
+      - "decision 为 loop 且 loop_target_state == problem_intake。"
+    effect:
+      - "回到入口重收问题。"
+
+  - from: loop_or_finish
+    to: semantic_clarification
+    when:
+      - "decision 为 loop 且 loop_target_state == semantic_clarification。"
+      - "或 stage_dispatch_target == semantic_clarification。"
+    effect:
+      - "回到语义澄清。"
+
+  - from: loop_or_finish
+    to: demand_constraint_modeling
+    when:
+      - "decision 为 loop 且 loop_target_state == demand_constraint_modeling。"
+      - "或 stage_dispatch_target == demand_constraint_modeling。"
+    effect:
+      - "回到需求约束建模。"
+
+  - from: loop_or_finish
+    to: branch_plan_generation
+    when:
+      - "decision 为 loop 且 loop_target_state == branch_plan_generation。"
+      - "或 decision 为 revise_in_place 且修复内容仅涉及分支计划。"
+      - "或 stage_dispatch_target == branch_plan_generation。"
+    effect:
+      - "回到分支计划生成。"
+
+  - from: loop_or_finish
+    to: evaluation_validation
+    when:
+      - "decision 为 revise_in_place 且修复内容仅涉及评估依据补全。"
+      - "或 stage_dispatch_target == evaluation_validation。"
+    effect:
+      - "重新评估，不重建上游模型。"
+
+  - from: loop_or_finish
+    to: finish
+    when:
+      - "decision 为 finish。"
+      - "blocking_issues 为空。"
+      - "missing_required_outputs 为空。"
+      - "missing_stage_outputs 为空。"
+      - "unresolved_mode_requirements 为空。"
+      - "completeness_score 与 consistency_score 均达到阈值。"
+      - "confidence 不低于 min_confidence_to_finish。"
+      - "scope_alignment_decision 为 aligned 或 not_applicable。"
+    effect:
+      - "结束本轮状态机。"
+
+dynamic_routing_rules:
+  - "dynamic_loop_target 只能取 problem_intake、semantic_clarification、demand_constraint_modeling、branch_plan_generation、evaluation_validation 之一。"
+  - "若存在 stage_dispatch_target，则优先按 stage_dispatch_target 路由，再回退到 loop_target_state。"
+  - "若 recommended_loop_target 为空，则默认回退到 evaluation_validation 的直接上游状态。"
+  - "若同一问题连续 3 次回退到同一状态仍无实质修复，则应触发 stop 审查，而不是无限循环。"

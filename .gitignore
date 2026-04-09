@@ -1,0 +1,13 @@
+# Local iteration history
+artifacts/
+
+# Local distribution output
+dist/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS noise
+.DS_Store
+Thumbs.db

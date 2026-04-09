@@ -1,0 +1,4 @@
+interface:
+  display_name: "问题结构化编排"
+  short_description: "把模糊问题压成结构化分析，并按需扩展为多种方法模式"
+  default_prompt: "使用 $problem-structuring-agentic 先把这个问题做结构化分析；如果需要，再继续启用高级模式、模板模式、组合优化或表示层导出。"

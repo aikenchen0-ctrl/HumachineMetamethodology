@@ -1,0 +1,2701 @@
+contract_version: 1
+skill_scope: problem-structuring-agentic-mvp
+source_files:
+  - scope-boundary.md
+  - node-taxonomy.md
+  - terminology-policy.md
+  - metaPrompt.md
+  - agentic-nested-state-machine.opml
+
+source_mode_files:
+  - references/core-method.md
+  - references/advanced-mode.md
+  - references/template-mode.md
+  - references/output-and-evaluation.md
+  - references/source-alignment-policy.md
+  - references/screen-and-critique-mode.md
+  - references/library-and-weighting-mode.md
+  - references/orchestration-and-memory-mode.md
+  - references/variant-and-composition-mode.md
+  - references/traversal-and-invention-mode.md
+  - references/discovery-and-hypothesis-mode.md
+  - references/portfolio-and-optimization-mode.md
+  - references/governance-and-feedback-mode.md
+  - references/representation-and-serialization-mode.md
+
+source_alignment:
+  direct_source_reference:
+    - metaPrompt.md
+    - agentic-nested-state-machine.opml
+  source_aligned_core_modes:
+    - advanced_mode
+    - template_mode
+    - library_and_weighting_mode
+    - orchestration_and_memory_mode
+    - variant_and_composition_mode
+    - traversal_and_invention_mode
+    - discovery_and_hypothesis_mode
+    - portfolio_and_optimization_mode
+    - governance_and_feedback_mode
+    - representation_and_serialization_mode
+  source_aligned_orchestration_outputs:
+    - orchestration-plan.json
+    - execution-supervision.json
+    - executor-interface.json
+    - executor-capability-registry.json
+    - memory-pruning.json
+    - writeback-ledger.json
+  derived_runtime_extension_outputs:
+    - executor-runtime-hook.json
+    - runtime-event-source-contract.json
+    - runtime-event-source-registry.json
+    - runtime-event-source-service-hook.json
+    - runtime-schema-registry-hook.json
+    - consumer-runtime-discovery.json
+    - source-of-truth-drift-monitor.json
+    - drift-monitor-scheduler.json
+    - alert-delivery-contract.json
+    - delivery-provider-capability-matrix.json
+    - provider-health-check.json
+    - provider-health-telemetry.json
+    - provider-telemetry-stream-contract.json
+    - channel-failover-policy.json
+    - circuit-breaker-policy.json
+    - adaptive-threshold-policy.json
+    - threshold-governance-workflow.json
+    - baseline-governance-service-hook.json
+    - governance-source-drift-report.json
+    - governance-review-scheduler.json
+    - governance-provider-capability-matrix.json
+  default_rule: "当任务是回到原始 source 对齐 skill 自身时，优先保留 source-aligned core；derived runtime extension 必须显式限域，不得因一般 orchestration 诉求自动激活。"
+
+naming_policy:
+  state_id_style: snake_case
+  artifact_file_style: kebab-case
+  required_artifact_formats:
+    - json
+    - yaml
+    - xml
+  note: "状态名面向流程，artifact 名面向文件系统；同一状态只绑定一个主产物文件。"
+
+advanced_mode:
+  activation_if:
+    - "用户明确要求继续执行 metaPrompt 的步骤 3 到 8。"
+    - "用户明确要求资源图、行动者网络图、流分析、SAFC、USIT32、TRIZ 或系统级解决方案集。"
+    - "基础模式已完成 constraints-matrix，但仍无法直接求解，且问题明显需要深度系统建模。"
+  note: "高级模式依附于基础六状态，不额外引入新的主状态。"
+
+template_mode:
+  activation_if:
+    - "用户明确要求把当前方法转成模板或模板链。"
+    - "用户明确要求变量映射、批量探索、共享上下文结构或收敛剪枝记录。"
+    - "当前产物已经足够稳定，适合被压缩成可复用模板。"
+  note: "模板模式依附于基础模式或高级模式产物，不额外引入新的主状态。"
+
+library_and_weighting_mode:
+  activation_if:
+    - "用户明确要求参数库、效应库、临时库、名词变量、引导用户提示词、图格式选择或权重排序。"
+    - "当前分析已经足够稳定，适合继续库化或做权重决策。"
+    - "当前需要显式排序，但尚未给出人类权重，或需要记录权重来源与兜底方法。"
+  note: "库与权重模式依附于基础模式、高级模式或模板模式产物。"
+
+orchestration_and_memory_mode:
+  activation_if:
+    - "用户明确要求并行分支、并行、悬置遍历、执行监督、共享上下文或记忆剪枝。"
+    - "当前问题需要正式定义分支类型和可见上下文范围。"
+  note: "编排与记忆模式依附于已有分析产物，不额外引入新的主状态。"
+  source_aligned_core_outputs:
+    - orchestration-plan.json
+    - execution-supervision.json
+    - executor-interface.json
+    - executor-capability-registry.json
+    - memory-pruning.json
+    - writeback-ledger.json
+  derived_runtime_extension_only_if:
+    - "当前任务明确涉及真实 runtime signal、外部 service hook、provider topology、持续 drift monitor 或长期治理运维。"
+    - "不得因为用户只提到分支、共享文件、执行监督、反馈或治理，就自动扩展到 runtime/provider/governance 运维层。"
+
+variant_and_composition_mode:
+  activation_if:
+    - "用户明确要求多个方案、步骤归一化、依赖修复或从多个方案中组合新方案。"
+    - "当前输出已经不是单一路径，而是多个可比较替代项。"
+  note: "方案变体与组合模式依附于 branch-plan 或 solution-set 产物。"
+
+traversal_and_invention_mode:
+  activation_if:
+    - "用户明确要求微观发散遍历、启发式过滤、IFR、40个发明措施或措施联合体。"
+    - "当前问题已经识别矛盾，但还需要系统化展开解空间。"
+    - "用户明确要求适当剃刀、维度锚定、黑盒化，或强调要停留在正确维度上。"
+  note: "遍历与发明模式依附于高级模式或基础模式的矛盾识别结果。"
+
+discovery_and_hypothesis_mode:
+  activation_if:
+    - "用户明确要求保留开放性、反复确认、潜在需求发现、需求可见性塑造、场域创造需求、认知节能需求、需求不可见障碍、早期试用者信号或显式假设管理。"
+    - "当前问题仍处于模糊现状与模糊目标状态之间，需要先做需求可见性与假设治理。"
+    - "基础链路的 visible_demand / real_demand_hypothesis 已不足以承载潜在需求、可见性障碍或开放假设治理。"
+  note: "发现与假设模式优先服务于语义澄清和需求约束建模。"
+
+portfolio_and_optimization_mode:
+  activation_if:
+    - "用户明确要求五向接近最优、方法论分支、研究计划、执行计划或近似最优比较。"
+    - "当前问题已经形成多目标、多路径、多约束的组合决策。"
+    - "用户明确要求层次分析法、成对比较矩阵、人设权重优先或研究计划与执行计划分层。"
+  note: "组合优化模式依附于基础模式、高级模式和库与权重模式产物。"
+
+governance_and_feedback_mode:
+  activation_if:
+    - "用户明确要求人类可视修改、交互风格控制、覆盖权重规则或现实反馈闭环。"
+    - "当前流程需要明确定义哪些节点允许人类覆盖。"
+    - "用户明确要求选择式/启发式提问、人设权重优先，或要求无人输入时才回退自动权重。"
+  note: "治理与反馈模式依附于现有分析和执行产物。"
+
+representation_and_serialization_mode:
+  activation_if:
+    - "用户明确要求 xml、Mermaid、DAG、三元组或数学逻辑格式输出。"
+    - "当前分析已经足够稳定，适合导出为特定表示层格式。"
+    - "下游明确需要标签化输出、交互顺序图、依赖图、三元组压缩或逻辑条件表达。"
+  note: "表示与序列化模式依附于已有分析产物，不替代主 artifact。"
+
+artifact_catalog:
+  - artifact_id: search_notes
+    file: search-notes.json
+    format: json
+    owner_state: semantic_clarification
+    purpose: "承接有界 first_search 的轻量证据、来源链接和未解决问题。该产物是可选的。"
+    required_top_level_fields:
+      - query_scope
+      - sources
+      - extracted_facts
+      - unresolved_questions
+      - search_status
+
+  - artifact_id: intake_record
+    file: intake-record.json
+    format: json
+    owner_state: problem_intake
+    purpose: "记录用户原始请求和最小必要背景，作为后续所有状态的统一入口。"
+    required_top_level_fields:
+      - request_id
+      - raw_request
+      - task_mode
+      - requester_stance
+      - explicit_constraints
+      - known_context
+      - intake_gaps
+      - intake_status
+
+  - artifact_id: problem_brief
+    file: problem-brief.json
+    format: json
+    owner_state: semantic_clarification
+    purpose: "输出经澄清后的问题表达、术语映射和待补充问题。"
+    required_top_level_fields:
+      - normalized_problem
+      - term_map
+      - variable_map
+      - clarification_mode
+      - confirmation_loop_status
+      - ambiguities
+      - open_questions
+      - clarified_scope
+      - user_intent_hypothesis
+      - clarification_status
+    optional_top_level_fields:
+      - visible_demand
+      - real_demand_hypothesis
+      - assumed_constraints
+      - real_constraint_hypothesis
+
+  - artifact_id: mode_resolution
+    file: mode-resolution.json
+    format: json
+    owner_state: branch_plan_generation
+    purpose: "记录基础模式之外已激活的扩展模式、激活理由、挂载阶段、必需产物，以及哪些派生运维产物因当前轮 scope 不匹配而被阻断。"
+    required_top_level_fields:
+      - resolved_modes
+      - mode_sources
+      - activation_reasons
+      - source_alignment_basis
+      - attach_after_states
+      - required_outputs
+      - optional_outputs
+      - requested_outputs
+      - blocked_outputs
+      - source_aligned_core_outputs
+      - blocked_derived_runtime_outputs
+      - stage_requirements
+      - dispatch_actions
+      - scope_alignment_status
+      - resolution_status
+
+  - artifact_id: constraints_matrix
+    file: constraints-matrix.json
+    format: json
+    owner_state: demand_constraint_modeling
+    purpose: "输出最小问题模型，包含现状、目标、行动者、约束、资源和核心摩擦。"
+    required_top_level_fields:
+      - current_state
+      - goal_state
+      - system_profile
+      - objective_function
+      - survival_extremes
+      - actors
+      - actor_network_roles
+      - actor_thresholds
+      - constraints
+      - authorization_boundaries
+      - resources
+      - frictions
+      - harmful_functions
+      - hidden_conditions
+      - compensating_costs
+      - assumptions
+      - problem_formation_chain
+      - excluded_scope
+      - modeling_status
+    optional_top_level_fields:
+      - anti_goals
+      - goal_state_uncertainties
+      - visible_demand
+      - real_demand_hypothesis
+      - assumed_constraints
+      - real_constraint_hypothesis
+
+  - artifact_id: branch_plan
+    file: branch-plan.json
+    format: json
+    owner_state: branch_plan_generation
+    purpose: "把问题拆成可执行分支，并明确依赖、并行性和验证目标。"
+    required_top_level_fields:
+      - plan_id
+      - planning_basis
+      - mode_resolution_ref
+      - shared_assumptions
+      - branches
+      - unresolved_couplings
+      - recommended_execution_order
+      - dag_view
+      - triple_view
+      - planning_status
+
+  - artifact_id: evaluation_report
+    file: evaluation-report.xml
+    format: xml
+    owner_state: evaluation_validation
+    purpose: "对当前主产物做完整性、一致性和阻塞问题评估。"
+    required_top_level_fields:
+      - evaluation_id
+      - checked_artifacts
+      - completeness_score
+      - consistency_score
+      - blocking_issues
+      - non_blocking_risks
+      - recommended_action
+      - recommended_loop_target
+      - confidence
+      - advanced_mode_findings
+      - same_source_consistency
+      - cross_format_consistency
+      - fact_validation_chain
+      - unverifiable_assumptions
+      - mode_requirement_checks
+      - missing_required_outputs
+      - requested_output_status
+      - scope_alignment_checks
+      - scope_drift_findings
+      - blocked_scope_expansions
+      - stage_requirement_checks
+      - missing_stage_outputs
+      - dispatch_recommendations
+    optional_top_level_fields:
+      - key_step_role_checks
+      - self_score
+      - score_reason
+
+  - artifact_id: loop_decision
+    file: loop-decision.json
+    format: json
+    owner_state: loop_or_finish
+    purpose: "给出本轮结束或回退的正式决策。"
+    required_top_level_fields:
+      - decision_id
+      - decision
+      - rationale
+      - loop_target_state
+      - required_repairs
+      - final_artifact_set
+      - stop_reason
+      - next_action_summary
+      - advanced_mode_status
+      - unresolved_mode_requirements
+      - scope_alignment_decision
+      - scope_repair_target
+      - stage_dispatch_target
+
+library_artifact_catalog:
+  - artifact_id: glossary
+    file: glossary.json
+    format: json
+    insertion_after_state: semantic_clarification
+    purpose: "记录名词变量、别名和标准化术语。"
+    required_top_level_fields:
+      - terms
+
+  - artifact_id: parameter_library
+    file: parameter-library.json
+    format: json
+    insertion_after_state: demand_constraint_modeling
+    purpose: "记录参数库。"
+    required_top_level_fields:
+      - parameters
+      - parameter_types
+      - ranges
+      - relations
+
+  - artifact_id: effect_library
+    file: effect-library.json
+    format: json
+    insertion_after_state: demand_constraint_modeling
+    purpose: "记录效应库。"
+    required_top_level_fields:
+      - effects
+      - domains
+      - applicability
+      - cautions
+
+  - artifact_id: temporary_library
+    file: temporary-library.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录本轮临时术语、假设和中间变量。"
+    required_top_level_fields:
+      - temporary_terms
+      - temporary_assumptions
+      - temporary_variables
+
+  - artifact_id: prompt_guidance
+    file: prompt-guidance.json
+    format: json
+    insertion_after_state: semantic_clarification
+    purpose: "记录引导用户、向用户提问的可复用提示。"
+    required_top_level_fields:
+      - guidance_entries
+
+  - artifact_id: graph_format_selection
+    file: graph-format-selection.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录图格式选择规则。"
+    required_top_level_fields:
+      - problem_type
+      - recommended_format
+      - why
+      - fallback_format
+
+  - artifact_id: checklist_summary
+    file: checklist-summary.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录稳定方法链的简短执行清单，帮助下一轮快速继续。"
+    required_top_level_fields:
+      - checklist_name
+      - items
+      - entry_conditions
+      - exit_conditions
+      - fallback_paths
+    optional_item_entry_fields:
+      - item_id
+      - text
+
+  - artifact_id: checklist_migration_map
+    file: checklist-migration-map.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录旧 checklist 与稳定 item_id checklist 之间的兼容映射。"
+    required_top_level_fields:
+      - migration_id
+      - source_artifact
+      - target_artifact
+      - source_identity_mode
+      - target_identity_mode
+      - item_mappings
+      - compatibility_guidance
+      - migration_status
+
+  - artifact_id: decision_weighting
+    file: decision-weighting.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录分支或方案的权重决策结果。"
+    required_top_level_fields:
+      - criteria
+      - pairwise_matrix
+      - consistency_check
+      - derived_weights
+      - ranking_result
+    optional_top_level_fields:
+      - human_weight_input
+      - weight_source
+      - fallback_used
+      - override_handoff_target
+      - ranking_scope
+
+orchestration_artifact_catalog:
+  - artifact_id: orchestration_plan
+    file: orchestration-plan.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录分支类型、串并行关系、挂起路径和共享上下文策略。"
+    required_top_level_fields:
+      - branch_types
+      - branch_class_map
+      - parallel_paths
+      - serial_paths
+      - suspended_paths
+      - merge_policy
+      - shared_context_strategy
+      - coordination_channels
+      - history_visibility_model
+      - branch_merge_expectation
+      - permission_surface
+      - shared_fact_scope
+      - local_hypothesis_scope
+
+  - artifact_id: execution_supervision
+    file: execution-supervision.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录执行监督目标、worker 范围和交接规则。"
+    required_top_level_fields:
+      - supervision_targets
+      - worker_scopes
+      - assignment_units
+      - context_visibility
+      - visibility_classes
+      - permission_classes
+      - reference_context_policy
+      - shared_file_contracts
+      - environment_observation_rules
+      - direct_message_policy
+      - todo_distribution_policy
+      - handoff_rules
+      - guardrails
+      - prohibited_cross_branch_writes
+      - status_checkpoints
+      - checkpoint_writebacks
+      - escalation_rules
+
+  - artifact_id: executor_interface
+    file: executor-interface.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "把分支计划压成可执行单元接口，显式记录 todo 分发、reference_context、可见性、写权限和完成信号。"
+    required_top_level_fields:
+      - execution_units
+      - unit_objectives
+      - todo_packets
+      - reference_context_refs
+      - executor_kind_bindings
+      - required_capability_bindings
+      - adapter_protocol
+      - artifact_io_contracts
+      - visibility_bindings
+      - permission_bindings
+      - writable_targets
+      - prohibited_targets
+      - expected_writebacks
+      - completion_signals
+      - failure_signals
+      - resume_signals
+      - fallback_bindings
+      - checkpoint_hook_bindings
+      - retry_policy
+      - merge_readiness_conditions
+
+  - artifact_id: executor_capability_registry
+    file: executor-capability-registry.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录可用执行器类型、能力矩阵、上下文限制、权限曲面与能力缺口回退策略。"
+    required_top_level_fields:
+      - registry_schema_version
+      - registry_revision
+      - compatibility_window
+      - compatibility_mode
+      - executor_kinds
+      - capability_matrix
+      - context_window_classes
+      - permission_surfaces
+      - writable_surface
+      - unsupported_actions
+      - fallback_routes
+      - escalation_routes
+      - availability_status
+
+  - artifact_id: executor_capability_version_policy
+    file: executor-capability-version-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 capability registry 的版本策略、兼容窗口、弃用规则与迁移入口。"
+    required_top_level_fields:
+      - current_registry_version
+      - current_schema_version
+      - supported_executor_interface_versions
+      - backward_compatibility_rules
+      - deprecation_rules
+      - compatibility_fallback_rules
+      - migration_entrypoints
+      - version_bump_policy
+
+  - artifact_id: executor_capability_discovery
+    file: executor-capability-discovery.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录执行器能力发现、可用性探测、上下文窗口观察与注册表更新候选。"
+    required_top_level_fields:
+      - discovery_sources
+      - probe_targets
+      - observed_capabilities
+      - observed_availability
+      - observed_context_windows
+      - observed_permission_surfaces
+      - capability_gaps
+      - update_candidates
+      - confidence_per_observation
+
+  - artifact_id: executor_runtime_hook
+    file: executor-runtime-hook.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 runtime 级能力探测 hook、信号来源、归一化规则、超时策略与失败回退。"
+    required_top_level_fields:
+      - hook_targets
+      - signal_sources
+      - probe_channels
+      - expected_runtime_signals
+      - signal_normalization_rules
+      - timeout_policy
+      - writeback_targets
+      - hook_failure_routes
+      - hook_status
+
+  - artifact_id: runtime_event_source_contract
+    file: runtime-event-source-contract.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 runtime event source 的事件种类、payload 契约、鉴权要求、投递模式、重放能力与归一化入口。"
+    required_top_level_fields:
+      - source_ids
+      - source_types
+      - emitted_events
+      - payload_schema_refs
+      - auth_requirements
+      - delivery_modes
+      - ordering_guarantees
+      - replay_support
+      - normalization_entrypoints
+      - failure_capture_mode
+
+  - artifact_id: runtime_event_source_registry
+    file: runtime-event-source-registry.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 runtime event source 的 source-of-truth、来源分类、当前 source version、可用性与事件 schema 版本覆盖。"
+    required_top_level_fields:
+      - source_of_truth
+      - sources
+      - source_classes
+      - current_source_versions
+      - supported_event_schema_versions
+      - auth_profiles
+      - delivery_profiles
+      - source_status
+
+  - artifact_id: runtime_event_schema_version_policy
+    file: runtime-event-schema-version-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 runtime event schema 的版本策略、字段兼容规则、弃用规则与 replay 兼容要求。"
+    required_top_level_fields:
+      - current_event_schema_version
+      - supported_payload_versions
+      - backward_compatibility_rules
+      - field_coercion_rules
+      - deprecation_rules
+      - replay_compatibility_rules
+      - migration_entrypoints
+      - version_bump_policy
+
+  - artifact_id: capability_update_ledger
+    file: capability-update-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 capability registry 的新增、修订、拒绝更新、fallback 调整与 resulting state。"
+    required_top_level_fields:
+      - registry_base_version
+      - applied_updates
+      - rejected_updates
+      - fallback_revisions
+      - escalation_revisions
+      - update_rationale
+      - resulting_registry_state
+
+  - artifact_id: consumer_compatibility_probe
+    file: consumer-compatibility-probe.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 consumer 侧版本请求、兼容性探测结果、阻断对象、降级对象与 probe 证据。"
+    required_top_level_fields:
+      - consumer_targets
+      - requested_interface_versions
+      - compatibility_checks
+      - blocked_consumers
+      - downgraded_consumers
+      - probe_evidence
+      - probe_confidence
+      - selected_compatibility_routes
+      - resulting_probe_state
+
+  - artifact_id: consumer_registry
+    file: consumer-registry.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 consumer 的 source-of-truth、consumer class、已知请求版本、降级偏好与兼容要求。"
+    required_top_level_fields:
+      - source_of_truth
+      - consumers
+      - consumer_classes
+      - known_requested_versions
+      - downgrade_preferences
+      - compatibility_requirements
+      - last_seen_state
+
+  - artifact_id: consumer_registry_version_policy
+    file: consumer-registry-version-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 consumer registry 的版本策略、identity schema 兼容规则、弃用规则与迁移入口。"
+    required_top_level_fields:
+      - current_consumer_registry_version
+      - consumer_identity_schema_version
+      - supported_identity_formats
+      - backward_compatibility_rules
+      - deprecation_rules
+      - migration_entrypoints
+      - version_bump_policy
+
+  - artifact_id: consumer_runtime_discovery
+    file: consumer-runtime-discovery.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录基于 runtime signal 识别出的 consumer、请求版本、身份归一化结果与未解析 consumer。"
+    required_top_level_fields:
+      - discovery_sources
+      - observed_consumers
+      - observed_requested_versions
+      - consumer_identity_rules
+      - confidence_per_consumer
+      - unresolved_consumer_identities
+
+  - artifact_id: capability_migration_ledger
+    file: capability-migration-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 registry 版本迁移、兼容性检查、弃用影响和版本回退策略。"
+    required_top_level_fields:
+      - from_registry_version
+      - to_registry_version
+      - migration_steps
+      - compatibility_checks
+      - deprecated_bindings
+      - compatibility_fallbacks
+      - blocked_consumers
+      - resulting_compatibility_state
+
+  - artifact_id: runtime_event_schema_migration_ledger
+    file: runtime-event-schema-migration-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 runtime event schema 迁移、字段映射变化、弃用字段与兼容 fallback。"
+    required_top_level_fields:
+      - from_event_schema_version
+      - to_event_schema_version
+      - migration_steps
+      - field_mapping_changes
+      - deprecated_event_fields
+      - compatibility_fallbacks
+      - blocked_producers
+      - resulting_event_schema_state
+
+  - artifact_id: runtime_event_source_service_hook
+    file: runtime-event-source-service-hook.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录真实 runtime event source service 的查询入口、鉴权方式、健康检查、注册字段与失败回退。"
+    required_top_level_fields:
+      - service_targets
+      - endpoint_profiles
+      - auth_modes
+      - discovery_queries
+      - health_checks
+      - source_registration_fields
+      - writeback_targets
+      - failure_routes
+      - hook_status
+
+  - artifact_id: runtime_schema_registry_hook
+    file: runtime-schema-registry-hook.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录真实 schema registry 的查询入口、subject 约定、版本查询、兼容查询与失败回退。"
+    required_top_level_fields:
+      - registry_targets
+      - endpoint_profiles
+      - auth_modes
+      - schema_subjects
+      - version_queries
+      - compatibility_queries
+      - replay_queries
+      - writeback_targets
+      - failure_routes
+      - hook_status
+
+  - artifact_id: consumer_registry_service_hook
+    file: consumer-registry-service-hook.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录真实 consumer source-of-truth service 的查询入口、identity lookup、降级偏好读取与失败回退。"
+    required_top_level_fields:
+      - service_targets
+      - endpoint_profiles
+      - auth_modes
+      - identity_lookup_keys
+      - supported_identity_formats
+      - downgrade_lookup_fields
+      - last_seen_queries
+      - writeback_targets
+      - failure_routes
+      - hook_status
+
+  - artifact_id: consumer_registry_migration_ledger
+    file: consumer-registry-migration-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 consumer registry 迁移、identity mapping 变化、弃用 consumer id 与兼容 fallback。"
+    required_top_level_fields:
+      - from_consumer_registry_version
+      - to_consumer_registry_version
+      - migration_steps
+      - identity_mapping_changes
+      - deprecated_consumer_ids
+      - compatibility_fallbacks
+      - blocked_consumers
+      - resulting_consumer_registry_state
+
+  - artifact_id: source_of_truth_drift_report
+    file: source-of-truth-drift-report.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 registry/service/runtime 之间的 drift、严重度、受影响 consumer 与建议修复路径。"
+    required_top_level_fields:
+      - compared_sources
+      - drift_findings
+      - version_drifts
+      - schema_drifts
+      - identity_drifts
+      - severity_per_drift
+      - blocked_routes
+      - suggested_reconciliation
+
+  - artifact_id: source_of_truth_reconciliation_ledger
+    file: source-of-truth-reconciliation-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 drift 修复、拒绝修复、fallback 调整与修复后的 source-of-truth 状态。"
+    required_top_level_fields:
+      - applied_reconciliations
+      - rejected_reconciliations
+      - fallback_revisions
+      - escalation_revisions
+      - reconciliation_rationale
+      - resulting_source_of_truth_state
+
+  - artifact_id: source_of_truth_drift_monitor
+    file: source-of-truth-drift-monitor.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录持续 drift 监测的对象、扫描触发、比较键、严重度阈值与监测暂停条件。"
+    required_top_level_fields:
+      - monitored_sources
+      - scan_triggers
+      - scan_cadence
+      - comparison_keys
+      - severity_thresholds
+      - monitor_entrypoints
+      - handoff_to_drift_report
+      - pause_conditions
+      - retention_policy
+
+  - artifact_id: drift_monitor_scheduler
+    file: drift-monitor-scheduler.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 drift monitor 的调度周期、触发事件、节流规则、重试间隔与停机窗口。"
+    required_top_level_fields:
+      - schedule_mode
+      - cadence
+      - trigger_sources
+      - throttle_rules
+      - retry_intervals
+      - maintenance_windows
+      - pause_rules
+      - resume_rules
+      - scheduler_status
+
+  - artifact_id: drift_scheduler_service_hook
+    file: drift-scheduler-service-hook.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录真实 scheduler service 的注册入口、调度表达、暂停恢复接口、状态查询与失败回退。"
+    required_top_level_fields:
+      - scheduler_targets
+      - endpoint_profiles
+      - auth_modes
+      - trigger_registration_modes
+      - cadence_profiles
+      - pause_resume_controls
+      - status_queries
+      - writeback_targets
+      - failure_routes
+      - hook_status
+
+  - artifact_id: auto_reconcile_policy
+    file: auto-reconcile-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 drift 自动修复规则、人工审核闸门、不可逆操作阻断与回滚策略。"
+    required_top_level_fields:
+      - auto_apply_rules
+      - human_review_gates
+      - dry_run_rules
+      - irreversible_blockers
+      - reconciliation_order
+      - rollback_rules
+      - fallback_before_reconcile
+      - stop_conditions
+
+  - artifact_id: alert_routing_policy
+    file: alert-routing-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 drift 告警的分级、路由对象、通知渠道、抑制规则与聚合规则。"
+    required_top_level_fields:
+      - severity_bands
+      - alert_targets
+      - delivery_channels
+      - routing_rules
+      - suppression_rules
+      - aggregation_rules
+      - ack_rules
+      - fallback_channels
+
+  - artifact_id: alert_delivery_contract
+    file: alert-delivery-contract.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录真实告警通道的消息契约、投递目标、ack 回调、重试与失败回退。"
+    required_top_level_fields:
+      - channel_targets
+      - endpoint_profiles
+      - auth_modes
+      - payload_templates
+      - severity_delivery_map
+      - ack_callbacks
+      - retry_profiles
+      - fallback_channels
+      - contract_status
+
+  - artifact_id: delivery_provider_capability_matrix
+    file: delivery-provider-capability-matrix.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录告警与升级 provider 的能力矩阵、通道支持、ack 能力、速率限制与健康信号。"
+    required_top_level_fields:
+      - providers
+      - channel_support
+      - auth_capabilities
+      - ack_support
+      - retry_support
+      - rate_limits
+      - health_signals
+      - provider_status
+
+  - artifact_id: provider_health_check
+    file: provider-health-check.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 provider 健康检查规则、探测入口、失败判定、恢复判定与状态映射。"
+    required_top_level_fields:
+      - providers
+      - health_endpoints
+      - probe_rules
+      - failure_thresholds
+      - recovery_thresholds
+      - sample_windows
+      - status_mapping
+      - check_status
+
+  - artifact_id: provider_health_telemetry
+    file: provider-health-telemetry.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 provider 健康遥测窗口、成功率、延迟、错误率、波动与样本摘要。"
+    required_top_level_fields:
+      - providers
+      - telemetry_windows
+      - success_rates
+      - latency_bands
+      - error_rates
+      - jitter_signals
+      - sample_counts
+      - derived_health_state
+
+  - artifact_id: provider_telemetry_stream_contract
+    file: provider-telemetry-stream-contract.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 provider 遥测流的指标来源、采样频率、聚合窗口、丢包处理与归一化规则。"
+    required_top_level_fields:
+      - providers
+      - metric_sources
+      - sample_frequencies
+      - aggregation_windows
+      - normalization_rules
+      - missing_sample_policy
+      - late_arrival_policy
+      - writeback_targets
+      - stream_status
+
+  - artifact_id: channel_failover_policy
+    file: channel-failover-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录多 provider / 多通道 failover 规则、触发条件、冷却时间、回切规则与顺序。"
+    required_top_level_fields:
+      - route_groups
+      - primary_providers
+      - secondary_providers
+      - failover_triggers
+      - cooldown_rules
+      - stickiness_rules
+      - fallback_order
+      - recovery_rules
+
+  - artifact_id: circuit_breaker_policy
+    file: circuit-breaker-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 provider 的熔断、冷却、半开恢复、手动覆盖和回切条件。"
+    required_top_level_fields:
+      - protected_routes
+      - open_triggers
+      - open_actions
+      - half_open_rules
+      - close_rules
+      - cooldown_windows
+      - recovery_switch_rules
+      - manual_override_rules
+
+  - artifact_id: circuit_breaker_hysteresis_policy
+    file: circuit-breaker-hysteresis-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录熔断开闭阈值的回差、去抖窗口、抖动抑制与防抖回切策略。"
+    required_top_level_fields:
+      - protected_routes
+      - open_thresholds
+      - close_thresholds
+      - half_open_thresholds
+      - debounce_windows
+      - flapping_rules
+      - suppression_rules
+      - hysteresis_status
+
+  - artifact_id: anomaly_scoring_policy
+    file: anomaly-scoring-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录遥测异常评分、特征权重、告警分级映射与异常证据要求。"
+    required_top_level_fields:
+      - monitored_metrics
+      - feature_weights
+      - scoring_formula
+      - severity_mapping
+      - minimum_evidence
+      - smoothing_rules
+      - score_output_fields
+      - policy_status
+
+  - artifact_id: adaptive_threshold_policy
+    file: adaptive-threshold-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录阈值自适应规则、基线窗口、漂移更新门槛、人工冻结条件与回滚条件。"
+    required_top_level_fields:
+      - controlled_thresholds
+      - baseline_windows
+      - update_rules
+      - drift_adjustment_rules
+      - freeze_conditions
+      - rollback_conditions
+      - max_step_change
+      - policy_status
+
+  - artifact_id: human_escalation_workflow
+    file: human-escalation-workflow.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录高风险 drift 的人工审核闸门、升级顺序、响应时限、回退动作与闭环条件。"
+    required_top_level_fields:
+      - escalation_levels
+      - review_gates
+      - responder_roles
+      - response_slas
+      - fallback_actions
+      - approval_requirements
+      - closure_conditions
+      - escalation_status
+
+  - artifact_id: human_escalation_channel
+    file: human-escalation-channel.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录真实人工升级通道的入口、接单规则、SLA 回执、闭环回调与失败回退。"
+    required_top_level_fields:
+      - channel_targets
+      - intake_modes
+      - assignment_rules
+      - ack_slas
+      - closure_callbacks
+      - fallback_channels
+      - channel_status
+
+  - artifact_id: provider_recovery_switch_ledger
+    file: provider-recovery-switch-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 provider 恢复检查、熔断状态变化、回切动作和恢复后的稳定状态。"
+    required_top_level_fields:
+      - health_check_cycles
+      - breaker_transitions
+      - recovered_providers
+      - switch_back_events
+      - suppressed_switches
+      - final_breaker_state
+      - resulting_provider_state
+
+  - artifact_id: threshold_adaptation_ledger
+    file: threshold-adaptation-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录阈值调整、异常评分结果、冻结动作、人工拒绝与调整后的稳定状态。"
+    required_top_level_fields:
+      - evaluated_cycles
+      - anomaly_scores
+      - applied_threshold_updates
+      - frozen_thresholds
+      - rejected_updates
+      - rollback_events
+      - resulting_threshold_state
+
+  - artifact_id: telemetry_baseline_evolution
+    file: telemetry-baseline-evolution.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录遥测基线窗口演化、季节性更新、基线漂移触发与生效边界。"
+    required_top_level_fields:
+      - monitored_metrics
+      - baseline_versions
+      - baseline_windows
+      - seasonality_rules
+      - drift_triggers
+      - update_frequency
+      - freeze_conditions
+      - activation_status
+
+  - artifact_id: anomaly_model_recalibration
+    file: anomaly-model-recalibration.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录异常评分模型的重标定条件、权重变化、特征替换、回滚条件与校准结果。"
+    required_top_level_fields:
+      - recalibration_triggers
+      - affected_metrics
+      - old_feature_weights
+      - new_feature_weights
+      - feature_replacements
+      - validation_checks
+      - rollback_rules
+      - resulting_model_state
+
+  - artifact_id: threshold_governance_workflow
+    file: threshold-governance-workflow.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录阈值治理的审批层级、冻结门槛、人工覆盖入口、审计要求与生效顺序。"
+    required_top_level_fields:
+      - governance_levels
+      - approval_gates
+      - override_roles
+      - audit_requirements
+      - freeze_rules
+      - activation_order
+      - rollback_authority
+      - workflow_status
+
+  - artifact_id: threshold_governance_ledger
+    file: threshold-governance-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录阈值治理中的批准、拒绝、冻结、人工覆盖与审计回执。"
+    required_top_level_fields:
+      - approval_events
+      - rejected_changes
+      - frozen_controls
+      - manual_overrides
+      - audit_records
+      - rollback_actions
+      - resulting_governance_state
+
+  - artifact_id: baseline_governance_service_hook
+    file: baseline-governance-service-hook.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录外部 baseline governance service 的查询入口、基线版本读取、冻结状态读取与失败回退。"
+    required_top_level_fields:
+      - service_targets
+      - endpoint_profiles
+      - auth_modes
+      - baseline_queries
+      - freeze_queries
+      - version_queries
+      - writeback_targets
+      - failure_routes
+      - hook_status
+
+  - artifact_id: anomaly_model_registry
+    file: anomaly-model-registry.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录外部 anomaly model registry 的模型版本、特征集、权重、校准状态与兼容窗口。"
+    required_top_level_fields:
+      - registry_targets
+      - model_versions
+      - feature_sets
+      - feature_weights
+      - calibration_status
+      - compatibility_windows
+      - rollback_entrypoints
+      - registry_status
+
+  - artifact_id: threshold_policy_registry
+    file: threshold-policy-registry.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录外部 threshold policy registry 的阈值版本、策略状态、审批状态与生效窗口。"
+    required_top_level_fields:
+      - registry_targets
+      - threshold_versions
+      - controlled_thresholds
+      - approval_status
+      - activation_windows
+      - freeze_states
+      - rollback_entrypoints
+      - registry_status
+
+  - artifact_id: governance_sync_ledger
+    file: governance-sync-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录 baseline/model/threshold 外部治理系统与本地治理状态的同步、差异、采纳与拒绝。"
+    required_top_level_fields:
+      - compared_governance_sources
+      - sync_events
+      - accepted_updates
+      - rejected_updates
+      - frozen_items
+      - audit_deltas
+      - resulting_governance_sync_state
+
+  - artifact_id: governance_source_drift_report
+    file: governance-source-drift-report.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录外部治理 source 与本地治理状态之间的 drift、影响范围、严重度与建议修复。"
+    required_top_level_fields:
+      - compared_governance_sources
+      - drift_findings
+      - baseline_drifts
+      - model_drifts
+      - threshold_policy_drifts
+      - severity_per_drift
+      - blocked_governance_routes
+      - suggested_reconciliation
+
+  - artifact_id: governance_source_reconciliation_ledger
+    file: governance-source-reconciliation-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录外部治理 drift 的修复、拒绝修复、fallback 调整与修复后的治理状态。"
+    required_top_level_fields:
+      - applied_reconciliations
+      - rejected_reconciliations
+      - fallback_revisions
+      - escalation_revisions
+      - reconciliation_rationale
+      - resulting_governance_source_state
+
+  - artifact_id: governance_approval_channel
+    file: governance-approval-channel.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录外部治理审批通道的入口、审批回执、拒绝回执、升级链路与闭环回调。"
+    required_top_level_fields:
+      - channel_targets
+      - intake_modes
+      - approval_callbacks
+      - rejection_callbacks
+      - escalation_routes
+      - sla_profiles
+      - closure_callbacks
+      - channel_status
+
+  - artifact_id: governance_review_scheduler
+    file: governance-review-scheduler.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录治理审查任务的调度模式、触发源、节流规则、暂停恢复与调度状态。"
+    required_top_level_fields:
+      - schedule_mode
+      - cadence
+      - trigger_sources
+      - throttle_rules
+      - retry_intervals
+      - maintenance_windows
+      - pause_rules
+      - resume_rules
+      - scheduler_status
+
+  - artifact_id: governance_alert_routing_policy
+    file: governance-alert-routing-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录治理 drift 的告警分级、路由对象、通知渠道、抑制规则与 ack 要求。"
+    required_top_level_fields:
+      - severity_bands
+      - alert_targets
+      - delivery_channels
+      - routing_rules
+      - suppression_rules
+      - aggregation_rules
+      - ack_rules
+      - fallback_channels
+
+  - artifact_id: governance_review_cadence
+    file: governance-review-cadence.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录治理审查的周期、审查窗口、升级时点、冻结窗口与复审条件。"
+    required_top_level_fields:
+      - review_cycles
+      - review_windows
+      - escalation_windows
+      - freeze_windows
+      - recheck_rules
+      - overdue_rules
+      - review_priority_rules
+      - cadence_status
+
+  - artifact_id: governance_review_ops_ledger
+    file: governance-review-ops-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录治理审查调度、告警路由、审批处理和下一轮审查计划。"
+    required_top_level_fields:
+      - review_cycles
+      - triggered_reviews
+      - delivered_alerts
+      - approval_events
+      - skipped_reviews
+      - escalations
+      - next_review_plan
+
+  - artifact_id: governance-provider-capability-matrix
+    file: governance-provider-capability-matrix.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录治理告警与审批通道 provider 的能力矩阵、ack 能力、速率限制与健康状态。"
+    required_top_level_fields:
+      - providers
+      - channel_support
+      - auth_capabilities
+      - ack_support
+      - retry_support
+      - rate_limits
+      - health_signals
+      - provider_status
+
+  - artifact_id: governance-channel-failover-policy
+    file: governance-channel-failover-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录治理审查告警和审批通道的主备 provider、failover 触发条件、冷却时间与回切顺序。"
+    required_top_level_fields:
+      - route_groups
+      - primary_providers
+      - secondary_providers
+      - failover_triggers
+      - cooldown_rules
+      - stickiness_rules
+      - fallback_order
+      - recovery_rules
+
+  - artifact_id: governance-delivery-failover-ledger
+    file: governance-delivery-failover-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录治理告警/审批通道 failover 的触发原因、尝试顺序、最终选中 provider 与未送达对象。"
+    required_top_level_fields:
+      - failover_events
+      - trigger_reasons
+      - attempted_providers
+      - selected_providers
+      - reverted_providers
+      - dropped_messages
+      - resulting_delivery_state
+
+  - artifact_id: recovery_canary_policy
+    file: recovery-canary-policy.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录 provider 恢复后的金丝雀放量策略、观测门槛、回滚条件与切换节奏。"
+    required_top_level_fields:
+      - canary_routes
+      - initial_traffic_split
+      - ramp_stages
+      - observation_metrics
+      - success_thresholds
+      - rollback_triggers
+      - promotion_rules
+      - canary_status
+
+  - artifact_id: delivery_failover_ledger
+    file: delivery-failover-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录告警/升级通道 failover 的触发原因、尝试顺序、最终选中 provider 与未送达对象。"
+    required_top_level_fields:
+      - failover_events
+      - trigger_reasons
+      - attempted_providers
+      - selected_providers
+      - reverted_providers
+      - dropped_messages
+      - resulting_delivery_state
+
+  - artifact_id: drift_scan_ledger
+    file: drift-scan-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录每轮 drift scan 的触发来源、发现结果、自动修复动作、跳过动作与下一次扫描计划。"
+    required_top_level_fields:
+      - scan_cycles
+      - trigger_events
+      - detected_drifts
+      - actions_taken
+      - skipped_actions
+      - escalations
+      - next_scan_plan
+
+  - artifact_id: memory_pruning
+    file: memory-pruning.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录剪枝路径、挂起路径、理由与重启条件。"
+    required_top_level_fields:
+      - pruned_paths
+      - suspended_paths
+      - pruning_reasons
+      - retained_summaries
+      - reactivation_conditions
+      - prune_after_failed_rounds
+      - deletion_scope
+      - memory_edit_targets
+      - replacement_summaries
+
+  - artifact_id: writeback_ledger
+    file: writeback-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录共享文件回写、环境观察事件、检查点结果、冲突处理与最终合并状态。"
+    required_top_level_fields:
+      - observed_writebacks
+      - environment_observation_events
+      - checkpoint_results
+      - merge_decisions
+      - conflict_events
+      - memory_edit_events
+      - deferred_updates
+      - final_shared_state
+
+variant_artifact_catalog:
+  - artifact_id: variant_set
+    file: variant-set.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录多个方案变体及排序基础。"
+    required_top_level_fields:
+      - variants
+      - default_variant
+      - ranking_basis
+
+  - artifact_id: step_normalization
+    file: step-normalization.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录规范化步骤、等价步骤和差异标注。"
+    required_top_level_fields:
+      - canonical_steps
+      - equivalent_steps
+      - difference_annotations
+
+  - artifact_id: composition_plan
+    file: composition-plan.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录从多个方案变体中组合新方案的结果。"
+    required_top_level_fields:
+      - source_variants
+      - selected_steps
+      - new_variant_id
+      - dependency_repairs
+      - coherence_check
+
+traversal_artifact_catalog:
+  - artifact_id: traversal_plan
+    file: traversal-plan.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录关系、参数、颗粒度三类遍历计划与焦点选择。"
+    required_top_level_fields:
+      - relation_dimensions
+      - parameter_dimensions
+      - granularity_dimensions
+      - anchor_rules
+      - selected_focus
+    optional_top_level_fields:
+      - relation_type_taxonomy
+      - scope_guard
+    optional_relation_dimension_fields:
+      - relation_kind
+      - centered_tension
+      - source_anchor
+      - traversal_questions
+      - candidate_moves
+      - expected_payoff
+    optional_parameter_dimension_fields:
+      - current_tension
+      - traversal_directions
+      - stop_rule
+      - linked_routes
+    optional_granularity_dimension_fields:
+      - why_traverse_here
+    optional_anchor_rule_fields:
+      - rule_id
+      - source_basis
+    optional_selected_focus_fields:
+      - primary_dimensions
+      - secondary_dimensions
+      - deferred_dimensions
+      - why_this_focus
+      - scope_guard
+      - next_artifact_targets
+
+  - artifact_id: heuristic_filters
+    file: heuristic-filters.json
+    format: json
+    insertion_after_state: evaluation_validation
+    purpose: "记录时空过滤、因果末端锚定、黑盒化和 IFR 剥离结果。"
+    required_top_level_fields:
+      - spacetime_filter
+      - causal_terminal_filter
+      - blackbox_conversion_rules
+      - ifr_elimination_results
+    optional_spacetime_filter_fields:
+      - focus_time_slice
+      - focus_space_slice
+      - keep_elements
+      - pruned_elements
+      - pass_rule
+      - why
+    optional_causal_terminal_filter_fields:
+      - terminal_actions
+      - background_states
+      - filtered_out_as_non_terminal
+      - chosen_terminal_targets
+      - why
+    optional_blackbox_conversion_rule_fields:
+      - rule_id
+      - from_component
+      - to_abstraction
+      - conversion_reason
+    optional_ifr_elimination_result_fields:
+      - tests
+      - retained_core_operators
+      - removed_from_focus
+      - summary
+
+  - artifact_id: invention_measures
+    file: invention-measures.json
+    format: json
+    insertion_after_state: evaluation_validation
+    purpose: "记录单措施、成对措施和复杂措施。"
+    required_top_level_fields:
+      - single_measures
+      - paired_measures
+      - complex_measures
+      - selection_rationale
+    optional_single_measure_fields:
+      - measure_id
+      - title
+      - measure_family
+      - target_contradictions
+      - description
+      - expected_effects
+      - guardrails
+    optional_paired_measure_fields:
+      - measure_id
+      - component_measures
+      - description
+      - best_fit_routes
+    optional_complex_measure_fields:
+      - measure_id
+      - component_measures
+      - description
+      - system_shift
+      - best_fit_route
+    optional_selection_rationale_fields:
+      - why_selected
+      - deferred_or_rejected
+      - default_measure_stack
+      - pilot_measure_stack
+      - deferred_measure_stack
+
+  - artifact_id: measure_combinations
+    file: measure-combinations.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录措施联合体及其系统级变化。"
+    required_top_level_fields:
+      - combinations
+      - combined_mechanism
+      - system_level_change
+      - risks
+    optional_combination_entry_fields:
+      - based_on_measures
+      - goal_lock
+      - when_to_use
+      - status
+    optional_combined_mechanism_fields:
+      - mechanism_summary
+      - why_this_is_new
+    optional_system_level_change_fields:
+      - before
+      - after
+      - change_type
+    optional_risk_entry_fields:
+      - items
+
+discovery_artifact_catalog:
+  - artifact_id: demand_visibility
+    file: demand-visibility.json
+    format: json
+    insertion_after_state: semantic_clarification
+    purpose: "记录显性需求、潜在需求、场域创造需求、认知节能因素、需求不可见障碍和早期采用信号。"
+    required_top_level_fields:
+      - explicit_demands
+      - latent_demands
+      - field_created_demands
+      - cognitive_economy_factors
+      - visibility_barriers
+      - early_adopter_signals
+    optional_top_level_fields:
+      - base_chain_boundary
+      - promotion_rules
+      - scene_context
+
+  - artifact_id: hypothesis_register
+    file: hypothesis-register.json
+    format: json
+    insertion_after_state: semantic_clarification
+    purpose: "记录开放假设、置信度、软剪枝候选和不应过早引入的硬约束。"
+    required_top_level_fields:
+      - open_assumptions
+      - confidence_levels
+      - soft_pruning_candidates
+      - hard_constraints_to_avoid
+      - irreversible_actions_to_avoid
+    optional_top_level_fields:
+      - reopen_conditions
+      - suspension_rules
+      - evidence_gaps
+      - demotion_rules
+
+  - artifact_id: feedback_hooks
+    file: feedback-hooks.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录人类覆盖点、现实反馈来源与触发条件。"
+    required_top_level_fields:
+      - human_override_points
+      - real_world_feedback_sources
+      - validation_triggers
+    optional_top_level_fields:
+      - writeback_targets
+      - handoff_to_feedback_ledger
+      - evidence_channels
+      - trigger_scope
+
+portfolio_artifact_catalog:
+  - artifact_id: state_space_matrix
+    file: state-space-matrix.json
+    format: json
+    insertion_after_state: demand_constraint_modeling
+    purpose: "记录问题分解用的状态空间矩阵集合。"
+    required_top_level_fields:
+      - matrix_count
+      - matrices
+      - decomposition_basis
+      - priority_view
+    optional_top_level_fields:
+      - matrix_axes
+      - observation_surfaces
+      - blocked_cells
+      - deferred_cells
+
+  - artifact_id: methodology_portfolio
+    file: methodology-portfolio.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录候选方法论组合与目标函数之间的映射。"
+    required_top_level_fields:
+      - methods
+      - target_objectives
+      - tradeoff_styles
+      - selection_notes
+    optional_top_level_fields:
+      - method_families
+      - applicable_constraints
+      - excluded_methods
+      - fallback_weight_method
+
+  - artifact_id: method_branch_map
+    file: method-branch-map.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "记录每个分支所采用的方法论、约束变化和权重变化。"
+    required_top_level_fields:
+      - branches
+      - method_per_branch
+      - changed_constraints
+      - changed_weights
+    optional_top_level_fields:
+      - changed_assumptions
+      - shared_invariants
+      - branch_rationale
+
+  - artifact_id: research_plan
+    file: research-plan.json
+    format: json
+    insertion_after_state: evaluation_validation
+    purpose: "记录研究问题、证据需求、分支目标与成功检查项。"
+    required_top_level_fields:
+      - research_questions
+      - evidence_to_collect
+      - branch_goals
+      - success_checks
+    optional_top_level_fields:
+      - evidence_priority
+      - dependency_layers
+      - decision_gates
+
+  - artifact_id: execution_roadmap
+    file: execution-roadmap.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录执行步骤、依赖、并行组和里程碑。"
+    required_top_level_fields:
+      - execution_steps
+      - dependencies
+      - parallelizable_groups
+      - milestones
+    optional_top_level_fields:
+      - decision_gates
+      - fallback_routes
+      - scope_guard
+
+  - artifact_id: optimization_report
+    file: optimization-report.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录多路径近似最优比较结果。"
+    required_top_level_fields:
+      - candidate_paths
+      - dominant_tradeoffs
+      - approximate_best_set
+      - why_not_single_best
+    optional_top_level_fields:
+      - ranking_basis
+      - non_dominated_set
+      - human_weight_override
+      - fallback_weight_method
+      - consistency_check
+
+governance_artifact_catalog:
+  - artifact_id: interaction_policy
+    file: interaction-policy.json
+    format: json
+    insertion_after_state: semantic_clarification
+    purpose: "记录提问风格和触发条件。"
+    required_top_level_fields:
+      - question_styles
+      - default_style
+      - avoid_styles
+      - trigger_conditions
+    optional_top_level_fields:
+      - preferred_style_order
+      - bounded_prompt_templates
+      - heuristic_prompt_templates
+      - escalation_question_rules
+
+  - artifact_id: governance_checkpoints
+    file: governance-checkpoints.json
+    format: json
+    insertion_after_state: evaluation_validation
+    purpose: "记录人类审核点、可修改产物和不可覆盖约束。"
+    required_top_level_fields:
+      - checkpoints
+      - human_review_points
+      - modifiable_artifacts
+      - non_overridable_constraints
+    optional_top_level_fields:
+      - review_roles
+      - checkpoint_entry_conditions
+      - checkpoint_exit_conditions
+      - required_artifact_visibility
+
+  - artifact_id: override_policy
+    file: override-policy.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录人类覆盖优先级和无人输入时的兜底规则。"
+    required_top_level_fields:
+      - human_override_priority
+      - weight_override_rules
+      - fallback_when_no_human_input
+    optional_top_level_fields:
+      - plan_override_rules
+      - conflict_resolution_order
+      - fallback_weight_method
+      - consistency_check_requirement
+      - upstream_weight_artifact
+      - override_application_scope
+      - override_writeback_policy
+
+  - artifact_id: feedback_ledger
+    file: feedback-ledger.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录现实反馈事件、修正和待验证项。"
+    required_top_level_fields:
+      - feedback_sources
+      - feedback_events
+      - applied_corrections
+      - pending_real_world_checks
+    optional_top_level_fields:
+      - rejected_feedback
+      - feedback_confidence
+      - writeback_targets
+      - reopen_triggers
+
+representation_artifact_catalog:
+  - artifact_id: xml_rewrite
+    file: xml-rewrite.xml
+    format: xml
+    insertion_after_state: semantic_clarification
+    purpose: "把重表述问题导出为 xml。"
+    required_top_level_fields:
+      - rewritten_problem
+    optional_top_level_fields:
+      - source_artifact
+      - xml_root_tag
+      - target_consumer
+
+  - artifact_id: sequence_diagram
+    file: sequence-diagram.mmd
+    format: text
+    insertion_after_state: branch_plan_generation
+    purpose: "把流程或交互顺序导出为 Mermaid 序列图。"
+    required_top_level_fields:
+      - mermaid_sequence
+    optional_top_level_fields:
+      - source_artifact
+      - sequence_scope
+      - participant_map
+
+  - artifact_id: representation_bundle
+    file: representation-bundle.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录当前轮启用的表示格式及导出说明。"
+    required_top_level_fields:
+      - selected_formats
+      - xml_targets
+      - graph_targets
+      - logic_targets
+      - export_notes
+    optional_top_level_fields:
+      - triple_targets
+      - dag_targets
+      - sequence_targets
+      - omitted_formats
+      - selection_rationale
+
+advanced_artifact_catalog:
+  - artifact_id: resource_graph
+    file: resource-graph.json
+    format: json
+    insertion_after_state: demand_constraint_modeling
+    derived_from_metaPrompt_step: 3
+    purpose: "遍历资源并构建资源图。"
+    required_top_level_fields:
+      - resources
+      - resource_types
+      - resource_locations
+      - scan_order
+      - resource_priority
+      - self_service_checks
+      - harm_to_benefit_checks
+      - ifr_paths
+      - constraints
+      - substitution_options
+
+  - artifact_id: actor_network
+    file: actor-network.json
+    format: json
+    insertion_after_state: demand_constraint_modeling
+    derived_from_metaPrompt_step: 4
+    purpose: "回到宏观层，构建行动者网络图。"
+    required_top_level_fields:
+      - nodes
+      - edges
+      - roles
+      - key_dependencies
+      - evaluation_paths
+      - imminent_changes
+      - fracture_paths
+      - mandatory_paths
+      - opp_nodes
+      - field_construction
+      - amplification_factors
+      - translation_stages
+
+  - artifact_id: function_field_model
+    file: function-field-model.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    derived_from_metaPrompt_step: 5
+    purpose: "构建功能物场模型。"
+    required_top_level_fields:
+      - entities
+      - fields
+      - functions
+      - harmful_functions
+      - target_functions
+
+  - artifact_id: flow_analysis
+    file: flow-analysis.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    derived_from_metaPrompt_step: 5
+    purpose: "分析物质流、能量流、信息流。"
+    required_top_level_fields:
+      - material_flow
+      - energy_flow
+      - information_flow
+      - bottlenecks
+      - leak_points
+
+  - artifact_id: safc_model
+    file: safc-model.json
+    format: json
+    insertion_after_state: evaluation_validation
+    derived_from_metaPrompt_step: 6
+    purpose: "对重要系统组件排序并构建 SAFC 模型。"
+    required_top_level_fields:
+      - prioritized_components
+      - entities
+      - attributes
+      - functions
+      - hidden_conditions
+      - priority_contradictions
+
+  - artifact_id: contradiction_analysis
+    file: contradiction-analysis.json
+    format: json
+    insertion_after_state: evaluation_validation
+    derived_from_metaPrompt_step: 7
+    purpose: "进行矛盾分析与 USIT32 操作方向整理。"
+    required_top_level_fields:
+      - contradiction_list
+      - prioritized_contradiction
+      - contradiction_type
+      - usit32_directions
+      - evaluation_notes
+
+  - artifact_id: solution_set
+    file: solution-set.json
+    format: json
+    insertion_after_state: loop_or_finish
+    derived_from_metaPrompt_step: 8
+    purpose: "汇总候选解决方案集。"
+    required_top_level_fields:
+      - solutions
+      - applicability_conditions
+      - benefits
+      - risks
+      - side_effects
+      - implementation_costs
+
+  - artifact_id: multi_screen_analysis
+    file: multi-screen-analysis.json
+    format: json
+    insertion_after_state: evaluation_validation
+    purpose: "输出超系统、当前系统、子系统在过去/现在/未来的多屏幕分析。"
+    required_top_level_fields:
+      - super_system
+      - current_system
+      - sub_system
+      - anti_system
+      - cell_requirements
+      - matrix_requirements
+
+  - artifact_id: critique_report
+    file: critique-report.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "对整条方法链、关键假设和当前结果做批判辩证复盘。"
+    required_top_level_fields:
+      - method_risks
+      - step_design_errors
+      - over_assumptions
+      - missing_evidence
+      - revision_targets
+
+template_artifact_catalog:
+  - artifact_id: template_chain
+    file: template-chain.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "把当前方法压缩为模板链。"
+    required_top_level_fields:
+      - chain_id
+      - templates
+      - global_variables
+      - handoff_rules
+      - batch_exploration_mode
+    optional_top_level_fields:
+      - fast_entry_points
+
+  - artifact_id: pruning_notes
+    file: pruning-notes.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录已排除路径及其理由。"
+    required_top_level_fields:
+      - pruned_paths
+      - reasons
+      - evidence
+      - replacement_strategy
+
+  - artifact_id: shared_context_map
+    file: shared-context-map.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录共享文件、读写范围和轻量协作结构。"
+    required_top_level_fields:
+      - shared_files
+      - ownership
+      - write_scope
+      - read_scope
+      - synchronization_notes
+
+  - artifact_id: checklist_migration_pointer
+    file: checklist-migration-pointer.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录旧模板 consumer 如何发现 checklist 迁移图与新目标 checklist。"
+    required_top_level_fields:
+      - pointer_id
+      - consumer_artifact
+      - migration_artifact
+      - target_artifact
+      - discovery_mode
+      - resolution_rule
+      - pointer_status
+
+  - artifact_id: checklist_migration_pointer_registry
+    file: checklist-migration-pointer-registry.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "记录多个旧模板 consumer 如何通过共享 registry 发现 checklist 迁移指针。"
+    required_top_level_fields:
+      - registry_id
+      - registry_scope
+      - registry_entries
+      - selection_rule
+      - fallback_rule
+      - registry_status
+    optional_top_level_fields:
+      - grouping_strategy
+      - consumer_groups
+      - group_dimensions
+      - matching_strategy
+      - matching_examples
+    optional_matching_strategy_fields:
+      - fallback_match_fields
+    optional_registry_entry_fields:
+      - consumer_group
+      - consumer_generation
+      - consumer_class
+
+states:
+  - state_id: problem_intake
+    display_name: 问题接收
+    layer: core
+    goal: "接收用户原始问题，判断任务是单步还是多步，并收集最小必要背景。"
+    required_inputs:
+      - name: user_raw_request
+        type: string
+        source: user
+        description: "用户原始描述，不能为空。"
+    optional_inputs:
+      - name: user_role_or_stance
+        type: string
+        source: user_or_inference
+        description: "用户立场、角色或观察视角。"
+      - name: known_constraints
+        type: array
+        source: user
+        description: "用户已知约束，如时间、权限、环境、成本。"
+      - name: existing_files
+        type: array
+        source: workspace
+        description: "用户显式给出的相关文件或已有产物。"
+    output_file: intake-record.json
+    output_fields:
+      - name: request_id
+        type: string
+        required: true
+        description: "本轮请求唯一标识。"
+      - name: raw_request
+        type: string
+        required: true
+        description: "未经重写的用户原始问题。"
+      - name: task_mode
+        type: string
+        required: true
+        allowed_values:
+          - single_step
+          - multi_step
+        description: "任务模式判定。"
+      - name: requester_stance
+        type: string
+        required: true
+        description: "用户当前立场或默认观察视角。"
+      - name: explicit_constraints
+        type: array
+        required: true
+        description: "用户明确给出的约束列表。"
+      - name: known_context
+        type: array
+        required: true
+        description: "当前已知事实、文件、环境信息。"
+      - name: intake_gaps
+        type: array
+        required: true
+        description: "进入下一状态前仍可能缺失的信息。"
+      - name: intake_status
+        type: string
+        required: true
+        allowed_values:
+          - ready
+          - needs_more_context
+        description: "当前接收状态是否已经可进入语义澄清。"
+    ready_for_next_state_when:
+      - "raw_request 非空"
+      - "task_mode 已判定"
+      - "intake_gaps 已被列出，即使不为空也必须显式记录"
+    failure_modes:
+      - code: missing_raw_request
+        trigger: "用户未提供可解析的问题描述。"
+        handling: "停留在问题接收，要求补充最小问题陈述。"
+      - code: task_mode_undetermined
+        trigger: "无法判断任务是单步还是多步。"
+        handling: "默认降级为 multi_step，并在 intake_gaps 中记录原因。"
+      - code: hidden_context_overload
+        trigger: "相关上下文过多且尚未筛选。"
+        handling: "只保留与本轮目标直接相关的文件和事实。"
+    out_of_scope:
+      - "不直接开始理论求解"
+      - "不展开多路径深度搜索"
+
+  - state_id: semantic_clarification
+    display_name: 语义澄清
+    layer: core
+    goal: "把原始问题重写为较少歧义的结构化问题，并显式暴露关键术语和待确认点。"
+    required_inputs:
+      - name: intake_record
+        type: object
+        source: artifact:intake-record.json
+        description: "问题接收状态的输出。"
+    optional_inputs:
+      - name: domain_terms
+        type: array
+        source: workspace_or_reference
+        description: "已知领域术语，可用于术语比对。"
+      - name: user_examples
+        type: array
+        source: user
+        description: "用户额外补充的示例或反例。"
+    output_file: problem-brief.json
+    output_fields:
+      - name: normalized_problem
+        type: string
+        required: true
+        description: "经重表述后的核心问题，不保留不必要歧义。"
+      - name: term_map
+        type: array
+        required: true
+        description: "原始术语、候选替代表达、最终采用表达之间的映射。"
+      - name: variable_map
+        type: array
+        required: true
+        description: "把用户自然语言映射到后续模板或结构字段的变量表。"
+      - name: clarification_mode
+        type: string
+        required: true
+        description: "当前澄清模式，建议值为 strict 或 open_preserving。"
+      - name: confirmation_loop_status
+        type: string
+        required: true
+        description: "是否还需要继续确认循环，建议值为 stable、needs_followup 或 exploratory。"
+      - name: ambiguities
+        type: array
+        required: true
+        description: "仍未消除的歧义点。"
+      - name: open_questions
+        type: array
+        required: true
+        description: "必须追问或后续建模时补足的问题。"
+      - name: clarified_scope
+        type: array
+        required: true
+        description: "当前明确纳入分析范围的对象。"
+      - name: user_intent_hypothesis
+        type: string
+        required: true
+        description: "对用户真实意图的工作假设。"
+      - name: clarification_status
+        type: string
+        required: true
+        allowed_values:
+          - ready
+          - needs_user_confirmation
+          - blocked
+        description: "是否已经可进入需求约束建模。"
+    ready_for_next_state_when:
+      - "normalized_problem 已形成"
+      - "term_map 非空"
+      - "variable_map 已列出"
+      - "clarification_mode 已显式记录"
+      - "confirmation_loop_status 已显式记录"
+      - "open_questions 已列出"
+      - "clarification_status 为 ready"
+    failure_modes:
+      - code: unresolved_core_term
+        trigger: "核心术语仍存在多重含义，且会改变后续建模。"
+        handling: "保持在语义澄清，并把该术语放入 open_questions 首位。"
+      - code: visible_real_demand_conflated
+        trigger: "显性问题陈述与真实需求假设仍被混写，且会影响后续建模。"
+        handling: "保持在语义澄清，并显式区分 visible_demand 与 real_demand_hypothesis。"
+      - code: intent_hypothesis_too_weak
+        trigger: "无法形成稳定的用户意图假设。"
+        handling: "回退到问题接收，补充立场、目标或约束。"
+      - code: over_rewrite
+        trigger: "重写后偏离用户原始问题。"
+        handling: "保留 raw_request 与 normalized_problem 的并行对照。"
+    out_of_scope:
+      - "不直接输出完整解决方案"
+      - "不引入复杂理论框架作为默认步骤"
+
+  - state_id: demand_constraint_modeling
+    display_name: 需求约束建模
+    layer: core
+    goal: "基于澄清后的问题，构造最小问题模型，明确现状、目标、行动者、约束、资源和摩擦。"
+    required_inputs:
+      - name: problem_brief
+        type: object
+        source: artifact:problem-brief.json
+        description: "语义澄清状态的输出。"
+    optional_inputs:
+      - name: search_notes_artifact
+        type: object
+        source: artifact:search-notes.json
+        description: "有界 first_search 的补充证据，若存在则用于收束约束和问题边界。"
+      - name: search_notes
+        type: array
+        source: lightweight_research
+        description: "首次搜索得到的补充信息。"
+      - name: local_context_files
+        type: array
+        source: workspace
+        description: "与需求、资源、环境直接相关的文件。"
+    output_file: constraints-matrix.json
+    output_fields:
+      - name: current_state
+        type: object
+        required: true
+        description: "现状摘要，包含已知事实和问题起点。"
+      - name: goal_state
+        type: object
+        required: true
+        description: "目标状态摘要，允许保留不确定性。"
+      - name: system_profile
+        type: object
+        required: true
+        description: "系统名称、系统用途、系统结构组成、工作原理、技术演进阶段、当前运行环境。若不是系统问题，显式写空对象。"
+      - name: objective_function
+        type: string
+        required: true
+        description: "当前问题的核心目标函数表达；若无法量化，至少写成明确优化方向。"
+      - name: survival_extremes
+        type: array
+        required: true
+        description: "当前问题的一组不可突破下界或生存极值；若不存在，显式写空数组。"
+      - name: actors
+        type: array
+        required: true
+        description: "参与方、受影响方和关键行动者列表。"
+      - name: actor_network_roles
+        type: array
+        required: true
+        description: "从行动者网络视角标记 payer、decision、user、externality、evaluator 等角色；若不适用，显式写空数组。"
+      - name: actor_thresholds
+        type: array
+        required: true
+        description: "关键行动者的最低可接受底线、不可接受阈值和控制权维度。"
+      - name: constraints
+        type: array
+        required: true
+        description: "技术、权限、时间、成本、环境等约束。"
+      - name: authorization_boundaries
+        type: array
+        required: true
+        description: "自动化、代理执行或外部发送相关的授权边界；若不适用，显式写空数组。"
+      - name: resources
+        type: array
+        required: true
+        description: "当前可调动资源。"
+      - name: frictions
+        type: array
+        required: true
+        description: "当前主要摩擦、浪费或冲突。"
+      - name: harmful_functions
+        type: array
+        required: true
+        description: "显式记录谁对谁产生了什么负向作用。"
+      - name: hidden_conditions
+        type: array
+        required: true
+        description: "让负向作用持续成立的隐式条件。"
+      - name: compensating_costs
+        type: array
+        required: true
+        description: "沿常规修补路径会新增的寄生性代价或副作用。"
+      - name: assumptions
+        type: array
+        required: true
+        description: "暂时采用但尚未被验证的前提。"
+      - name: problem_formation_chain
+        type: array
+        required: true
+        description: "需求或问题是如何形成的链式摘要。"
+      - name: excluded_scope
+        type: array
+        required: true
+        description: "明确排除在当前 MVP 分析之外的内容。"
+      - name: modeling_status
+        type: string
+        required: true
+        allowed_values:
+          - ready
+          - incomplete
+          - blocked
+        description: "是否已经可进入分支计划生成。"
+    ready_for_next_state_when:
+      - "current_state 与 goal_state 均已显式记录"
+      - "system_profile 已显式记录；若不是系统问题，则必须为空对象而不是省略"
+      - "objective_function 已显式记录"
+      - "survival_extremes 已显式记录"
+      - "actors、constraints、resources、frictions 均非空"
+      - "actor_network_roles、actor_thresholds、harmful_functions、hidden_conditions、compensating_costs、problem_formation_chain 已显式记录"
+      - "authorization_boundaries 已显式记录；若问题不涉及授权边界，则必须为空数组而不是省略"
+      - "excluded_scope 已显式列出"
+      - "modeling_status 不是 blocked"
+    failure_modes:
+      - code: actor_model_missing
+        trigger: "无法指出谁受影响、谁决策、谁执行。"
+        handling: "停留在需求约束建模，优先补齐 actors。"
+      - code: actor_network_roles_missing
+        trigger: "actors 已列出，但没有明确谁在付费、决策、使用、承受外部性或评价。"
+        handling: "停留在需求约束建模，补齐 actor_network_roles。"
+      - code: constraints_not_actionable
+        trigger: "约束描述过于抽象，不能指导分支规划。"
+        handling: "把约束改写成可判断是否触犯的陈述。"
+      - code: harmful_function_missing
+        trigger: "只列出困难和约束，但没有明确谁对谁产生负向作用。"
+        handling: "停留在需求约束建模，补齐 harmful_functions 与 hidden_conditions。"
+      - code: missing_authorization_boundary
+        trigger: "问题涉及自动化判断、自动发送、代理执行或升级流转，但未显式建模授权边界。"
+        handling: "停留在需求约束建模，补齐 authorization_boundaries。"
+      - code: unstable_goal_without_anti_goals
+        trigger: "goal_state 仍不稳定，但未显式记录 anti_goals 或 survival_extremes。"
+        handling: "停留在需求约束建模，先写失败状态、不可接受结果和存活边界。"
+      - code: goal_state_collapses_into_solution
+        trigger: "目标状态被直接写成具体实现方案。"
+        handling: "把目标改写为状态或结果，而不是实现手段。"
+    out_of_scope:
+      - "不在此状态执行完整 SAFC/TRIZ/USIT 求解"
+      - "不生成产品级 UI 方案"
+
+  - state_id: branch_plan_generation
+    display_name: 分支计划生成
+    layer: core
+    goal: "把最小问题模型拆成可执行分支，明确依赖关系、并行性和验证目标。"
+    required_inputs:
+      - name: constraints_matrix
+        type: object
+        source: artifact:constraints-matrix.json
+        description: "需求约束建模状态的输出。"
+    optional_inputs:
+      - name: orchestration_rules
+        type: array
+        source: scope-boundary
+        description: "最小编排规则，如并行判定、单轮步数限制。"
+    output_file: branch-plan.json
+    output_fields:
+      - name: plan_id
+        type: string
+        required: true
+        description: "当前分支计划唯一标识。"
+      - name: planning_basis
+        type: array
+        required: true
+        description: "该计划基于哪些问题模型字段生成。"
+      - name: mode_resolution_ref
+        type: string
+        required: true
+        description: "指向 mode-resolution.json 的引用；若无扩展模式，也要显式指向一个 resolved_modes 为空的文件。"
+      - name: shared_assumptions
+        type: array
+        required: true
+        description: "所有分支共享的假设。"
+      - name: branches
+        type: array
+        required: true
+        description: "分支列表，每个分支至少包含 branch_id、goal、dependencies、parallelizable、validation_target。"
+      - name: unresolved_couplings
+        type: array
+        required: true
+        description: "暂时无法切开的依赖耦合。"
+      - name: recommended_execution_order
+        type: array
+        required: true
+        description: "建议的执行顺序或阶段组。"
+      - name: dag_view
+        type: object
+        required: true
+        description: "将分支计划压成 DAG 视图；若不适用，显式写空对象。"
+      - name: triple_view
+        type: array
+        required: true
+        description: "将关键计划关系压成三元组列表；若不适用，显式写空数组。"
+      - name: planning_status
+        type: string
+        required: true
+        allowed_values:
+          - ready
+          - over_split
+          - blocked
+        description: "计划是否已经足够执行。"
+    ready_for_next_state_when:
+      - "mode-resolution.json 已生成"
+      - "mode-resolution.json 已显式记录 stage_requirements 与 dispatch_actions"
+      - "branches 非空"
+      - "每个 branch 都有明确 goal"
+      - "每个 branch 都有 dependencies 和 validation_target"
+      - "dag_view 与 triple_view 已显式记录"
+      - "planning_status 不是 blocked"
+    failure_modes:
+      - code: pseudo_parallelism
+        trigger: "名义上并行，实际存在隐藏控制依赖。"
+        handling: "把相关分支改回串行，或显式写出依赖。"
+      - code: branch_too_large
+        trigger: "单个分支仍然包含多个不可独立验证的目标。"
+        handling: "继续拆小，但保持每个分支只解决一个主问题。"
+      - code: over_split
+        trigger: "分支数量过多，超出当前轮次处理能力。"
+        handling: "只保留本轮最关键的分支，其余挂起。"
+    out_of_scope:
+      - "不直接执行各分支"
+      - "不生成 UI 层方案切换视图"
+
+  - state_id: evaluation_validation
+    display_name: 评估校验
+    layer: core
+    goal: "对当前产物做完整性、一致性和阻塞性问题检查，给出下一步建议。"
+    required_inputs:
+      - name: branch_plan
+        type: object
+        source: artifact:branch-plan.json
+        description: "分支计划生成状态的输出。"
+      - name: mode_resolution
+        type: object
+        source: artifact:mode-resolution.json
+        description: "本轮已激活模式及其产物要求。"
+      - name: problem_brief
+        type: object
+        source: artifact:problem-brief.json
+        description: "用于做语义一致性校验。"
+      - name: constraints_matrix
+        type: object
+        source: artifact:constraints-matrix.json
+        description: "用于做建模一致性校验。"
+    optional_inputs:
+      - name: additional_evidence
+        type: array
+        source: workspace_or_research
+        description: "补充事实、局部验证结果或外部证据。"
+    output_file: evaluation-report.xml
+    output_fields:
+      - name: evaluation_id
+        type: string
+        required: true
+        description: "当前评估唯一标识。"
+      - name: checked_artifacts
+        type: array
+        required: true
+        description: "本轮参与检查的产物列表。"
+      - name: completeness_score
+        type: number
+        required: true
+        description: "完整性评分，范围 0 到 100。"
+      - name: consistency_score
+        type: number
+        required: true
+        description: "一致性评分，范围 0 到 100。"
+      - name: blocking_issues
+        type: array
+        required: true
+        description: "阻塞继续执行的问题。"
+      - name: non_blocking_risks
+        type: array
+        required: true
+        description: "非阻塞但需要记录的风险。"
+      - name: recommended_action
+        type: string
+        required: true
+        allowed_values:
+          - proceed
+          - revise
+          - loop_back
+          - stop
+        description: "建议下一动作。"
+      - name: recommended_loop_target
+        type: string
+        required: true
+        description: "若需要回退，建议回到的状态。"
+      - name: confidence
+        type: number
+        required: true
+        description: "对当前评估结论的置信度，范围 0 到 1。"
+      - name: advanced_mode_findings
+        type: array
+        required: true
+        description: "高级模式相关发现；若未启用高级模式，显式写空数组。"
+      - name: same_source_consistency
+        type: object
+        required: true
+        description: "同源一致性校验结果。"
+      - name: cross_format_consistency
+        type: object
+        required: true
+        description: "异模同源一致性校验结果。"
+      - name: fact_validation_chain
+        type: array
+        required: true
+        description: "把关键结论拆解到事实颗粒度的验证链。"
+      - name: unverifiable_assumptions
+        type: array
+        required: true
+        description: "当前无法直接验证的假设。"
+      - name: mode_requirement_checks
+        type: array
+        required: true
+        description: "逐项记录本轮每个已激活模式的必需产物检查结果。"
+      - name: missing_required_outputs
+        type: array
+        required: true
+        description: "根据 mode-resolution 仍缺失的必需产物。"
+      - name: requested_output_status
+        type: array
+        required: true
+        description: "用户显式点名的输出当前是否已生成。"
+      - name: stage_requirement_checks
+        type: array
+        required: true
+        description: "逐项记录各阶段模式产物要求是否满足。"
+      - name: missing_stage_outputs
+        type: array
+        required: true
+        description: "按阶段记录仍缺失的模式产物。"
+      - name: dispatch_recommendations
+        type: array
+        required: true
+        description: "根据阶段缺口给出的默认回退和补产物建议。"
+    ready_for_next_state_when:
+      - "checked_artifacts 至少包含 problem_brief、constraints_matrix、branch_plan"
+      - "recommended_action 已给出"
+      - "blocking_issues 已列出，即使为空也必须显式记录"
+      - "same_source_consistency、cross_format_consistency、fact_validation_chain、unverifiable_assumptions 已显式记录"
+      - "mode_requirement_checks、missing_required_outputs、requested_output_status 已显式记录"
+      - "stage_requirement_checks、missing_stage_outputs、dispatch_recommendations 已显式记录"
+    failure_modes:
+      - code: self_score_without_findings
+        trigger: "给出分数但没有对应的发现依据。"
+        handling: "要求所有分数必须附带至少一条证据或判断理由。"
+      - code: inconsistent_artifact_set
+        trigger: "不同产物之间的核心对象名称或目标不一致。"
+        handling: "建议回退到语义澄清或需求约束建模。"
+      - code: false_ready
+        trigger: "评估结论为 proceed，但仍存在未关闭的阻塞问题。"
+        handling: "强制改写 recommended_action 为 loop_back 或 revise。"
+    out_of_scope:
+      - "不把自打分当成唯一验证手段"
+      - "不跳过显式问题列表直接结束流程"
+
+  - state_id: loop_or_finish
+    display_name: 循环或结束
+    layer: core
+    goal: "根据评估报告做正式决策：回退修复、继续下一轮，或结束本轮。"
+    required_inputs:
+      - name: evaluation_report
+        type: object
+        source: artifact:evaluation-report.xml
+        description: "评估校验状态的输出。"
+    optional_inputs:
+      - name: user_override
+        type: object
+        source: user
+        description: "用户对继续、停止或回退目标状态的明确覆盖。"
+    output_file: loop-decision.json
+    output_fields:
+      - name: decision_id
+        type: string
+        required: true
+        description: "当前决策唯一标识。"
+      - name: decision
+        type: string
+        required: true
+        allowed_values:
+          - finish
+          - loop
+          - revise_in_place
+        description: "本轮正式决策。"
+      - name: rationale
+        type: array
+        required: true
+        description: "做出该决策的理由列表。"
+      - name: loop_target_state
+        type: string
+        required: true
+        description: "若 decision 为 loop，则给出回退目标状态。否则为空字符串。"
+      - name: required_repairs
+        type: array
+        required: true
+        description: "进入下一轮前必须修补的内容。"
+      - name: final_artifact_set
+        type: array
+        required: true
+        description: "本轮确认保留的产物。"
+      - name: stop_reason
+        type: string
+        required: true
+        description: "若结束，则说明结束原因。"
+      - name: next_action_summary
+        type: string
+        required: true
+        description: "面向下一轮或最终输出的简要动作摘要。"
+      - name: advanced_mode_status
+        type: string
+        required: true
+        description: "高级模式状态；若未启用高级模式，显式写 none。"
+      - name: unresolved_mode_requirements
+        type: array
+        required: true
+        description: "本轮仍未满足的模式产物要求；若为空则显式写空数组。"
+      - name: scope_alignment_decision
+        type: string
+        required: true
+        description: "当前轮 scope 对齐结论；若不适用则写 not_applicable。"
+      - name: scope_repair_target
+        type: string
+        required: true
+        description: "若存在 scope drift，显式给出默认修复目标状态；若无则写空字符串。"
+      - name: stage_dispatch_target
+        type: string
+        required: true
+        description: "若某阶段模式产物缺失，显式给出默认回退状态；若无则写空字符串。"
+    ready_for_next_state_when:
+      - "decision 已确定"
+      - "如果 decision 为 loop，则 loop_target_state 非空"
+      - "required_repairs 已列出，即使为空也必须显式记录"
+      - "advanced_mode_status 已显式记录"
+      - "unresolved_mode_requirements 已显式记录"
+      - "scope_alignment_decision 已显式记录"
+      - "scope_repair_target 已显式记录"
+      - "stage_dispatch_target 已显式记录"
+    failure_modes:
+      - code: loop_without_target
+        trigger: "决定回退但没有给出明确目标状态。"
+        handling: "阻止流程结束，必须补充 loop_target_state。"
+      - code: finish_with_blockers
+        trigger: "阻塞问题未关闭却给出 finish。"
+        handling: "把 decision 改为 loop 或 revise_in_place。"
+      - code: rationale_missing
+        trigger: "只有结论没有理由。"
+        handling: "至少给出一条结构性理由后才能输出决策。"
+    out_of_scope:
+      - "不在此状态生成新的分析模型"
+      - "不隐式修改前序状态产物"
