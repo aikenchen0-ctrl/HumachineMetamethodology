@@ -28,3 +28,14 @@ The package already includes local copies of:
 - `references/agentic-nested-state-machine.opml`
 
 so the receiver does not need your original local source directory in order to use the skill.
+
+The maintained `references/metaPrompt.md` is now the chapter-based `metaPrompt v2` source scaffold.
+
+## Current Packaging Note
+
+The repository is still in active reconstruction.
+
+That means:
+
+- the portable package definition is already aligned to the new source,
+- but any new distributable zip should be regenerated only after the current consolidation review and commit-preparation pass.

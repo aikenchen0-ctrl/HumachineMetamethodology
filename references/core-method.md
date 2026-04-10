@@ -2,35 +2,37 @@
 
 ## Purpose
 
-Use this reference when you need the real method core from:
+Use this reference when you need the maintained method core from:
 
-- `metaPrompt.md`
+- `references/metaPrompt.md`
 - `agentic-nested-state-machine.opml`
 
-without reopening all of their UI ideas, branch UI details, or secondary examples.
+without reopening all archive residue, UI ideas, runtime imagination, or secondary examples.
 
-This file keeps only the parts that should directly shape the skill's default reasoning.
+This file keeps only the parts that should directly shape the skill's default reasoning after the source moved to the chapter-based `metaPrompt v2`.
 
-## Original Skeleton
+## Source Skeleton
 
-The source is not one prompt. It is a two-layer structure:
+The maintained source is still two-layered:
 
-1. `metaPrompt.md`
-   The linear 1-to-8 method chain.
+1. `references/metaPrompt.md`
+   The chapter-based method scaffold and mainline.
 2. `agentic-nested-state-machine.opml`
-   The mother-structure around state space, branching, pruning, evaluation, and human collaboration.
+   The mother-structure around branching, pruning, shared context, evaluation, and execution imagination.
 
 Default precedence:
 
-- use `metaPrompt.md` for linear step order,
-- use `agentic-nested-state-machine.opml` for the mother-structure around those steps,
+- use `references/metaPrompt.md` for chapter order, mainline semantics, retrieval placement, generation placement, evaluation placement, and pluginization placement,
+- use `agentic-nested-state-machine.opml` for mother-structure, branching semantics, archive planes, and collaboration ecology,
 - and do not let downstream normalization assets silently replace either source layer.
 
 ## Core Ideas That Must Survive
 
 ### 0. One Explicit Workflow Shell
 
-The source mother-structure is rich, but the default shell should remain explicit and small:
+The source still needs an explicit small shell.
+
+The maintained `metaPrompt v2` expresses that shell through chapters `4 -> 11`, while the skill still compresses it into:
 
 1. problem intake
 2. semantic clarification
@@ -39,194 +41,216 @@ The source mother-structure is rich, but the default shell should remain explici
 5. evaluation and validation
 6. loop or finish
 
-This shell should not be redefined by:
+Do not let branch classes, shared-file coordination, or runtime operations redefine this shell.
 
-- branch classes,
-- shared-file coordination,
-- execution supervision,
-- or runtime-style orchestration imagination.
+### 1. Shared Language Before Deep Reasoning
 
-Those belong to extension planes attached around the shell, not inside it.
+The maintained source now makes the symbol system explicit.
 
-### 1. True Demand And True Constraints Before Solution
+The following must remain stable:
 
-Do not jump from a vague request straight to a plan.
+- `S0 / Sg / IFR`
+- `E / A / F+ / F- / Cond`
+- `C_user / C_forbid / C_base / C_comp`
+- `R / TC / PC / P / Ev`
 
-The default order should remain:
+If a later artifact collapses these distinctions, it has drifted from the maintained source.
 
-1. semantic clarification
-2. intent and goal-state calibration
-3. true demand and true constraint modeling
-4. branch planning
-5. evaluation and loopback
+### 2. Six-Box Is The Top Scaffold
 
-### 2. Demand Is A Formation Chain, Not One Sentence
+The maintained source is no longer an old numbered step draft.
 
-The source does not stop at visible demand.
+Its top scaffold is now explicitly:
+
+- `Box 1` original task
+- `Box 2` well-defined problem
+- `Box 3` understanding of present and ideal system
+- `Box 4` new system ideas
+- `Box 5` conceptual / combination / plugin solutions
+- `Box 6` real executable solution
+
+This scaffold should remain above:
+
+- modeling,
+- retrieval,
+- generation,
+- evaluation,
+- pluginization.
+
+### 3. Problem Definition Before Solution
+
+Do not jump from a vague request straight to a branch plan or solution list.
+
+The maintained order should remain:
+
+1. task clarification
+2. `E/A/F/Cond` modeling
+3. `S0/Sg/IFR/C/TC/PC` analysis
+4. retrieval only when gaps really block progress
+5. candidate generation
+6. evaluation and implementation planning
+7. pluginization and skill exteriorization
+
+### 4. EAFC Is A Real Modeling Lens
+
+`E / A / F / Cond` is not decoration.
+
+You should explicitly ask:
+
+- which entities matter,
+- which attributes matter,
+- which positive or harmful functions are happening,
+- which hidden conditions make them hold.
+
+If a task lists actors and constraints but never makes `F-` and `Cond` explicit, it has not inherited the maintained source deeply enough.
+
+### 5. State, Constraints, And Ideal Direction Are Separate Layers
+
+The maintained source now cleanly separates:
+
+- the `EAFC` modeling layer,
+- the `state / constraint / contradiction / IFR` layer,
+- and the resource layer.
 
 You should preserve:
 
-- visible demand,
-- latent demand,
-- demand formation chain,
-- the scene where the demand appears,
-- and which new evidence could later rewrite the current demand framing.
+- `S0`
+- `Sg`
+- `IFR`
+- `C_user`
+- `C_forbid`
+- `C_base`
+- `C_comp`
+- `TC`
+- `PC`
+- tension or blocked transition logic
 
-### 3. EAFC Is A Real Modeling Lens
+### 6. Retrieval Is A Real Stage, Not A Side Note
 
-`E / A / F / C` is not decoration.
+The maintained source now gives retrieval a dedicated chapter.
 
-You should ask:
+You should preserve:
 
-- `E`: which entities, actors, nodes, or components matter,
-- `A`: which attributes, thresholds, costs, rights, or bottom lines matter,
-- `F`: which positive or harmful functions are happening,
-- `C`: which hidden conditions make those functions hold.
+- explicit gap detection,
+- search triggers,
+- evidence source priority,
+- MCP skill activation boundary,
+- writeback targets,
+- and stop conditions.
 
-If a model lists actors and constraints but never makes the function and hidden-condition layer explicit, it has not inherited the source method deeply enough.
+If a flow says “search when needed” but never says how gaps are identified and where evidence writes back, it has drifted.
 
-### 4. Actor-Network Roles Should Be Checked Explicitly
+### 7. USIT Is A Generation Layer, Not The Whole Method
 
-The source keeps asking whether there is a:
+The maintained source keeps `USIT` as:
 
-- payer,
-- decision-maker,
-- user,
-- externality bearer,
-- evaluator.
+- candidate-generation layer
 
-Not every task needs all five as strong roles, but the workflow should still check whether they exist.
+not as the whole method.
 
-You should also preserve:
+You should preserve:
 
-- minimum acceptable bottom line,
-- rebellion or break threshold,
-- and control or evaluation power dimension.
+- the five operator entrances,
+- their mapping to `E / A / F / Cond / C / R`,
+- and the rule that the main file does not need to flatten all `32` sub-methods.
 
-### 5. Harmful Function And Hidden Condition Matter More Than Generic "Pain Points"
+### 8. Evaluation Must Exist Before Finalization
 
-The source does not only ask what the problem is.
+The maintained source now gives comparison, validation, implementation steps, and fallback rules a dedicated layer.
 
-It asks:
+You should preserve:
 
-- which nodes are in destructive interaction,
-- what the harmful function actually is,
-- which hidden condition keeps it active,
-- and what compensating cost appears if the usual repair path is used.
+- expected gain,
+- new cost,
+- risk level,
+- need for validation,
+- compatibility with constraints,
+- main path / fallback path logic.
 
-That means the workflow should keep asking for:
+### 9. Pluginization Is Not Optional Decoration
 
-- `harmful_function`
-- `hidden_condition`
-- `compensating_cost`
-- and `authorization_boundary` when automation or delegated action is involved.
+The maintained source explicitly gives pluginization and self-upgrade a dedicated layer.
 
-### 6. Goal And Solution Co-Evolve
+You should preserve:
 
-If `Sg` is unstable, the source does not force a polished ideal target first.
+- plugin decision,
+- `P0 / P1 / P2`,
+- plugin fields,
+- plugin / MCP skill boundary,
+- writeback into later rounds,
+- and the ability to exteriorize stable pieces into future skills.
 
-It recommends:
+### 10. Dissipation And Crystallization Still Matter
 
-- define `anti-goals`,
-- define unacceptable failure states,
-- identify collapse paths,
-- and cut paths that move directly into those failures.
-
-So when the goal is unstable:
-
-- do not invent a clean target prematurely,
-- write unacceptable outcomes first.
-
-### 7. Dissipation And Crystallization Are Real Work Modes
-
-The source has two actual modes:
+The mother-structure still contributes a real dual-mode pattern:
 
 - `dissipation`
-  Keep assumptions open, allow temporary inconsistency, explore alternatives.
+  Keep assumptions open, explore alternatives, allow temporary inconsistency.
 - `crystallization`
-  Compress uncertainty, freeze key assumptions, harden artifacts, remove weak paths.
+  Freeze terms, shrink ambiguity, harden artifacts, and remove weak paths.
 
 In practice:
 
-- use dissipation when the problem is still unclear,
-- use crystallization before artifact generation, evaluation, and finish decisions.
-
-### 8. Evaluation Is About Structural Role, Not Only Plausibility
-
-The source asks not only whether a path sounds reasonable, but whether it is:
-
-- a necessary condition,
-- a sufficient condition,
-- or a pivot variable inside a larger combination.
-
-This role-based evaluation should remain available whenever the user wants deeper justification.
+- use dissipation before the problem structure is stable,
+- use crystallization before chapter outputs, evaluation, and finish decisions.
 
 ## Default Question Set
 
-These questions should be embedded in the skill instead of staying only in the source files.
+These questions should still shape the skill:
 
-### Semantic Clarification
+### Clarification
 
 - Which terms are still ambiguous?
-- Which stricter replacement terms are available?
 - What is the rewritten core problem?
+- What is inside the task boundary and what is outside it?
 
-### True Demand And True Constraints
+### Modeling
 
-- What is the visible demand?
-- What is the real demand hypothesis?
-- Which constraints are real?
-- Which constraints are only inherited assumptions?
-- Under which changed premise would the demand or the constraint also change?
+- Which `E` nodes matter?
+- Which `A` thresholds matter?
+- Which `F-` harmful functions dominate?
+- Which `Cond` hidden conditions keep them active?
 
-### Actor-Network View
+### State And Constraints
 
-- Who pays?
-- Who decides?
-- Who uses?
-- Who bears externalities?
-- Who evaluates or imposes reputation pressure?
+- What is `S0`?
+- What is `Sg`?
+- What is `IFR`?
+- Which constraint is `C_base` and which is only `C_comp`?
+- Which contradiction is `TC` and which is `PC`?
 
-### EAFC
+### Retrieval
 
-- What are the key `E` nodes?
-- What are the key `A` thresholds?
-- Which `F-` harmful functions are active?
-- Which `C` hidden conditions keep them active?
+- What gap is actually blocking progress?
+- Does the gap really justify search?
+- Which source type should be queried first?
+- Where should the evidence write back?
 
-### Costs And Side Effects
+### Generation
 
-- What parasitic cost appears on the usual repair route?
-- Which cost was only transferred rather than removed?
-
-### Anti-Goals
-
-- Which outcomes are unacceptable?
-- Which paths lead toward those outcomes?
+- Which target should be acted on first?
+- Which operator class is appropriate?
+- What new cost does each candidate introduce?
 
 ### Evaluation
 
-- Is this path necessary, sufficient, or a pivot variable?
-- Which blockers are still open?
-- Should the round finish, revise, or loop back?
+- Which path is main and which is fallback?
+- What must be validated before implementation?
+- What should trigger rollback?
 
-## Relation To The Current Skill
+### Pluginization
 
-The current skill flow is structurally correct, but it becomes shallow if it loses the source questions above.
-
-That means:
-
-- `SKILL.md` owns the main line,
-- `state-contracts.yaml` owns the hard schema,
-- this file owns the source-critical questions that must keep shaping the analysis.
+- Is this worth turning into `P0 / P1 / P2`?
+- What structure should be reused next round?
+- Which plugin fields became explicit in this round?
 
 ## Heavy Parts That Stay Out By Default
 
-These remain in other references and should not enter the default base chain unless explicitly needed:
+These stay out of the default base chain unless explicitly needed:
 
-- full ANT network evolution,
-- full resource graph / actor network / function-field / flow modeling,
-- deep SAFC solving,
-- USIT32,
-- full TRIZ measure libraries,
-- full multi-screen matrices.
+- full resource graphing beyond the current task need,
+- full actor-network evolution history,
+- full SAFC solving depth,
+- flattened `USIT32` long tables inside the main file,
+- runtime/provider/governance operations engineering,
+- large UI and product interaction residue.

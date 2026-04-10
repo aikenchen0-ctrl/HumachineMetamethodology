@@ -23,6 +23,27 @@
   - `governance_and_feedback_mode`
   - `representation_and_serialization_mode`
 
+当前仓库已经完成一轮面向 chapter-based `metaPrompt v2` 的 source-aligned 对齐，但整体仍处于 active reconstruction。
+
+source-aligned core 现在优先围绕这些层工作：
+
+- 共享符号系统
+- `Six-Box` 总骨架
+- `E/A/F/Cond` 建模
+- `S0/Sg/IFR/C/TC/PC` 约束与理想解
+- 检索与证据回流
+- `USIT` 解生成层
+- 评估、筛选与落地
+- 插件沉淀与 `skill` 化
+
+当前更适合继续做：
+
+- source-aligned review
+- commit preparation
+- real task-driven validation
+
+而不是继续做广泛架构扩张。
+
 ## 目录
 
 - `SKILL.md`
@@ -64,6 +85,7 @@
 - 修改契约后，建议至少重新校验：
   - `references/state-contracts.yaml`
   - `references/state-machine.yaml`
+  - `references/metaPrompt-step-index.json`
 
 ## 许可证
 

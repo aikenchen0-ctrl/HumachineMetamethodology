@@ -24,6 +24,7 @@ design_notes:
   - "分支只在 branch_plan_generation 中被定义为计划对象，不被当作新的状态节点。"
   - "回退优先回到最早出错且修复成本最低的状态。"
   - "若 advanced mode 被激活，则基础主线不变，但 finish 前需要额外产出高级产物链。"
+  - "当前六状态 shell 不是 source scaffold 本体，而是对 chapter-based metaPrompt v2 主链的运行时压缩视图。"
 
 global_thresholds:
   min_completeness_to_proceed: 70
@@ -45,12 +46,24 @@ global_invariants:
 
 source_alignment_rules:
   - "当当前轮任务明确是对齐 metaPrompt.md 或 agentic-nested-state-machine.opml 时，默认只激活 source-aligned core。"
-  - "在 source alignment 轮次中，orchestration_and_memory_mode 只默认覆盖 orchestration-plan.json、shared-context-map.json、execution-supervision.json、executor-interface.json、executor-capability-registry.json、memory-pruning.json 与 writeback-ledger.json。"
+  - "metaPrompt v2 的 chapter 4 到 chapter 11 是 maintained source mainline；当前六状态 shell 只是其运行时压缩。"
+  - "在 source alignment 轮次中，orchestration_and_memory_mode 不再被视为默认 core；只有当前轮明确需要协调、共享上下文或记忆剪枝时，才允许以 source-aligned subset 方式激活。"
   - "runtime/provider/governance 运维层 artifact 属于 derived runtime extension，不得因为一般分支、共享文件、执行监督或治理诉求自动激活。"
   - "只有当前任务明确涉及真实 runtime signal、外部 service hook、provider topology、持续 drift monitor 或长期治理运维时，derived runtime extension 才允许进入 required_outputs。"
 
 core_workflow_shell:
   owner_layer: source_aligned_core
+  maintained_source_structure: chapter_based_metaPrompt_v2
+  maintained_source_mainline_chapters:
+    - chapter_04_task_entry_and_clarification
+    - chapter_05_problem_modeling
+    - chapter_06_state_constraints_ifr
+    - chapter_07_resources_and_system_levels
+    - chapter_08_retrieval_and_evidence_writeback
+    - chapter_09_generation
+    - chapter_10_evaluation_and_implementation
+    - chapter_11_pluginization_and_self_upgrade
+  shell_is_runtime_compression: true
   states:
     - problem_intake
     - semantic_clarification
@@ -79,6 +92,17 @@ core_workflow_shell:
     - "evaluation_validation audits coherence and required outputs before any finish decision."
     - "loop_or_finish owns loop routing and finish gating; it does not redefine upstream modeling artifacts."
     - "The shell remains the same whether or not extension modes are active."
+    - "chapter 8 retrieval and chapter 11 pluginization are first-class source layers even when they are not represented as dedicated top states in the runtime shell."
+
+source_first_class_conditional_layers:
+  - retrieval_and_evidence_writeback
+  - resource_and_system_level_expansion
+  - candidate_generation
+  - implementation_shaping
+  - pluginization_and_self_upgrade
+
+source_grounded_non_default_expansion_planes:
+  - orchestration_and_memory_mode
 
 core_extension_boundary:
   separation_rules:
@@ -88,7 +112,7 @@ core_extension_boundary:
 
 advanced_mode:
   activation_if:
-    - "用户明确要求 metaPrompt 的步骤 3 到 8。"
+    - "用户明确要求 metaPrompt v2 中第 7 到第 10 章对应的深层建模与求解扩展。"
     - "用户明确要求资源图、行动者网络图、功能物场、流分析、SAFC、USIT32 或解决方案集。"
     - "当前问题已经完成基础结构化，但仍需要系统级建模。"
     - "当前问题已经明确是系统问题，且仅靠 constraints-matrix 无法支撑后续求解。"

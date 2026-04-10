@@ -30,20 +30,27 @@ When the current task is explicitly grounded in the original source files:
 
 default to the source-aligned method core first.
 
-That core includes:
+The maintained `metaPrompt.md` is now a chapter-based source scaffold rather than the old numbered step draft.
 
-- semantic clarification
-- true demand / true constraints
-- ANT / EAFC modeling
-- resource graphs
-- actor-network graphs
-- flow analysis
-- SAFC / contradiction solving
-- template chains
-- branch planning
-- shared-file coordination
-- memory pruning
-- evaluation and critique
+That source-aligned core should be read in three layers:
+
+- default core capabilities
+  - shared symbol control
+  - Six-Box top scaffold
+  - semantic clarification
+  - true demand / true constraints
+  - ANT / EAFC modeling
+  - state / constraint / ideal-direction analysis
+  - branch planning
+  - evaluation and critique
+- first-class source layers that may still be conditionally expanded in runtime
+  - retrieval and evidence writeback
+  - candidate generation
+  - implementation shaping
+  - pluginization and skill exteriorization
+- source-grounded but non-default expansion planes
+  - shared-file coordination
+  - memory pruning
 
 Do not auto-expand into long-lived runtime operations engineering just because the user mentions orchestration, branching, or governance.
 
@@ -125,6 +132,110 @@ Do not stop at final-output checks. Also verify stage-level mode requirements:
 6. `loop_or_finish`
 Either finish the round or loop back to the earliest state that can fix the current defect with the lowest repair cost. Record `scope_alignment_decision`, `scope_repair_target`, and `stage_dispatch_target` explicitly whenever the round is source-aligned or has stage-level output gaps.
 
+## Runtime Compression Of `metaPrompt v2`
+
+The maintained `metaPrompt.md` is now a chapter-based source scaffold rather than the old numbered draft.
+
+The current six-state shell remains valid, but it should now be read explicitly as a runtime compression of the maintained source.
+
+Preferred mapping:
+
+1. `problem_intake`
+   - pre-entry of chapter `4`
+2. `semantic_clarification`
+   - the rest of chapter `4`
+3. `demand_constraint_modeling`
+   - chapter `5`
+   - chapter `6`
+   - and lightweight chapter `7` awareness when resource notes are needed but no deep expansion is activated
+4. `branch_plan_generation`
+   - the bridge from chapter `6` into chapter `9`
+   - including target selection and candidate-routing setup
+5. `evaluation_validation`
+   - chapter `10`
+   - and the finish-gating side of chapter `11`
+6. `loop_or_finish`
+   - chapter `12`
+   - plus explicit writeback-driven return to earlier states
+
+This means:
+
+- chapter `8` retrieval and evidence writeback
+- chapter `9` candidate generation
+- chapter `10` evaluation and implementation shaping
+- chapter `11` pluginization and self-upgrade
+
+are all first-class source layers, even when they are not represented as separate top-level runtime states.
+
+Do not silently collapse these into “miscellaneous extensions”.
+
+## Default Core Versus Conditional Expansion
+
+Within the runtime shell, keep this distinction explicit:
+
+### Default Core
+
+By default, every normal round should still guarantee:
+
+- task intake and clarification
+- `E/A/F/Cond` modeling
+- `S0/Sg/IFR/C/TC/PC` analysis
+- branch planning
+- evaluation and loopback
+
+### First-Class But Conditionally Expanded Layers
+
+The following belong to the maintained source core, but may still be activated conditionally in the shell:
+
+- retrieval and evidence writeback
+- deeper resource/system-level work
+- candidate generation as a distinct layer
+- explicit implementation planning
+- pluginization and skill exteriorization
+
+The rule is:
+
+- if the current task is blocked without them, activate them explicitly;
+- if the current task does not need them, keep them inactive but still recognized as first-class source layers.
+
+## Capability Boundary Stop Rule
+
+After the repository has already aligned:
+
+- the maintained `metaPrompt v2` source,
+- the typed source companions,
+- the boundary files,
+- the contract shell,
+- and the most source-sensitive mode references,
+
+do not keep widening the skill boundary by default.
+
+Treat broad boundary expansion as stopped when all of the following remain true:
+
+1. the maintained source file stays aligned,
+2. the six-state shell still explicitly declares itself as a runtime compression,
+3. retrieval and pluginization remain recognized as first-class source layers,
+4. optional planes do not silently activate into the neutral core,
+5. and no real downstream consumer requires a missing distinction.
+
+When those conditions hold, the correct next work is usually:
+
+- consolidation,
+- validation,
+- commit preparation,
+- packaging,
+- distribution,
+- or concrete task-driven iteration,
+
+not another broad architecture pass.
+
+Reopen broad boundary work only if at least one of these becomes true:
+
+1. a real downstream consumer cannot use the current shell without a missing distinction,
+2. a maintained source change invalidates the current compression,
+3. retrieval / generation / evaluation / pluginization begin drifting apart again,
+4. or runtime/provider/governance behavior is explicitly requested as real operational scope.
+
 ## Global Mode Interaction
 
 When more than one extension mode is active in the same round, do not leave their interaction implicit.
@@ -172,7 +283,7 @@ Reference examples:
 
 ## Advanced Mode
 
-If the user wants the original `metaPrompt` chain to continue beyond the base workflow, enable `advanced mode`.
+If the user wants the maintained `metaPrompt v2` mainline to continue into deeper system modeling beyond the base workflow, enable `advanced mode`.
 
 Use advanced mode when the user explicitly wants:
 
@@ -705,8 +816,8 @@ Load references progressively, not all at once.
 - Read `references/branch-topology-decision-table.json` when that topology decision logic should be machine-readable.
 - Read `references/typed-source-node-index.md` when the task should start from a typed companion of the OPML source rather than reconstructing roles directly from the free-form tree.
 - Read `references/typed-source-node-index.yaml` when that typed source companion should be machine-readable.
-- Read `references/metaPrompt-step-index.md` when the task should start from a typed companion of the linear `metaPrompt.md` scaffold rather than reconstructing step order from prose.
-- Read `references/metaPrompt-step-index.json` when that linear source scaffold should be machine-readable.
+- Read `references/metaPrompt-step-index.md` when the task should start from a typed companion of the maintained chapter-based `metaPrompt.md` scaffold rather than reconstructing chapter order from prose.
+- Read `references/metaPrompt-step-index.json` when that maintained source scaffold should be machine-readable.
 - Read `references/source-node-type-registry.md` when the task needs the meaning of typed source node roles, scope layers, and source-plane hints.
 - Read `references/source-node-type-registry.json` when that role registry should be machine-readable.
 - Read `references/product-interaction-boundary.md` when the task is to keep UI/product ideas out of workflow contracts.
@@ -728,7 +839,7 @@ Prefer release review, commit preparation, packaging, or distribution unless a r
 - Read `references/terminology-policy.md` when rewriting source material into neutral analysis language.
 - Read `references/source-alignment-policy.md` when the task is to align the skill back to the original source, or when you suspect orchestration has drifted into runtime/provider/governance operations beyond the source.
 - Read `references/core-method.md` when you need the distilled core ideas from the original two source files without loading all of their raw text.
-- Read `references/advanced-mode.md` when the user wants the original `metaPrompt` steps 3 to 8, or any graph / flow / SAFC / contradiction / solution-set expansion.
+- Read `references/advanced-mode.md` when the user wants the maintained `metaPrompt v2` mainline to expand into deeper graph / flow / SAFC / contradiction / solution-set modeling.
 - Read `references/output-and-evaluation.md` when the user needs template variable mapping, graph formats, triple formats, DAG formats, logic formats, or stronger evaluation methods.
 - Read `references/template-mode.md` when the user wants template chains, batch exploration, or pruning notes.
 - Read `references/screen-and-critique-mode.md` when the user wants multi-screen analysis, ordered resource scanning, IFR-style resource reconstruction, or critique reports.
@@ -744,7 +855,7 @@ Prefer release review, commit preparation, packaging, or distribution unless a r
 
 Read them in particular when you need:
 
-- the original 1-to-8 linear method chain from `metaPrompt.md`,
+- the maintained chapter-based method scaffold from `metaPrompt.md`,
 - the larger mother-structure from `agentic-nested-state-machine.opml`,
 - the original `P = {S0, Sg, O, C, T, M}` style thinking,
 - the dissipation/crystallization loop,

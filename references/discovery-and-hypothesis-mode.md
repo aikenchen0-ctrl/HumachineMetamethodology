@@ -17,6 +17,14 @@ This mode is source-aligned with the original material on:
 - low-confidence demotion,
 - and feedback hooks that preserve future writeback.
 
+In the maintained chapter-based `metaPrompt v2`, this mode now sits closest to:
+
+- chapter 4: task entry and clarification
+- chapter 5: problem modeling
+- chapter 6: state / constraint / ideal-direction analysis
+- chapter 8: retrieval and evidence writeback
+- chapter 11: pluginization and self-upgrade
+
 ## Boundary To The Base Chain
 
 The base chain may already record lightweight fields such as:
@@ -162,3 +170,11 @@ Enable this mode when:
 - or the base-chain demand split is not enough because latent/visibility/open-hypothesis work is now first-class.
 
 Do not activate this mode just because `problem-brief.json` contains lightweight visible or real demand hypotheses. Discovery mode is for the next layer beyond that.
+
+Also do not let this mode silently absorb:
+
+- chapter 8 retrieval itself,
+- chapter 9 generation itself,
+- or chapter 11 plugin decisions themselves.
+
+Its job is to enrich demand visibility and open-assumption handling, not to replace those later layers.

@@ -28,13 +28,42 @@ source_alignment:
     - metaPrompt.md
     - agentic-nested-state-machine.opml
   dual_source_precedence:
+    chapter_order_authority: metaPrompt.md
     linear_step_order_authority: metaPrompt.md
     mother_structure_authority: agentic-nested-state-machine.opml
     normalization_assets_must_not_override_source: true
-    conflict_rule: "Prefer metaPrompt.md for linear step order and prefer agentic-nested-state-machine.opml for branching, orchestration, archive, and surrounding source-structure semantics."
+    conflict_rule: "Prefer metaPrompt.md for chapter order and mainline semantics, and prefer agentic-nested-state-machine.opml for branching, orchestration, archive, and surrounding source-structure semantics."
     typed_dual_source_companions:
+      meta_prompt_linear_scaffold_compatibility_only: true
       meta_prompt_linear_scaffold: references/metaPrompt-step-index.json
+      meta_prompt_chapter_scaffold: references/metaPrompt-step-index.json
       opml_mother_structure: references/typed-source-node-index.yaml
+  meta_prompt_runtime_compression:
+    maintained_source_structure: chapter_based_metaPrompt_v2
+    maintained_mainline_chapters:
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+    runtime_shell_is_compression: true
+    note: "The six-state shell remains the runtime MVP, but references/metaPrompt.md chapter order is the maintained source authority."
+  default_core_capabilities:
+    - problem_intake
+    - semantic_clarification
+    - demand_constraint_modeling
+    - branch_plan_generation
+    - evaluation_validation
+    - loop_or_finish
+  source_first_class_conditional_layers:
+    - retrieval_and_evidence_writeback
+    - resource_and_system_levels
+    - candidate_generation
+    - evaluation_and_implementation
+    - pluginization_and_skill_exteriorization
   source_aligned_core_modes:
     - advanced_mode
     - template_mode
@@ -46,6 +75,7 @@ source_alignment:
     - portfolio_and_optimization_mode
     - governance_and_feedback_mode
     - representation_and_serialization_mode
+  source_aligned_core_modes_note: "This list enumerates source-grounded mode families. Inclusion here does not imply default activation in the neutral core."
   source_aligned_orchestration_outputs:
     - orchestration-plan.json
     - shared-context-map.json
@@ -54,6 +84,7 @@ source_alignment:
     - executor-capability-registry.json
     - memory-pruning.json
     - writeback-ledger.json
+  source_aligned_orchestration_outputs_note: "These outputs belong to a source-grounded orchestration subset and should activate only when the round explicitly requires coordination, shared context, or pruning behavior."
   derived_runtime_extension_outputs:
     - executor-runtime-hook.json
     - runtime-event-source-contract.json
@@ -355,7 +386,7 @@ source_review_reference_catalog:
     format: json
     paired_human_readable_ref: references/metaPrompt-step-index.md
     role: typed_meta_source_companion
-    purpose: "Typed companion for the linear source scaffold in metaPrompt.md, preserving raw step labels and skill-aligned interpretation."
+    purpose: "Typed companion for the maintained chapter-based source scaffold in metaPrompt.md, preserving chapter order, compatibility labels, and skill-aligned interpretation."
     required_top_level_fields:
       - index_id
       - source_file
@@ -597,7 +628,7 @@ core_rule_catalog:
 
 advanced_mode:
   activation_if:
-    - "用户明确要求继续执行 metaPrompt 的步骤 3 到 8。"
+    - "用户明确要求继续执行 metaPrompt v2 中第 7 到第 10 章对应的深层建模与求解扩展。"
     - "用户明确要求资源图、行动者网络图、流分析、SAFC、USIT32、TRIZ 或系统级解决方案集。"
     - "基础模式已完成 constraints-matrix，但仍无法直接求解，且问题明显需要深度系统建模。"
   note: "高级模式依附于基础六状态，不额外引入新的主状态。"
@@ -2686,153 +2717,166 @@ advanced_rule_catalog:
       - fact_validation_chain
 
 advanced_artifact_catalog:
-  - artifact_id: resource_graph
-    file: resource-graph.json
-    format: json
-    insertion_after_state: demand_constraint_modeling
-    derived_from_metaPrompt_step: 3
-    purpose: "Build the structural resource graph after bounded scanning evidence is available."
-    required_top_level_fields:
-      - resources
-      - resource_types
-      - resource_locations
-      - constraints
-      - substitution_options
-    optional_top_level_fields:
-      - scan_evidence_ref
-      - resource_priority_policy_ref
-      - graph_notes
+  mapping_policy:
+    maintained_source_authority: references/metaPrompt.md
+    legacy_step_field_status: compatibility_only
+    preferred_source_mapping_field: derived_from_metaPrompt_chapter
+  artifacts:
+    - artifact_id: resource_graph
+      file: resource-graph.json
+      format: json
+      insertion_after_state: demand_constraint_modeling
+      derived_from_metaPrompt_chapter: 7
+      derived_from_metaPrompt_step: 3
+      purpose: "Build the structural resource graph after bounded scanning evidence is available."
+      required_top_level_fields:
+        - resources
+        - resource_types
+        - resource_locations
+        - constraints
+        - substitution_options
+      optional_top_level_fields:
+        - scan_evidence_ref
+        - resource_priority_policy_ref
+        - graph_notes
 
-  - artifact_id: resource_priority_policy
-    file: resource-priority-policy.json
-    format: json
-    insertion_after_state: demand_constraint_modeling
-    derived_from_metaPrompt_step: 3
-    purpose: "Record ordered resource scan and priority policy separately from the resource graph artifact."
-    required_top_level_fields:
-      - scan_sequence
-      - priority_axes
-      - priority_rules
-      - self_service_checks
-      - harm_to_benefit_checks
-      - ifr_paths
-      - evaluation_scope
-    optional_top_level_fields:
-      - derived_from_search_notes
-      - excluded_resource_classes
-      - tie_break_rules
+    - artifact_id: resource_priority_policy
+      file: resource-priority-policy.json
+      format: json
+      insertion_after_state: demand_constraint_modeling
+      derived_from_metaPrompt_chapter: 7
+      derived_from_metaPrompt_step: 3
+      purpose: "Record ordered resource scan and priority policy separately from the resource graph artifact."
+      required_top_level_fields:
+        - scan_sequence
+        - priority_axes
+        - priority_rules
+        - self_service_checks
+        - harm_to_benefit_checks
+        - ifr_paths
+        - evaluation_scope
+      optional_top_level_fields:
+        - derived_from_search_notes
+        - excluded_resource_classes
+        - tie_break_rules
 
-  - artifact_id: actor_network
-    file: actor-network.json
-    format: json
-    insertion_after_state: demand_constraint_modeling
-    derived_from_metaPrompt_step: 4
-    purpose: "回到宏观层，构建行动者网络图。"
-    required_top_level_fields:
-      - nodes
-      - edges
-      - roles
-      - key_dependencies
-      - evaluation_paths
-      - imminent_changes
-      - fracture_paths
-      - mandatory_paths
-      - opp_nodes
-      - field_construction
-      - amplification_factors
-      - translation_stages
+    - artifact_id: actor_network
+      file: actor-network.json
+      format: json
+      insertion_after_state: demand_constraint_modeling
+      derived_from_metaPrompt_chapter: 7
+      derived_from_metaPrompt_step: 4
+      purpose: "回到宏观层，构建行动者网络图。"
+      required_top_level_fields:
+        - nodes
+        - edges
+        - roles
+        - key_dependencies
+        - evaluation_paths
+        - imminent_changes
+        - fracture_paths
+        - mandatory_paths
+        - opp_nodes
+        - field_construction
+        - amplification_factors
+        - translation_stages
 
-  - artifact_id: function_field_model
-    file: function-field-model.json
-    format: json
-    insertion_after_state: branch_plan_generation
-    derived_from_metaPrompt_step: 5
-    purpose: "构建功能物场模型。"
-    required_top_level_fields:
-      - entities
-      - fields
-      - functions
-      - harmful_functions
-      - target_functions
+    - artifact_id: function_field_model
+      file: function-field-model.json
+      format: json
+      insertion_after_state: branch_plan_generation
+      derived_from_metaPrompt_chapter: 9
+      derived_from_metaPrompt_step: 5
+      purpose: "构建功能物场模型。"
+      required_top_level_fields:
+        - entities
+        - fields
+        - functions
+        - harmful_functions
+        - target_functions
 
-  - artifact_id: flow_analysis
-    file: flow-analysis.json
-    format: json
-    insertion_after_state: branch_plan_generation
-    derived_from_metaPrompt_step: 5
-    purpose: "分析物质流、能量流、信息流。"
-    required_top_level_fields:
-      - material_flow
-      - energy_flow
-      - information_flow
-      - bottlenecks
-      - leak_points
+    - artifact_id: flow_analysis
+      file: flow-analysis.json
+      format: json
+      insertion_after_state: branch_plan_generation
+      derived_from_metaPrompt_chapter: 7
+      derived_from_metaPrompt_step: 5
+      purpose: "分析物质流、能量流、信息流。"
+      required_top_level_fields:
+        - material_flow
+        - energy_flow
+        - information_flow
+        - bottlenecks
+        - leak_points
 
-  - artifact_id: safc_model
-    file: safc-model.json
-    format: json
-    insertion_after_state: evaluation_validation
-    derived_from_metaPrompt_step: 6
-    purpose: "对重要系统组件排序并构建 SAFC 模型。"
-    required_top_level_fields:
-      - prioritized_components
-      - entities
-      - attributes
-      - functions
-      - hidden_conditions
-      - priority_contradictions
+    - artifact_id: safc_model
+      file: safc-model.json
+      format: json
+      insertion_after_state: evaluation_validation
+      derived_from_metaPrompt_chapter: 9
+      derived_from_metaPrompt_step: 6
+      purpose: "对重要系统组件排序并构建 SAFC 模型。"
+      required_top_level_fields:
+        - prioritized_components
+        - entities
+        - attributes
+        - functions
+        - hidden_conditions
+        - priority_contradictions
 
-  - artifact_id: contradiction_analysis
-    file: contradiction-analysis.json
-    format: json
-    insertion_after_state: evaluation_validation
-    derived_from_metaPrompt_step: 7
-    purpose: "进行矛盾分析与 USIT32 操作方向整理。"
-    required_top_level_fields:
-      - contradiction_list
-      - prioritized_contradiction
-      - contradiction_type
-      - usit32_directions
-      - evaluation_notes
+    - artifact_id: contradiction_analysis
+      file: contradiction-analysis.json
+      format: json
+      insertion_after_state: evaluation_validation
+      derived_from_metaPrompt_chapter: 9
+      derived_from_metaPrompt_step: 7
+      purpose: "进行矛盾分析与 USIT32 操作方向整理。"
+      required_top_level_fields:
+        - contradiction_list
+        - prioritized_contradiction
+        - contradiction_type
+        - usit32_directions
+        - evaluation_notes
 
-  - artifact_id: solution_set
-    file: solution-set.json
-    format: json
-    insertion_after_state: loop_or_finish
-    derived_from_metaPrompt_step: 8
-    purpose: "汇总候选解决方案集。"
-    required_top_level_fields:
-      - solutions
-      - applicability_conditions
-      - benefits
-      - risks
-      - side_effects
-      - implementation_costs
+    - artifact_id: solution_set
+      file: solution-set.json
+      format: json
+      insertion_after_state: loop_or_finish
+      derived_from_metaPrompt_chapter: 10
+      derived_from_metaPrompt_step: 8
+      purpose: "汇总候选解决方案集。"
+      required_top_level_fields:
+        - solutions
+        - applicability_conditions
+        - benefits
+        - risks
+        - side_effects
+        - implementation_costs
 
-  - artifact_id: multi_screen_analysis
-    file: multi-screen-analysis.json
-    format: json
-    insertion_after_state: evaluation_validation
-    purpose: "输出超系统、当前系统、子系统在过去/现在/未来的多屏幕分析。"
-    required_top_level_fields:
-      - super_system
-      - current_system
-      - sub_system
-      - anti_system
-      - cell_requirements
-      - matrix_requirements
+    - artifact_id: multi_screen_analysis
+      file: multi-screen-analysis.json
+      format: json
+      insertion_after_state: evaluation_validation
+      purpose: "输出超系统、当前系统、子系统在过去/现在/未来的多屏幕分析。"
+      required_top_level_fields:
+        - super_system
+        - current_system
+        - sub_system
+        - anti_system
+        - cell_requirements
+        - matrix_requirements
 
-  - artifact_id: critique_report
-    file: critique-report.json
-    format: json
-    insertion_after_state: loop_or_finish
-    purpose: "对整条方法链、关键假设和当前结果做批判辩证复盘。"
-    required_top_level_fields:
-      - method_risks
-      - step_design_errors
-      - over_assumptions
-      - missing_evidence
-      - revision_targets
+    - artifact_id: critique_report
+      file: critique-report.json
+      format: json
+      insertion_after_state: loop_or_finish
+      purpose: "对整条方法链、关键假设和当前结果做批判辩证复盘。"
+      required_top_level_fields:
+        - method_risks
+        - step_design_errors
+        - over_assumptions
+        - missing_evidence
+        - revision_targets
 
 template_artifact_catalog:
   - artifact_id: template_chain

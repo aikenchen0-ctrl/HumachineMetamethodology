@@ -2,48 +2,39 @@
 
 ## Purpose
 
-This file is the typed companion for `metaPrompt.md`.
+This file is the typed companion for `references/metaPrompt.md`.
 
-It exists because the current architecture already has a typed companion for:
-
-- `agentic-nested-state-machine.opml`
-
-but the linear source scaffold in `metaPrompt.md` also needs a structured entry point.
+It keeps the maintained source scaffold explicit after the source moved from the old step-numbered draft into the current chapter-based `metaPrompt v2`.
 
 ## Why This Layer Matters
 
-`metaPrompt.md` is authoritative for:
+`references/metaPrompt.md` is now authoritative for:
 
-- the linear step chain,
-- the overall source sequence,
-- and the original advanced-analysis expansion path.
+- the chapter order,
+- the main method chain,
+- the placement of retrieval, generation, evaluation, and pluginization,
+- and the shared symbol system used by the whole method.
 
-Without a typed step index, later maintenance work keeps reconstructing:
+Without a typed companion, later maintenance work keeps reconstructing:
 
-- raw step order,
-- where the core chain stops,
-- where advanced mode begins,
-- and how numbering anomalies should be interpreted.
+- chapter order,
+- chapter scope,
+- chapter handoff,
+- and where the mainline stops versus where extension planes begin.
 
-## Numbering Note
+## Compatibility Note
 
-The current source text contains a numbering anomaly:
+For downstream compatibility, the machine-readable JSON still keeps the historical field name:
 
-- `步骤2` is used for intent-demand calibration,
-- and a later bridge line also starts with `步骤2`.
+- `normalized_step_id`
 
-This file does not hide that anomaly.
-
-Instead it records:
-
-- the raw label,
-- the raw sequence position,
-- and the current skill-aligned interpretation.
+Even though the maintained source is now chapter-based rather than the old linear `步骤1-步骤8` scaffold.
 
 ## Recommended Use
 
 Use this file when:
 
-- maintaining dual-source precedence,
-- aligning advanced-mode step mapping,
-- or checking whether a later skill edit still reflects the original linear scaffold.
+- maintaining source precedence,
+- aligning `SKILL.md` back to the maintained source,
+- mapping chapter outputs into contracts,
+- or checking whether a later edit still reflects the maintained chapter scaffold.

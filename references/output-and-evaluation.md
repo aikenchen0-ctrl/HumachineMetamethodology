@@ -2,34 +2,44 @@
 
 ## Purpose
 
-Use this reference when the task needs either:
+Use this reference when the task needs:
 
 - structured output mapping across formats,
-- or stronger evaluation beyond "this sounds fine".
+- stronger evaluation than “this sounds fine”,
+- or explicit writeback from retrieval, generation, evaluation, and pluginization layers.
 
-This file is source-aligned with the original material on:
+This file is now aligned to the maintained chapter-based `metaPrompt v2` source.
 
-- structured translation,
-- template variable mapping,
-- graph export,
-- triple export,
-- DAG export,
-- logic-symbolic export,
-- same-source consistency,
-- cross-format consistency,
-- fact-level validation chains,
-- and self-scoring only as a weak auxiliary check.
+It mainly supports:
+
+- chapter 8: retrieval and evidence writeback
+- chapter 9: candidate generation
+- chapter 10: evaluation, validation, and implementation shaping
+- chapter 11: pluginization and skill exteriorization
+
+## Boundary
+
+This file does not define the whole workflow.
+
+It only defines:
+
+1. how structured outputs should remain stable across formats,
+2. how evaluation should be performed,
+3. and how output-bearing layers should hand artifacts forward or write them back.
 
 ## Structured Translation
 
-Structured translation is not a cosmetic step.
+Structured translation is not cosmetic.
 
-It should preserve mappings between:
+It exists to preserve the same problem object across:
 
 - natural-language input,
 - normalized variables,
 - graph structure,
-- and logic structure.
+- logic structure,
+- candidate records,
+- evaluation records,
+- and plugin writeback structures.
 
 Do not let each downstream format reinterpret the problem freely.
 
@@ -40,7 +50,8 @@ Do not let each downstream format reinterpret the problem freely.
 Use when:
 
 - a later template or artifact needs stable variables,
-- or natural language must be compressed into reusable normalized fields.
+- natural language must be compressed into reusable normalized fields,
+- or retrieval results must be written back into stable slots.
 
 Prefer fields such as:
 
@@ -80,7 +91,8 @@ Use when:
 
 - dependency order matters,
 - branches exist,
-- or downstream execution needs a non-cyclic dependency view.
+- implementation steps must stay acyclic,
+- or downstream execution needs a dependency view.
 
 Prefer fields such as:
 
@@ -95,7 +107,10 @@ Use when:
 - necessary conditions,
 - sufficient conditions,
 - gating rules,
-- or contradiction boundaries must be made explicit.
+- contradiction boundaries,
+- or rollback triggers
+
+must be made explicit.
 
 Prefer fields such as:
 
@@ -123,20 +138,20 @@ Mark what cannot currently be verified instead of silently passing it through as
 
 ### Cross-Mode Interaction Check
 
-When two or more extension modes are active, evaluate whether their interaction is actually coherent.
+When two or more extension modes are active, evaluate whether their interaction is coherent.
 
 Check at least:
 
 - whether handoffs between artifacts are explicit,
 - whether authority boundaries are clear,
-- whether one mode is overriding or redefining another mode without that being declared,
-- and whether serialization-only modes are inventing semantics instead of exporting existing ones.
+- whether one mode is overriding another mode without declaring it,
+- and whether serialization-only modes are inventing semantics instead of exporting upstream meaning.
 
 Useful optional field:
 
 - `mode_interaction_checks`
 
-Prefer each `mode_interaction_checks` entry to expose:
+Prefer each entry to expose:
 
 - `interacting_modes`
 - `handoff_status`
@@ -146,7 +161,7 @@ Prefer each `mode_interaction_checks` entry to expose:
 
 ### Multi-Reviewer Approval Topology
 
-When one exported representation must pass through multiple human review roles, evaluate more than simple "approved or not" status.
+When one exported representation must pass through multiple human review roles, evaluate more than simple “approved or not”.
 
 Check at least:
 
@@ -169,7 +184,7 @@ Useful optional fields:
 - `reviewer_conflict_resolution`
 - `export_regeneration_rules`
 
-## Key-Step Role Check
+### Key-Step Role Check
 
 When evaluation needs more depth, classify major steps as one of:
 
@@ -177,9 +192,14 @@ When evaluation needs more depth, classify major steps as one of:
 - `sufficient_condition`
 - `pivot_variable`
 
-Do not force every round to include this layer, but make it explicit when the user asks for deeper evaluation or when a route is being justified as dominant.
+This is especially useful for:
 
-## Self-Score Boundary
+- chapter 6 output review,
+- chapter 9 candidate selection,
+- chapter 10 path comparison,
+- and chapter 11 plugin decision.
+
+### Self-Score Boundary
 
 Self-scoring is allowed only as a weak auxiliary mechanism.
 
@@ -195,18 +215,51 @@ Useful optional fields:
 - `self_score`
 - `score_reason`
 
-## Recommended Embedding Points
+## Chapter-Aware Embedding Points
 
-- `problem-brief.json`
-  Add `variable_map` when natural-language inputs must be normalized.
-- `branch-plan.json`
-  Add `dag_view` and `triple_view` when dependency structure or relation compression matters.
-- `evaluation-report.xml`
-  Always keep:
-  - `same_source_consistency`
-  - `cross_format_consistency`
-  - `fact_validation_chain`
-  - `unverifiable_assumptions`
+### Chapter 4
+
+`problem-brief.json`
+
+May include:
+
+- `variable_map`
+
+when natural-language inputs must be normalized early.
+
+### Chapter 8
+
+`search-notes.json`
+
+May include:
+
+- `variable_map`
+- `source_priority`
+- `writeback_targets`
+
+because retrieval is now a first-class maintained source layer rather than a side note.
+
+### Chapter 9
+
+`branch-plan.json`
+
+May include:
+
+- `dag_view`
+- `triple_view`
+
+when candidate generation and branch structure need explicit compression.
+
+### Chapter 10
+
+`evaluation-report.xml`
+
+Should always keep:
+
+- `same_source_consistency`
+- `cross_format_consistency`
+- `fact_validation_chain`
+- `unverifiable_assumptions`
 
 Optional when deeper evaluation is needed:
 
@@ -215,9 +268,36 @@ Optional when deeper evaluation is needed:
 - `self_score`
 - `score_reason`
 
+### Chapter 11
+
+Plugin-oriented artifacts should explicitly preserve writeback semantics, for example:
+
+- which evaluation findings become plugin rules,
+- which retrieval sources become plugin defaults,
+- which generation patterns become plugin operator maps,
+- which failure findings become plugin failure modes.
+
+## Recommended Entry Structure
+
 Prefer each `key_step_role_checks` entry to expose:
 
 - `step_or_artifact`
 - `role_classification`
 - `why`
 - `evidence`
+
+Prefer each writeback-sensitive entry to expose:
+
+- `writes_back_to`
+- `writeback_payload`
+- `writeback_reason`
+- `scope_guard`
+
+## Default Rule
+
+When in doubt:
+
+1. keep the problem object stable,
+2. keep chapter handoffs explicit,
+3. keep evaluation richer than prose plausibility,
+4. and keep retrieval/generation/evaluation/pluginization writeback visible instead of implicit.

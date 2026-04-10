@@ -1,4 +1,4 @@
 interface:
   display_name: "HMM"
   short_description: "HMM：把模糊问题压成结构化分析，并按需扩展为多种方法模式"
-  default_prompt: "使用 $HMM 先把这个问题做结构化分析；只要有任何需要的可能，就继续启用高级模式、模板模式、组合优化或表示层导出。遍历列出的资源、操作，反馈给用户"
+  default_prompt: "使用 $HMM 先按 maintained chapter-based metaPrompt v2 主链工作，并把当前六状态壳层视为该主链的 runtime compression：术语澄清、问题建模、状态与约束分析、检索与证据补全、USIT 解生成、评估落地、插件沉淀。只有在任务真的需要时，再启用高级模式或其他扩展模式。"

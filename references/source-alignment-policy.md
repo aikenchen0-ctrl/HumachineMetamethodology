@@ -2,24 +2,22 @@
 
 ## Purpose
 
-This file prevents scope drift when the skill is being aligned to the original source materials:
+This file prevents scope drift when the skill is being aligned to the maintained source materials:
 
-- `metaPrompt.md`
+- `references/metaPrompt.md`
 - `agentic-nested-state-machine.opml`
 
-The original source is primarily about:
+The maintained source is primarily about:
 
-- problem clarification
-- true demand / true constraints
-- ANT / EAFC modeling
-- resource and actor-network modeling
-- flow analysis
-- SAFC / contradiction solving
-- template chains
-- branch planning
-- shared-file coordination
-- memory pruning
-- evaluation and critique
+- chapter-based problem structuring,
+- shared symbol control,
+- Six-Box mainline reasoning,
+- ANT / EAFC modeling,
+- state / constraint / ideal-direction analysis,
+- retrieval and evidence writeback,
+- candidate generation,
+- evaluation and fallback,
+- pluginization and self-upgrade.
 
 It is not primarily about long-lived runtime operations engineering.
 
@@ -29,17 +27,18 @@ The source is not one document.
 
 It is two cooperating but non-identical source layers:
 
-- `metaPrompt.md`
+- `references/metaPrompt.md`
 - `agentic-nested-state-machine.opml`
 
 Use this default arbitration rule:
 
-### `metaPrompt.md` Is Authoritative For
+### `references/metaPrompt.md` Is Authoritative For
 
-- the linear step chain,
-- the step 1 to step 8 progression,
-- the advanced-analysis sequence itself,
-- and what counts as the original linear method scaffold.
+- the chapter order,
+- the main method chain,
+- the placement of retrieval, generation, evaluation, and pluginization,
+- the shared symbol system,
+- and what counts as the maintained source scaffold.
 
 ### `agentic-nested-state-machine.opml` Is Authoritative For
 
@@ -51,25 +50,25 @@ Use this default arbitration rule:
 
 ### When They Overlap
 
-- use `metaPrompt.md` to decide linear step order,
+- use `references/metaPrompt.md` to decide chapter order, mainline semantics, and layer placement,
 - use `agentic-nested-state-machine.opml` to decide mother-structure, branch semantics, and surrounding source planes,
-- and use the current typed source and promotion assets only to normalize that relation, not to replace it.
+- and use typed source assets only to normalize that relation, not to replace it.
 
 ### Practical Conflict Rule
 
 If a conflict appears:
 
-1. ask whether it is about linear step order or about mother-structure
-2. if it is about linear step order, prefer `metaPrompt.md`
+1. ask whether it is about chapter order / mainline semantics or about mother-structure
+2. if it is about chapter order / mainline semantics, prefer `references/metaPrompt.md`
 3. if it is about branch / orchestration / archive / interaction structure, prefer `agentic-nested-state-machine.opml`
-4. if the conflict remains mixed, record it explicitly in source-review assets rather than silently merging the two interpretations
+4. if the conflict remains mixed, record it explicitly rather than silently blending the two interpretations
 
 ## Typed Dual-Source Entry
 
 For maintenance work, prefer these typed entry points:
 
 - `references/metaPrompt-step-index.json`
-  for the linear step scaffold
+  for the chapter scaffold
 - `references/typed-source-node-index.yaml`
   for the OPML mother-structure
 
@@ -77,98 +76,41 @@ For maintenance work, prefer these typed entry points:
 
 ### Ring 1: Source-Aligned Core
 
-These capabilities are directly grounded in the original source and may be activated by default when the task is about:
+These capabilities are directly grounded in the maintained source and may be activated by default when the task is about:
 
-- prompt refinement
-- nested state-machine design
-- method decomposition
-- problem structuring
+- problem clarification
+- chapter alignment
+- demand and constraint modeling
+- retrieval and evidence writeback
+- candidate generation
+- pluginization and skill exteriorization
 - branch planning
-- template chains
-- orchestration by shared context or memory pruning
-- advanced ANT / resource / flow / SAFC analysis
-
-Typical artifacts in this ring include:
-
-- `problem-brief.json`
-- `constraints-matrix.json`
-- `branch-plan.json`
-- `mode-resolution.json`
-- `evaluation-report.xml`
-- `loop-decision.json`
-- `resource-graph.json`
-- `actor-network.json`
-- `function-field-model.json`
-- `flow-analysis.json`
-- `safc-model.json`
-- `contradiction-analysis.json`
-- `solution-set.json`
-- `multi-screen-analysis.json`
-- `critique-report.json`
-- `template-chain.json`
-- `pruning-notes.json`
-- `shared-context-map.json`
-- `orchestration-plan.json`
-- `execution-supervision.json`
-- `executor-interface.json`
-- `executor-capability-registry.json`
-- `memory-pruning.json`
-- `writeback-ledger.json`
+- evaluation and loopback
 
 ### Ring 2: Derived Runtime Operations Extension
 
-These capabilities are valid engineering extensions, but they are not direct defaults from the original source. They must stay opt-in and scope-guarded.
+These capabilities are valid engineering extensions, but they are not direct defaults from the maintained source. They must stay opt-in and scope-guarded.
 
 This ring includes artifacts for:
 
 - runtime hooks
-- runtime event source contracts
+- event source contracts
 - schema registries
 - consumer compatibility probes
-- source-of-truth drift monitoring
-- scheduler hooks
-- alert delivery contracts
 - provider failover
-- provider recovery
 - health telemetry
 - adaptive thresholds
 - long-term threshold governance
-- external governance source-of-truth
-
-Examples include:
-
-- `executor-runtime-hook.json`
-- `runtime-event-source-contract.json`
-- `runtime-event-source-registry.json`
-- `runtime-event-source-service-hook.json`
-- `runtime-schema-registry-hook.json`
-- `consumer-runtime-discovery.json`
-- `source-of-truth-drift-monitor.json`
-- `drift-monitor-scheduler.json`
-- `alert-delivery-contract.json`
-- `delivery-provider-capability-matrix.json`
-- `provider-health-check.json`
-- `provider-health-telemetry.json`
-- `provider-telemetry-stream-contract.json`
-- `channel-failover-policy.json`
-- `circuit-breaker-policy.json`
-- `adaptive-threshold-policy.json`
-- `threshold-governance-workflow.json`
-- `baseline-governance-service-hook.json`
-- `governance-source-drift-report.json`
-- `governance-review-scheduler.json`
-- `governance-provider-capability-matrix.json`
 
 ## Activation Rule
 
 When the current task is:
 
-- reading the original source
-- aligning the skill back to the source
+- aligning the skill back to the maintained source
 - refining prompt methods
+- refining chapter boundaries
 - refining problem-structuring workflows
-- refining branch logic
-- refining template or memory behavior
+- refining plugin / retrieval / generation / evaluation interfaces
 
 then Ring 2 must remain inactive unless the user explicitly asks for real runtime operations behavior.
 
@@ -177,9 +119,8 @@ then Ring 2 must remain inactive unless the user explicitly asks for real runtim
 Do not activate Ring 2 just because the user mentions:
 
 - branching
-- parallel work
 - shared files
-- worker supervision
+- execution supervision
 - memory pruning
 - feedback
 - governance
@@ -192,7 +133,7 @@ Ring 2 may activate only when the task explicitly includes at least one of:
 - provider topology
 - failover or recovery switching
 - continuous drift monitoring
-- long-lived threshold governance operations
+- long-lived governance operations
 
 ## Mode-Resolution Requirement
 
