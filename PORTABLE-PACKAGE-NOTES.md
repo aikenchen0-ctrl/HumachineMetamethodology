@@ -33,9 +33,9 @@ The maintained `references/metaPrompt.md` is now the chapter-based `metaPrompt v
 
 ## Current Packaging Note
 
-The repository is still in active reconstruction.
+The repository has completed the current reconstruction closeout.
 
 That means:
 
 - the portable package definition is already aligned to the new source,
-- but any new distributable zip should be regenerated only after the current consolidation review and commit-preparation pass.
+- and any new distributable zip should be regenerated from the current clean working tree before distribution.

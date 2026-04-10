@@ -23,7 +23,7 @@
   - `governance_and_feedback_mode`
   - `representation_and_serialization_mode`
 
-当前仓库已经完成一轮面向 chapter-based `metaPrompt v2` 的 source-aligned 对齐，但整体仍处于 active reconstruction。
+当前仓库已经完成这一轮面向 chapter-based `metaPrompt v2` 的 source-aligned 对齐，并已结束本轮 reconstruction closeout。
 
 source-aligned core 现在优先围绕这些层工作：
 
@@ -38,8 +38,7 @@ source-aligned core 现在优先围绕这些层工作：
 
 当前更适合继续做：
 
-- source-aligned review
-- commit preparation
+- packaging review
 - real task-driven validation
 
 而不是继续做广泛架构扩张。
