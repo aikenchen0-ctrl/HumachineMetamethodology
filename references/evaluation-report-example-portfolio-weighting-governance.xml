@@ -1,0 +1,140 @@
+<evaluation_report>
+  <evaluation_id>portfolio-weighting-governance-interaction-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>state-space-matrix.json</artifact>
+    <artifact>methodology-portfolio.json</artifact>
+    <artifact>method-branch-map.json</artifact>
+    <artifact>research-plan.json</artifact>
+    <artifact>execution-roadmap.json</artifact>
+    <artifact>optimization-report.json</artifact>
+    <artifact>decision-weighting.json</artifact>
+    <artifact>override-policy.json</artifact>
+    <artifact>governance-checkpoints.json</artifact>
+  </checked_artifacts>
+  <completeness_score>97</completeness_score>
+  <consistency_score>97</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If the candidate-path universe changes after decision-weighting.json is produced, the weighting result must be recomputed before governance review proceeds.</risk>
+  </non_blocking_risks>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.94</confidence>
+  <advanced_mode_findings>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The portfolio artifacts, weighting artifact, and governance override artifact all refer to the same bounded decision problem and candidate-path set.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>The approximate-best set, weighting result, and override boundary preserve the same route universe rather than silently changing it between modes.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm state-space-matrix.json and methodology-portfolio.json establish the candidate-path space.</item>
+    <item>Confirm optimization-report.json preserves an approximate-best set and explains why not to force a single best too early.</item>
+    <item>Confirm decision-weighting.json ranks candidates within that stabilized set and records fallback weighting details.</item>
+    <item>Confirm the ranking is bound to stable candidate identities rather than list position or example numbering.</item>
+    <item>Confirm override-policy.json and governance-checkpoints.json declare how human review can override automatic ranking.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The current human reviewer will accept the same candidate-path universe that the portfolio stage preserved.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>portfolio_and_optimization_mode</mode>
+      <status>pass</status>
+      <note>state-space-matrix.json, methodology-portfolio.json, research-plan.json, execution-roadmap.json, and optimization-report.json exist.</note>
+    </check>
+    <check>
+      <mode>library_and_weighting_mode</mode>
+      <status>pass</status>
+      <note>decision-weighting.json exists and records fallback weighting details.</note>
+    </check>
+    <check>
+      <mode>governance_and_feedback_mode</mode>
+      <status>pass</status>
+      <note>override-policy.json and governance-checkpoints.json exist and declare human override authority.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>optimization-report.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>decision-weighting.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>override-policy.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>The round stays inside source-aligned comparison, weighting, and human-review logic and does not activate runtime governance operations.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>governance runtime operations extension</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>after_demand_constraint_modeling</state>
+      <status>pass</status>
+      <note>state-space-matrix.json was created before weighting or override logic consumed the candidate-path universe.</note>
+    </check>
+    <check>
+      <state>before_finish</state>
+      <status>pass</status>
+      <note>governance artifacts exist before final route adoption is treated as complete.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because portfolio preserves the candidate-path universe, weighting ranks within that universe, and governance owns the final override authority.</item>
+  </dispatch_recommendations>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>optimization-report.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, the candidate-path universe and approximate-best set are not stabilized before weighting begins.</why>
+      <evidence>mode-resolution.json explicitly hands optimization-report.json into decision-weighting.json.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>decision-weighting.json</step_or_artifact>
+      <role_classification>pivot_variable</role_classification>
+      <why>It is the pivot artifact between preserved near-optimal space and final human override authority.</why>
+      <evidence>override-policy.json depends on its ranking result without being subordinate to it.</evidence>
+    </check>
+  </key_step_role_checks>
+  <mode_interaction_checks>
+    <check>
+      <interacting_modes>portfolio_and_optimization_mode,library_and_weighting_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_portfolio_for_candidate_space_and_weighting_for_internal_ranking</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+    <check>
+      <interacting_modes>library_and_weighting_mode,governance_and_feedback_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_governance_for_final_adoption</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+  </mode_interaction_checks>
+  <self_score>94</self_score>
+  <score_reason>The example cleanly demonstrates approximate-best preservation, internal ranking, and human override ordering, but still covers only one portfolio-heavy interaction pattern.</score_reason>
+</evaluation_report>

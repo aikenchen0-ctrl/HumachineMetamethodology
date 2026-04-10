@@ -1,0 +1,127 @@
+<evaluation_report>
+  <evaluation_id>template-discovery-interaction-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>demand-visibility.json</artifact>
+    <artifact>hypothesis-register.json</artifact>
+    <artifact>feedback-hooks.json</artifact>
+    <artifact>template-chain.json</artifact>
+    <artifact>pruning-notes.json</artifact>
+  </checked_artifacts>
+  <completeness_score>95</completeness_score>
+  <consistency_score>96</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If latent demand changes materially after template compression, the template chain may need a controlled refresh rather than reuse as-is.</risk>
+  </non_blocking_risks>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.92</confidence>
+  <advanced_mode_findings>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The discovery outputs and template outputs still refer to the same unresolved demand-formation object rather than two different problem framings.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>The template chain preserves method structure while discovery artifacts preserve uncertainty boundaries without contradiction.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm demand-visibility.json records explicit, latent, and field-created demand distinctions.</item>
+    <item>Confirm hypothesis-register.json records reversible assumptions and soft pruning.</item>
+    <item>Confirm template-chain.json compresses method structure without claiming that latent demand is fully stabilized.</item>
+    <item>Confirm pruning-notes.json leaves a reopening trace for discovery if new evidence later appears.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The current latent-demand picture is stable enough for a reusable template chain to be useful without immediately becoming stale.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>discovery_and_hypothesis_mode</mode>
+      <status>pass</status>
+      <note>demand-visibility.json, hypothesis-register.json, and feedback-hooks.json exist.</note>
+    </check>
+    <check>
+      <mode>template_mode</mode>
+      <status>pass</status>
+      <note>template-chain.json and pruning-notes.json exist and do not erase discovery uncertainty.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>demand-visibility.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>hypothesis-register.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>template-chain.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>pruning-notes.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>The round stays inside source-aligned template compression and discovery uncertainty management without widening into execution or runtime governance layers.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>runtime operations extension</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>after_semantic_clarification</state>
+      <status>pass</status>
+      <note>discovery artifacts were created before template compression was treated as stable.</note>
+    </check>
+    <check>
+      <state>before_finish</state>
+      <status>pass</status>
+      <note>template outputs exist alongside pruning notes that preserve reopen paths for future discovery.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because discovery still owns demand uncertainty while template mode compresses only the reusable method shell.</item>
+  </dispatch_recommendations>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>hypothesis-register.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, template compression would have no explicit record of which assumptions must remain reversible.</why>
+      <evidence>mode-resolution.json hands it into template_mode as an uncertainty boundary.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>template-chain.json</step_or_artifact>
+      <role_classification>pivot_variable</role_classification>
+      <why>It is the pivot artifact between reusable method packaging and the still-open discovery layer.</why>
+      <evidence>pruning-notes.json and later replay behavior both depend on it.</evidence>
+    </check>
+  </key_step_role_checks>
+  <mode_interaction_checks>
+    <check>
+      <interacting_modes>template_mode,discovery_and_hypothesis_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_discovery_for_demand_framing_and_template_for_method_compression</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+  </mode_interaction_checks>
+  <self_score>92</self_score>
+  <score_reason>The example closes the template-discovery gap, but still assumes a relatively simple discovery refresh path rather than a more complex multi-round reopening pattern.</score_reason>
+</evaluation_report>

@@ -1,0 +1,66 @@
+{
+  "table_id": "branch-topology-decision-table-v1",
+  "purpose": "Normalize branch-topology selection rules at the abstract architecture layer.",
+  "decision_axes": [
+    "problem_space_changes",
+    "full_history_shared",
+    "expected_merge",
+    "execution_order_constraints",
+    "suspension_vs_detachment"
+  ],
+  "topology_classes": [
+    {
+      "topology_id": "parallel_worker",
+      "use_when": [
+        "problem_space_changes=false",
+        "full_history_shared=true",
+        "expected_merge=true",
+        "execution_order_constraints=low"
+      ]
+    },
+    {
+      "topology_id": "parallel_branch",
+      "use_when": [
+        "problem_space_changes=true",
+        "full_history_shared=true",
+        "expected_merge=possible"
+      ]
+    },
+    {
+      "topology_id": "serial_branch",
+      "use_when": [
+        "problem_space_changes=possible",
+        "execution_order_constraints=high"
+      ]
+    },
+    {
+      "topology_id": "suspended_traversal",
+      "use_when": [
+        "suspension_vs_detachment=suspended",
+        "reactivation_expected=true"
+      ]
+    },
+    {
+      "topology_id": "parallel_fork",
+      "use_when": [
+        "full_history_shared=false",
+        "expected_merge=not_default",
+        "suspension_vs_detachment=detached"
+      ]
+    }
+  ],
+  "default_rules": [
+    "Prefer parallel_worker when only execution tasks differ and problem definition stays fixed.",
+    "Prefer parallel_branch when assumptions or constraints differ but history remains shared.",
+    "Prefer serial_branch when strict dependency order dominates.",
+    "Prefer suspended_traversal when the path is postponed rather than detached.",
+    "Use parallel_fork only when detached history and non-default merge behavior are both real requirements."
+  ],
+  "current_source_aligned_decisions": [
+    {
+      "source_node_id": "src_029_parallel_fork",
+      "current_decision": "defer_as_candidate_rule",
+      "reason": "No current execution case proves that existing branch classes are insufficient."
+    }
+  ]
+}

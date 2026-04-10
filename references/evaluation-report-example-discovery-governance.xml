@@ -1,0 +1,124 @@
+<evaluation_report>
+  <evaluation_id>discovery-governance-interaction-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>demand-visibility.json</artifact>
+    <artifact>hypothesis-register.json</artifact>
+    <artifact>feedback-hooks.json</artifact>
+    <artifact>interaction-policy.json</artifact>
+    <artifact>governance-checkpoints.json</artifact>
+    <artifact>feedback-ledger.json</artifact>
+  </checked_artifacts>
+  <completeness_score>95</completeness_score>
+  <consistency_score>96</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If governance-checkpoints change after feedback hooks are defined, the feedback re-entry target may need to be remapped.</risk>
+  </non_blocking_risks>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.92</confidence>
+  <advanced_mode_findings>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The demand-visibility, open-hypothesis, review, and feedback artifacts all point to the same unresolved demand-formation object.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>The discovery outputs and governance outputs refer to the same reviewable demand assumptions rather than two different objects.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm latent demand and visibility barriers exist in demand-visibility.json.</item>
+    <item>Confirm open assumptions and reversible pruning exist in hypothesis-register.json.</item>
+    <item>Confirm feedback re-entry points are defined in feedback-hooks.json.</item>
+    <item>Confirm governance-checkpoints and feedback-ledger can consume those hooks without redefining discovery outputs.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The real-world feedback source will produce evidence at the granularity assumed by feedback-hooks.json.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>discovery_and_hypothesis_mode</mode>
+      <status>pass</status>
+      <note>demand-visibility.json, hypothesis-register.json, and feedback-hooks.json exist.</note>
+    </check>
+    <check>
+      <mode>governance_and_feedback_mode</mode>
+      <status>pass</status>
+      <note>interaction-policy.json, governance-checkpoints.json, and feedback-ledger.json exist.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>demand-visibility.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>feedback-hooks.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>feedback-ledger.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>No runtime governance operations artifact was required; the round stays on human review and writeback boundaries.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>governance runtime operations extension</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>semantic_clarification</state>
+      <status>pass</status>
+      <note>demand visibility and open-hypothesis artifacts were created at the correct upstream stage.</note>
+    </check>
+    <check>
+      <state>evaluation_validation</state>
+      <status>pass</status>
+      <note>governance-checkpoints and feedback-ledger were added before finish and after discovery hooks were defined.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because discovery owns latent-demand framing and governance owns actual review and feedback application without hidden overlap.</item>
+  </dispatch_recommendations>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>feedback-hooks.json</step_or_artifact>
+      <role_classification>pivot_variable</role_classification>
+      <why>It is the bridge between demand discovery and later accountable feedback application.</why>
+      <evidence>feedback-ledger.json and governance-checkpoints.json depend on it conceptually.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>governance-checkpoints.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, there is no explicit human review boundary for the feedback writeback path.</why>
+      <evidence>mode-resolution.json marks governance as the final authority for feedback application.</evidence>
+    </check>
+  </key_step_role_checks>
+  <mode_interaction_checks>
+    <check>
+      <interacting_modes>discovery_and_hypothesis_mode,governance_and_feedback_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_governance_for_application_and_discovery_for_framing</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+  </mode_interaction_checks>
+  <self_score>92</self_score>
+  <score_reason>The example cleanly demonstrates discovery-governance handoff, but still covers only one discovery-heavy interaction pattern.</score_reason>
+</evaluation_report>

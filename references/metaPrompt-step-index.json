@@ -1,0 +1,131 @@
+{
+  "index_id": "metaPrompt-step-index-v1",
+  "source_file": "references/metaPrompt.md",
+  "purpose": "Typed companion for the linear source scaffold in metaPrompt.md.",
+  "normalization_policy": {
+    "raw_step_labels_are_preserved": true,
+    "numbering_anomalies_are_explicit": true,
+    "skill_aligned_interpretation_is_recorded": true
+  },
+  "steps": [
+    {
+      "normalized_step_id": "mp_step_01_semantic_prompt_calibration",
+      "raw_step_label": "步骤1",
+      "raw_title": "提示词语义澄清校准与提示词意图需求校准",
+      "raw_sequence_position": 1,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "semantic clarification entry with prompt rewrite and term disambiguation",
+      "downstream_refs": [
+        "references/core-method.md",
+        "problem-brief.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mp_step_02_intent_demand_calibration",
+      "raw_step_label": "步骤2",
+      "raw_title": "提示词意图需求校准",
+      "raw_sequence_position": 2,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "intent-demand calibration and true demand / true constraint modeling bridge",
+      "downstream_refs": [
+        "references/core-method.md",
+        "constraints-matrix.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mp_step_02b_ant_eafc_bridge",
+      "raw_step_label": "步骤2",
+      "raw_title": "通过ANT EAFC模型进行联想、遍历列举超系统子系统反系统嵌套关系",
+      "raw_sequence_position": 3,
+      "source_role": "bridge_to_advanced",
+      "step_plane": "capability_mode_plane",
+      "numbering_note": "The raw source repeats 步骤2 here. The current skill treats it as a bridge from core calibration into advanced analysis rather than as a replacement for the earlier 步骤2.",
+      "skill_aligned_interpretation": "bridge concept connecting core demand modeling to deeper advanced-mode expansion",
+      "downstream_refs": [
+        "references/advanced-mode.md",
+        "references/core-method.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mp_step_03_resource_scan",
+      "raw_step_label": "步骤3",
+      "raw_title": "遍历资源，构建资源图格式文件",
+      "raw_sequence_position": 4,
+      "source_role": "advanced",
+      "step_plane": "capability_mode_plane",
+      "skill_aligned_interpretation": "advanced resource scan and resource graph stage",
+      "downstream_refs": [
+        "references/advanced-mode.md",
+        "resource-graph.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mp_step_04_actor_network",
+      "raw_step_label": "步骤4",
+      "raw_title": "回到宏观，构建行动者网络图格式文件",
+      "raw_sequence_position": 5,
+      "source_role": "advanced",
+      "step_plane": "capability_mode_plane",
+      "skill_aligned_interpretation": "advanced actor-network modeling stage",
+      "downstream_refs": [
+        "references/advanced-mode.md",
+        "actor-network.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mp_step_05_function_field_and_flow",
+      "raw_step_label": "步骤5",
+      "raw_title": "构建功能物场模型，进行流分析",
+      "raw_sequence_position": 6,
+      "source_role": "advanced",
+      "step_plane": "capability_mode_plane",
+      "skill_aligned_interpretation": "advanced function-field and flow-analysis stage",
+      "downstream_refs": [
+        "references/advanced-mode.md",
+        "function-field-model.json",
+        "flow-analysis.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mp_step_06_safc_model",
+      "raw_step_label": "步骤6",
+      "raw_title": "对重要系统组件排序，构建SAFC模型",
+      "raw_sequence_position": 7,
+      "source_role": "advanced",
+      "step_plane": "capability_mode_plane",
+      "skill_aligned_interpretation": "advanced SAFC modeling stage",
+      "downstream_refs": [
+        "references/advanced-mode.md",
+        "safc-model.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mp_step_07_contradiction_and_usit32",
+      "raw_step_label": "步骤7",
+      "raw_title": "SAFC问题求解，进行usit32个方法操作与矛盾分析",
+      "raw_sequence_position": 8,
+      "source_role": "advanced",
+      "step_plane": "capability_mode_plane",
+      "skill_aligned_interpretation": "advanced contradiction solving and USIT32 / TRIZ operation stage",
+      "downstream_refs": [
+        "references/advanced-mode.md",
+        "contradiction-analysis.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mp_step_08_solution_set",
+      "raw_step_label": "步骤8",
+      "raw_title": "列出解决方案",
+      "raw_sequence_position": 9,
+      "source_role": "advanced",
+      "step_plane": "capability_mode_plane",
+      "skill_aligned_interpretation": "advanced solution-set stage",
+      "downstream_refs": [
+        "references/advanced-mode.md",
+        "solution-set.json"
+      ]
+    }
+  ]
+}

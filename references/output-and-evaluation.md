@@ -121,6 +121,54 @@ Break key conclusions into fact-sized verification steps instead of keeping them
 
 Mark what cannot currently be verified instead of silently passing it through as fact.
 
+### Cross-Mode Interaction Check
+
+When two or more extension modes are active, evaluate whether their interaction is actually coherent.
+
+Check at least:
+
+- whether handoffs between artifacts are explicit,
+- whether authority boundaries are clear,
+- whether one mode is overriding or redefining another mode without that being declared,
+- and whether serialization-only modes are inventing semantics instead of exporting existing ones.
+
+Useful optional field:
+
+- `mode_interaction_checks`
+
+Prefer each `mode_interaction_checks` entry to expose:
+
+- `interacting_modes`
+- `handoff_status`
+- `authority_status`
+- `drift_risk`
+- `decision`
+
+### Multi-Reviewer Approval Topology
+
+When one exported representation must pass through multiple human review roles, evaluate more than simple "approved or not" status.
+
+Check at least:
+
+- whether every reviewer sees the same payload object,
+- whether approval order is explicit,
+- whether rejection sends the flow back to regeneration, revision, or re-review explicitly,
+- whether reviewer conflict resolution is explicit,
+- and whether final release authority is separate from payload serialization authority.
+
+Prefer this topology to live in:
+
+- `governance-checkpoints.json`
+- `override-policy.json`
+
+Useful optional fields:
+
+- `review_topology`
+- `approval_order`
+- `rejection_reentry_rules`
+- `reviewer_conflict_resolution`
+- `export_regeneration_rules`
+
 ## Key-Step Role Check
 
 When evaluation needs more depth, classify major steps as one of:
@@ -163,5 +211,13 @@ Useful optional fields:
 Optional when deeper evaluation is needed:
 
 - `key_step_role_checks`
+- `mode_interaction_checks`
 - `self_score`
 - `score_reason`
+
+Prefer each `key_step_role_checks` entry to expose:
+
+- `step_or_artifact`
+- `role_classification`
+- `why`
+- `evidence`

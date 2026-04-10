@@ -1,0 +1,441 @@
+{
+  "backlog_id": "opml-promotion-backlog-v1",
+  "source_catalog_ref": "references/source-node-promotion-catalog.json",
+  "prioritization_basis": [
+    "mixed_role_severity",
+    "downstream_contract_impact",
+    "authority_ambiguity_risk",
+    "migration_cost"
+  ],
+  "tracking_model": {
+    "execution_states": [
+      "queued",
+      "in_progress",
+      "blocked",
+      "deferred",
+      "completed",
+      "archived"
+    ],
+    "last_review_round_format": "YYYY-MM-DD-short-label",
+    "checkpoint_rule": "Every item should record its current execution state, latest review round, evidence refs, and next checkpoint."
+  },
+  "items": [
+    {
+      "item_id": "pb_001_multiple_solution_sorting_split",
+      "source_node_id": "src_003_multiple_solution_sorting",
+      "source_label": "多个方案排序，默认按方案一提示词",
+      "current_status": "active_contract",
+      "target_status": "active_contract",
+      "promotion_strategy": "split_and_promote",
+      "priority": "P1",
+      "action_type": "split_and_promote",
+      "urgency_reason": "This node still mixes ranking rule, artifact expectation, UI display, and example behavior, so it keeps polluting solution-selection semantics.",
+      "blocker_summary": [
+        "mixed ranking rule and UI semantics",
+        "mixed rule and example semantics"
+      ],
+      "decomposition_required": true,
+      "decomposes_into": [
+        "multiple_solution_sorting_rule",
+        "solution_list_artifact",
+        "ui_display_variant",
+        "example_user_selects_branch"
+      ],
+      "recommended_owner": "library_and_weighting_mode",
+      "related_example_ids": [
+        "ex_weighting_governance_representation",
+        "ex_portfolio_weighting_governance"
+      ],
+      "related_contract_assets": [
+        "decision-weighting.json",
+        "variant-set.json"
+      ],
+      "prerequisite_assets": [
+        "decision-weighting.json",
+        "variant-set.json"
+      ],
+      "success_condition": "The ranking rule becomes a standalone contract object and the UI/example residue is removed from executable semantics.",
+      "execution_state": "completed",
+      "last_review_round": "2026-04-09-architecture-pass-05",
+      "depends_on_items": [],
+      "unblock_conditions": [
+        "decision-weighting.json and variant-set.json remain the stable downstream consumers",
+        "the ranking rule is isolated from UI presentation and example-only language",
+        "default variant selection is justified by ranking or override basis rather than list order"
+      ],
+      "evidence_refs": [
+        "references/opml-promotion-status-model.json",
+        "references/source-node-promotion-catalog.json",
+        "references/state-contracts.yaml",
+        "references/state-machine.yaml",
+        "references/library-and-weighting-mode.md",
+        "references/variant-and-composition-mode.md",
+        "references/examples-index.json",
+        "references/mode-resolution-example.json",
+        "references/mode-resolution-example-portfolio-weighting-governance.json"
+      ],
+      "next_checkpoint": "Audit one multi-solution round to confirm ranking_scope binds stable candidate ids and no UI ordering residue re-enters default selection."
+    },
+    {
+      "item_id": "pb_002_shared_file_editor_split",
+      "source_node_id": "src_004_shared_file_editor",
+      "source_label": "共享文件编辑工具",
+      "current_status": "active_contract",
+      "target_status": "active_contract",
+      "promotion_strategy": "split_and_promote",
+      "priority": "P1",
+      "action_type": "split_and_promote",
+      "urgency_reason": "Shared-file coordination is already central to orchestration semantics, but the source still frames it as a tool rather than a contract surface.",
+      "blocker_summary": [
+        "tool-shaped naming",
+        "shared context and writeback semantics still bundled together"
+      ],
+      "decomposition_required": true,
+      "decomposes_into": [
+        "shared_context_contract",
+        "write_scope_rule",
+        "writeback_audit_rule"
+      ],
+      "recommended_owner": "orchestration_and_memory_mode",
+      "related_example_ids": [
+        "ex_template_orchestration"
+      ],
+      "related_contract_assets": [
+        "shared-context-map.json",
+        "execution-supervision.json",
+        "executor-interface.json",
+        "writeback-ledger.json"
+      ],
+      "prerequisite_assets": [
+        "shared-context-map.json",
+        "execution-supervision.json",
+        "executor-interface.json",
+        "writeback-ledger.json"
+      ],
+      "success_condition": "The source concept is fully expressed through coordination and writeback contracts instead of a generic tool label.",
+      "execution_state": "completed",
+      "last_review_round": "2026-04-09-architecture-pass-03",
+      "depends_on_items": [],
+      "unblock_conditions": [
+        "shared-context-map.json, execution-supervision.json, and writeback-ledger.json stay the canonical downstream surface",
+        "tool-shaped language is removed from executable contract semantics",
+        "executor-interface.json keeps writable_targets inside the declared shared context contract"
+      ],
+      "evidence_refs": [
+        "references/source-node-promotion-catalog.json",
+        "references/state-contracts.yaml",
+        "references/state-machine.yaml",
+        "references/orchestration-and-memory-mode.md",
+        "references/template-mode.md",
+        "references/opml-functional-architecture-review.md",
+        "references/mode-resolution-example-template-orchestration.json"
+      ],
+      "next_checkpoint": "Audit one real execution-heavy round to confirm shared-context-map.json stays upstream of execution-supervision.json and writeback-ledger.json stays downstream of actual writeback evidence."
+    },
+    {
+      "item_id": "pb_003_solution_flow_split",
+      "source_node_id": "src_027_solution_flow",
+      "source_label": "解决流程",
+      "current_status": "active_contract",
+      "target_status": "active_contract",
+      "promotion_strategy": "split_and_promote",
+      "priority": "P1",
+      "action_type": "split_and_promote",
+      "urgency_reason": "This source branch still mixes workflow shell, loop rule, and orchestration behavior, which keeps the mother-structure semantically overloaded.",
+      "blocker_summary": [
+        "workflow shell mixed with orchestration extensions",
+        "insufficient separation between core and execution semantics"
+      ],
+      "decomposition_required": true,
+      "decomposes_into": [
+        "workflow_state_chain",
+        "loop_rule",
+        "orchestration_extension_rules"
+      ],
+      "recommended_owner": "source_aligned_core",
+      "related_example_ids": [],
+      "related_contract_assets": [
+        "state-machine.yaml",
+        "state-contracts.yaml",
+        "core-method.md",
+        "loop-decision.json"
+      ],
+      "prerequisite_assets": [
+        "state-machine.yaml",
+        "state-contracts.yaml",
+        "core-method.md",
+        "loop-decision.json"
+      ],
+      "success_condition": "The core workflow shell is isolated from orchestration-heavy extensions.",
+      "execution_state": "completed",
+      "last_review_round": "2026-04-09-architecture-pass-04",
+      "depends_on_items": [],
+      "unblock_conditions": [
+        "the minimal workflow state chain remains stable as the core shell",
+        "orchestration-heavy semantics are kept outside the core workflow contract"
+      ],
+      "evidence_refs": [
+        "references/state-machine.yaml",
+        "references/state-contracts.yaml",
+        "references/core-method.md",
+        "references/opml-functional-architecture-review.md",
+        "references/source-node-promotion-catalog.json"
+      ],
+      "next_checkpoint": "Audit one source-aligned round to confirm extension modes attach around the shell without introducing new workflow states."
+    },
+    {
+      "item_id": "pb_004_resource_scan_split",
+      "source_node_id": "src_045_resource_scan_reference",
+      "source_label": "寻找系统资源",
+      "current_status": "active_contract",
+      "target_status": "active_contract",
+      "priority": "P1",
+      "action_type": "split_and_promote",
+      "promotion_strategy": "split_and_promote",
+      "urgency_reason": "The source phrase still mixes search action with modeling objective, which weakens resource semantics at the abstract method layer.",
+      "blocker_summary": [
+        "action and artifact semantics are fused",
+        "resource prioritization remains implicit"
+      ],
+      "decomposition_required": true,
+      "decomposes_into": [
+        "resource_scan_step",
+        "resource_graph_artifact",
+        "resource_priority_rule"
+      ],
+      "recommended_owner": "advanced_mode",
+      "related_example_ids": [
+        "ex_advanced_representation"
+      ],
+      "related_contract_assets": [
+        "resource-graph.json",
+        "resource-priority-policy.json",
+        "search-notes.json"
+      ],
+      "prerequisite_assets": [
+        "resource-graph.json",
+        "resource-priority-policy.json",
+        "search-notes.json"
+      ],
+      "success_condition": "Resource scan action, output artifact, and prioritization logic become separate promotable units.",
+      "execution_state": "completed",
+      "last_review_round": "2026-04-09-architecture-pass-02",
+      "depends_on_items": [],
+      "unblock_conditions": [
+        "search-notes.json remains the bounded search evidence artifact",
+        "resource-graph.json remains the modeling artifact instead of being fused with the search action",
+        "resource-priority-policy.json carries explicit scan-order and prioritization logic separately from the graph artifact"
+      ],
+      "evidence_refs": [
+        "references/source-node-promotion-catalog.json",
+        "references/state-contracts.yaml",
+        "references/state-machine.yaml",
+        "references/advanced-mode.md",
+        "references/screen-and-critique-mode.md",
+        "references/mode-resolution-example-advanced-representation.json",
+        "references/opml-functional-architecture-review.md"
+      ],
+      "next_checkpoint": "Audit one real advanced-mode round to confirm search-notes.json, resource-priority-policy.json, and resource-graph.json stay separated in actual usage."
+    },
+    {
+      "item_id": "pb_005_child_agent_rename",
+      "source_node_id": "src_030_child_agent",
+      "source_label": "子agent",
+      "current_status": "active_contract",
+      "target_status": "active_contract",
+      "promotion_strategy": "rename_and_promote",
+      "priority": "P2",
+      "action_type": "rename_and_promote",
+      "urgency_reason": "The source role label is still informal, but its real semantics already exist in execution units and worker scopes.",
+      "blocker_summary": [
+        "identity-centered naming instead of contract-centered naming"
+      ],
+      "decomposition_required": true,
+      "decomposes_into": [
+        "execution_unit",
+        "worker_scope",
+        "reference_context_binding"
+      ],
+      "recommended_owner": "orchestration_and_memory_mode",
+      "related_example_ids": [
+        "ex_template_orchestration"
+      ],
+      "related_contract_assets": [
+        "execution-supervision.json",
+        "executor-interface.json",
+        "state-contracts.yaml",
+        "state-machine.yaml"
+      ],
+      "prerequisite_assets": [
+        "execution-supervision.json",
+        "executor-interface.json",
+        "state-contracts.yaml",
+        "state-machine.yaml"
+      ],
+      "success_condition": "The source node is replaced by explicit execution-unit semantics instead of informal agent identity language.",
+      "execution_state": "completed",
+      "last_review_round": "2026-04-09-architecture-pass-06",
+      "depends_on_items": [
+        "pb_002_shared_file_editor_split"
+      ],
+      "unblock_conditions": [
+        "execution-unit and worker-scope semantics are named independently of the informal source label",
+        "shared-context coordination semantics are already stable enough to carry worker ownership"
+      ],
+      "evidence_refs": [
+        "references/source-node-promotion-catalog.json",
+        "references/state-contracts.yaml",
+        "references/state-machine.yaml",
+        "references/orchestration-and-memory-mode.md",
+        "references/mode-resolution-example-template-orchestration.json",
+        "references/opml-promotion-status-model.json"
+      ],
+      "next_checkpoint": "Audit one execution-heavy round to confirm execution_units, worker_scopes, and reference_context_refs remain sufficient without child-agent identity fallback."
+    },
+    {
+      "item_id": "pb_006_history_memory_split",
+      "source_node_id": "src_031_history_memory_edit_tool",
+      "source_label": "历史记忆编辑工具",
+      "current_status": "active_contract",
+      "target_status": "active_contract",
+      "promotion_strategy": "split_and_promote",
+      "priority": "P2",
+      "action_type": "split_and_promote",
+      "urgency_reason": "The source still frames memory editing as a tool rather than a memory-pruning and writeback contract family.",
+      "blocker_summary": [
+        "tool-shaped naming",
+        "memory editing and writeback semantics still bundled"
+      ],
+      "decomposition_required": true,
+      "decomposes_into": [
+        "memory_pruning_rule",
+        "writeback_memory_edit_event",
+        "replacement_summary_rule"
+      ],
+      "recommended_owner": "orchestration_and_memory_mode",
+      "related_example_ids": [
+        "ex_template_orchestration"
+      ],
+      "related_contract_assets": [
+        "memory-pruning.json",
+        "writeback-ledger.json",
+        "state-contracts.yaml",
+        "state-machine.yaml"
+      ],
+      "prerequisite_assets": [
+        "memory-pruning.json",
+        "writeback-ledger.json",
+        "state-contracts.yaml",
+        "state-machine.yaml"
+      ],
+      "success_condition": "Memory editing semantics become explicit contract objects instead of remaining a generic tool concept.",
+      "execution_state": "completed",
+      "last_review_round": "2026-04-09-architecture-pass-07",
+      "depends_on_items": [
+        "pb_002_shared_file_editor_split"
+      ],
+      "unblock_conditions": [
+        "memory-pruning.json and writeback-ledger.json remain the canonical downstream contracts",
+        "replacement summary behavior is separated from generic editing-tool language",
+        "memory_edit_events are audited explicitly instead of being folded into generic merge results"
+      ],
+      "evidence_refs": [
+        "references/source-node-promotion-catalog.json",
+        "references/state-contracts.yaml",
+        "references/state-machine.yaml",
+        "references/orchestration-and-memory-mode.md",
+        "references/mode-resolution-example-template-orchestration.json",
+        "references/opml-functional-architecture-review.md"
+      ],
+      "next_checkpoint": "Audit one pruning-heavy round to confirm memory_edit_events, replacement_summaries, and reactivation_conditions remain aligned across memory-pruning.json and writeback-ledger.json."
+    },
+    {
+      "item_id": "pb_007_create_initial_prompt_archive",
+      "source_node_id": "src_018_create_initial_prompt_md",
+      "source_label": "创建初始提示词.md",
+      "current_status": "archived_reference",
+      "target_status": "archived_reference",
+      "promotion_strategy": "archive_or_compatibility_decision",
+      "priority": "P3",
+      "action_type": "archive_or_compatibility_decision",
+      "urgency_reason": "Its semantic function survives, but the exact file artifact is not part of the current stable contract surface.",
+      "blocker_summary": [
+        "artifact name is historical rather than structurally required"
+      ],
+      "decomposition_required": false,
+      "decomposes_into": [],
+      "recommended_owner": "source_aligned_core",
+      "related_example_ids": [],
+      "related_contract_assets": [
+        "problem-brief.json"
+      ],
+      "prerequisite_assets": [
+        "problem-brief.json"
+      ],
+      "success_condition": "The node is either archived cleanly or revived only under an explicit compatibility requirement.",
+      "execution_state": "completed",
+      "last_review_round": "2026-04-09-architecture-pass-08",
+      "depends_on_items": [],
+      "unblock_conditions": [
+        "the semantic function is confirmed to survive through current core artifacts",
+        "no active portability or compatibility requirement needs the historical filename revived"
+      ],
+      "evidence_refs": [
+        "references/source-node-promotion-catalog.json",
+        "references/opml-promotion-status-model.json",
+        "references/state-contracts.yaml",
+        "references/legacy-artifact-compatibility-policy.json",
+        "references/legacy-artifact-compatibility-policy.md"
+      ],
+      "next_checkpoint": "Reopen only if a real external consumer or explicit compatibility test requires the exact markdown artifact identity."
+    },
+    {
+      "item_id": "pb_008_parallel_fork_hold",
+      "source_node_id": "src_029_parallel_fork",
+      "source_label": "平行分叉",
+      "current_status": "candidate_rule",
+      "target_status": "candidate_rule",
+      "promotion_strategy": "defer",
+      "priority": "P3",
+      "action_type": "defer",
+      "urgency_reason": "The source concept is preserved, but still lacks a distinctive executor-facing need beyond current branch classes.",
+      "blocker_summary": [
+        "insufficient differentiation from existing branch classes"
+      ],
+      "decomposition_required": false,
+      "decomposes_into": [],
+      "recommended_owner": "orchestration_and_memory_mode",
+      "related_example_ids": [
+        "ex_template_orchestration"
+      ],
+      "related_contract_assets": [
+        "orchestration-plan.json"
+      ],
+      "prerequisite_assets": [
+        "orchestration-plan.json"
+      ],
+      "success_condition": "Keep deferred until a real execution case proves it needs a distinct contract identity.",
+      "defer_reason": "Current architecture already covers most of its function through existing branch classes.",
+      "execution_state": "completed",
+      "last_review_round": "2026-04-09-architecture-pass-09",
+      "depends_on_items": [],
+      "unblock_conditions": [
+        "a concrete executor-facing scenario appears that cannot be expressed by current branch classes",
+        "the topology difference from existing branch classes becomes contract-relevant rather than naming-only"
+      ],
+      "evidence_refs": [
+        "references/source-node-promotion-catalog.json",
+        "references/mode-resolution-example-template-orchestration.json",
+        "references/state-machine.yaml",
+        "references/branch-topology-decision-table.json",
+        "references/branch-topology-decision-table.md"
+      ],
+      "next_checkpoint": "Reopen only when a real execution pattern proves that detached history and non-default merge behavior cannot be expressed by current branch classes."
+    }
+  ],
+  "priority_order": [
+    "P1",
+    "P2",
+    "P3"
+  ]
+}

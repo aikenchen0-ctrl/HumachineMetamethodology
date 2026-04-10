@@ -1,0 +1,180 @@
+{
+  "resolved_modes": [
+    "template_mode",
+    "discovery_and_hypothesis_mode"
+  ],
+  "mode_sources": [
+    {
+      "mode": "template_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the current method should become a reusable template chain",
+        "later rounds should be able to restart from compressed method artifacts"
+      ]
+    },
+    {
+      "mode": "discovery_and_hypothesis_mode",
+      "source": "system_inference",
+      "basis": [
+        "demand visibility is still unstable",
+        "template semantics should not crystallize demand assumptions too early"
+      ]
+    }
+  ],
+  "activation_reasons": [
+    {
+      "mode": "template_mode",
+      "reasons": [
+        "A reusable method chain is needed for later replay.",
+        "Variable mapping and handoff rules must survive beyond the current round."
+      ]
+    },
+    {
+      "mode": "discovery_and_hypothesis_mode",
+      "reasons": [
+        "Latent demand, visibility barriers, and open assumptions are still active.",
+        "Template compression would become too rigid if discovery uncertainty were ignored."
+      ]
+    }
+  ],
+  "source_alignment_basis": [
+    "references/template-mode.md",
+    "references/discovery-and-hypothesis-mode.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "template_mode": [
+      "loop_or_finish"
+    ],
+    "discovery_and_hypothesis_mode": [
+      "semantic_clarification",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "template_mode": [
+      "template-chain.json",
+      "pruning-notes.json"
+    ],
+    "discovery_and_hypothesis_mode": [
+      "demand-visibility.json",
+      "hypothesis-register.json",
+      "feedback-hooks.json"
+    ]
+  },
+  "optional_outputs": {
+    "template_mode": [
+      "shared-context-map.json",
+      "checklist-migration-map.json"
+    ],
+    "discovery_and_hypothesis_mode": []
+  },
+  "requested_outputs": [
+    "template-chain.json",
+    "pruning-notes.json",
+    "demand-visibility.json",
+    "hypothesis-register.json",
+    "feedback-hooks.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json"
+  ],
+  "blocked_derived_runtime_outputs": [],
+  "stage_requirements": {
+    "after_semantic_clarification": {
+      "discovery_and_hypothesis_mode": [
+        "demand-visibility.json",
+        "hypothesis-register.json"
+      ]
+    },
+    "before_finish": {
+      "template_mode": [
+        "template-chain.json",
+        "pruning-notes.json"
+      ],
+      "discovery_and_hypothesis_mode": [
+        "feedback-hooks.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "template_mode": {
+      "if_missing": "loop back to loop_or_finish",
+      "why": "template compression depends on already-stabilized method outputs"
+    },
+    "discovery_and_hypothesis_mode": {
+      "if_missing": "loop back to semantic_clarification",
+      "why": "latent demand discovery and open-hypothesis governance begin before template crystallization"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "mode_precedence": [
+    {
+      "higher_mode": "discovery_and_hypothesis_mode",
+      "lower_mode": "template_mode",
+      "precedence_basis": "open demand uncertainty should constrain template crystallization timing",
+      "applies_to": [
+        "template compression timing",
+        "reusable prompt framing"
+      ],
+      "note": "Template mode may compress method structure, but should not freeze demand assumptions too early."
+    }
+  ],
+  "cross_mode_handoffs": [
+    {
+      "from_mode": "discovery_and_hypothesis_mode",
+      "to_mode": "template_mode",
+      "via_artifact": "demand-visibility.json",
+      "handoff_purpose": "Expose which demand elements are still latent or field-created before template compression hardens the method.",
+      "conflict_if_missing": "Template compression may wrongly treat unstable demand framing as already final."
+    },
+    {
+      "from_mode": "discovery_and_hypothesis_mode",
+      "to_mode": "template_mode",
+      "via_artifact": "hypothesis-register.json",
+      "handoff_purpose": "Expose which assumptions must remain reversible in the template chain.",
+      "conflict_if_missing": "Template chain may promote unstable assumptions into reusable defaults."
+    },
+    {
+      "from_mode": "template_mode",
+      "to_mode": "discovery_and_hypothesis_mode",
+      "via_artifact": "pruning-notes.json",
+      "handoff_purpose": "Record which paths were compressed away so discovery can later reopen them if new evidence appears.",
+      "conflict_if_missing": "Discovery loses visibility into what was compressed or excluded during template formation."
+    }
+  ],
+  "authority_boundaries": [
+    {
+      "subject": "latent-demand framing",
+      "computed_by": "discovery_and_hypothesis_mode",
+      "overridden_by": "none",
+      "serialized_by": "none",
+      "final_authority": "discovery_and_hypothesis_mode"
+    },
+    {
+      "subject": "template chain structure",
+      "computed_by": "template_mode",
+      "overridden_by": "none",
+      "serialized_by": "template_mode",
+      "final_authority": "template_mode"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "template_mode",
+        "discovery_and_hypothesis_mode"
+      ],
+      "active_when": "the round wants reusable method compression before demand visibility has fully crystallized",
+      "note": "Keep method compression and demand certainty separate; do not let template defaults silently harden latent-demand assumptions."
+    }
+  ]
+}

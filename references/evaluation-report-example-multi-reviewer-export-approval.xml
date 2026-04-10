@@ -1,0 +1,133 @@
+<evaluation_report>
+  <evaluation_id>multi-reviewer-export-approval-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>governance-checkpoints.json</artifact>
+    <artifact>override-policy.json</artifact>
+    <artifact>xml-rewrite.xml</artifact>
+    <artifact>representation-bundle.json</artifact>
+  </checked_artifacts>
+  <completeness_score>97</completeness_score>
+  <consistency_score>97</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If governance-checkpoints.json changes after one reviewer has already approved the payload, the approval chain may need to restart from an earlier checkpoint.</risk>
+  </non_blocking_risks>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.94</confidence>
+  <advanced_mode_findings>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The governance topology and the representation payload refer to the same bounded export candidate rather than parallel payload variants.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>xml-rewrite.xml and representation-bundle.json describe the same review object that governance-checkpoints.json routes through a multi-reviewer chain.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm xml-rewrite.xml exists as one stable payload candidate.</item>
+    <item>Confirm representation-bundle.json exposes the same payload and visibility package to every reviewer role.</item>
+    <item>Confirm governance-checkpoints.json defines review_roles, review_topology, approval_order, required_artifact_visibility, and rejection_reentry_rules.</item>
+    <item>Confirm override-policy.json defines reviewer_conflict_resolution and export_regeneration_rules.</item>
+    <item>Confirm final release is gated by governance rather than by representation serialization alone.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The actual human reviewers will inspect the same payload revision referenced by the current representation-bundle.json.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>governance_and_feedback_mode</mode>
+      <status>pass</status>
+      <note>governance-checkpoints.json and override-policy.json exist and define multi-reviewer topology, rejection handling, and release authority.</note>
+    </check>
+    <check>
+      <mode>representation_and_serialization_mode</mode>
+      <status>pass</status>
+      <note>xml-rewrite.xml and representation-bundle.json exist and preserve one stable export candidate across all review steps.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>governance-checkpoints.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>override-policy.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>xml-rewrite.xml</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>representation-bundle.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>The round stays on human review topology and export authorization logic and does not widen into runtime governance operations.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>governance runtime operations extension</item>
+    <item>governance review scheduler operations</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>after_semantic_clarification</state>
+      <status>pass</status>
+      <note>The export payload can be prepared early, but it remains only a candidate until the multi-reviewer topology is declared.</note>
+    </check>
+    <check>
+      <state>after_evaluation_validation</state>
+      <status>pass</status>
+      <note>governance-checkpoints.json and override-policy.json exist before the payload is treated as releasable.</note>
+    </check>
+    <check>
+      <state>before_finish</state>
+      <status>pass</status>
+      <note>representation-bundle.json preserves one reviewer-visible payload bundle after governance topology has been declared.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because payload construction, reviewer topology, rejection handling, and final release authority are explicitly separated.</item>
+  </dispatch_recommendations>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>governance-checkpoints.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, multi-reviewer order, artifact visibility, and rejection paths would remain implicit.</why>
+      <evidence>mode-resolution.json places governance above export release eligibility and review topology.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>representation-bundle.json</step_or_artifact>
+      <role_classification>pivot_variable</role_classification>
+      <why>It preserves the shared review object across all reviewers and prevents topology drift from turning into payload drift.</why>
+      <evidence>Both governance-checkpoints.json and xml-rewrite.xml depend on the same bundle-level visibility assumptions.</evidence>
+    </check>
+  </key_step_role_checks>
+  <mode_interaction_checks>
+    <check>
+      <interacting_modes>governance_and_feedback_mode,representation_and_serialization_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_governance_for_review_topology_and_release_and_representation_for_payload_structure</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+  </mode_interaction_checks>
+  <self_score>94</self_score>
+  <score_reason>The example now covers a multi-reviewer export approval topology, although it still models a bounded review chain rather than every possible approval graph shape.</score_reason>
+</evaluation_report>

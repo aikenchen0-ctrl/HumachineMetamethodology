@@ -1,0 +1,49 @@
+{
+  "review_id": "release-final-review-v1",
+  "purpose": "Current release-facing closeout record for the maintained HMM reference stack.",
+  "blocking_findings": [],
+  "non_blocking_residual_risks": [
+    "The OPML itself remains a free-form source archive rather than a typed source of truth.",
+    "One intentional deferred concept remains: src_029_parallel_fork.",
+    "Long-term maintenance still depends on keeping typed source, promotion catalog, and release checklist synchronized."
+  ],
+  "current_state": {
+    "source_review_reference_assets_present": true,
+    "source_review_reference_count": 19,
+    "promotion_catalog_count": 46,
+    "typed_source_entry_count": 56,
+    "backlog_total": 8,
+    "backlog_non_done": 0,
+    "source_hash_match": true,
+    "example_count": 8,
+    "ui_pattern_count": 6,
+    "execution_substrate_class_count": 6,
+    "strategy_class_count": 4,
+    "remaining_candidate_rule_count": 1,
+    "remaining_candidate_rule_ids": [
+      "src_029_parallel_fork"
+    ],
+    "typed_source_covers_promotion_catalog": true,
+    "dual_source_precedence_explicit": true,
+    "frozen_archive_planes_bounded": true,
+    "release_checklist_self_covered": true,
+    "stop_rule_satisfied": true
+  },
+  "release_judgment": "release_ready_for_maintenance_and_distribution",
+  "basis_refs": [
+    "references/opml-architecture-optimization-roadmap.json",
+    "references/release-consolidation-checklist.json",
+    "references/boundary-razor-policy.json",
+    "references/typed-source-node-index.yaml",
+    "references/metaPrompt-step-index.json"
+  ],
+  "source_hashes": {
+    "agentic-nested-state-machine.opml": "578F9A8F428DAA1C77E83B60EF768AF51769D51C871F512E1F8A62BBC15C3884",
+    "metaPrompt.md": "20AFD3896479C85D1E3BAC34F763BB71077558CEA72D9CD2792A949A1A283587"
+  },
+  "assumptions": [
+    "no_new_source_drift",
+    "no_new_downstream_consumer_reopens_frozen_archive_planes",
+    "no_request_to_expand_runtime_provider_governance_operations_beyond_current_scope"
+  ]
+}

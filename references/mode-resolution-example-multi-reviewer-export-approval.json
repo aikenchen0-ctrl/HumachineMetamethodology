@@ -1,0 +1,224 @@
+{
+  "resolved_modes": [
+    "governance_and_feedback_mode",
+    "representation_and_serialization_mode"
+  ],
+  "mode_sources": [
+    {
+      "mode": "governance_and_feedback_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the export must pass through more than one human reviewer role before release",
+        "approval order and rejection handling must be explicit"
+      ]
+    },
+    {
+      "mode": "representation_and_serialization_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the round must emit a concrete export payload and bundle",
+        "every reviewer must inspect the same serialized candidate rather than a drifting rewrite"
+      ]
+    }
+  ],
+  "activation_reasons": [
+    {
+      "mode": "governance_and_feedback_mode",
+      "reasons": [
+        "The round contains a multi-reviewer approval chain rather than one simple review gate.",
+        "Review order, rejection paths, and final release authority must be explicit."
+      ]
+    },
+    {
+      "mode": "representation_and_serialization_mode",
+      "reasons": [
+        "The round must emit one stable export payload for all reviewers to inspect.",
+        "Representation must package the payload consistently without owning release authority."
+      ]
+    }
+  ],
+  "source_alignment_basis": [
+    "references/governance-and-feedback-mode.md",
+    "references/representation-and-serialization-mode.md",
+    "references/output-and-evaluation.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "governance_and_feedback_mode": [
+      "evaluation_validation",
+      "loop_or_finish"
+    ],
+    "representation_and_serialization_mode": [
+      "semantic_clarification",
+      "branch_plan_generation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "governance_and_feedback_mode": [
+      "governance-checkpoints.json",
+      "override-policy.json"
+    ],
+    "representation_and_serialization_mode": [
+      "xml-rewrite.xml",
+      "representation-bundle.json"
+    ]
+  },
+  "optional_outputs": {
+    "governance_and_feedback_mode": [
+      "interaction-policy.json"
+    ],
+    "representation_and_serialization_mode": [
+      "sequence-diagram.mmd"
+    ]
+  },
+  "requested_outputs": [
+    "governance-checkpoints.json",
+    "override-policy.json",
+    "xml-rewrite.xml",
+    "representation-bundle.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "governance-source-drift-report.json",
+    "governance-review-scheduler.json",
+    "governance-review-ops-ledger.json"
+  ],
+  "stage_requirements": {
+    "after_semantic_clarification": {
+      "representation_and_serialization_mode": [
+        "xml-rewrite.xml"
+      ]
+    },
+    "after_evaluation_validation": {
+      "governance_and_feedback_mode": [
+        "governance-checkpoints.json",
+        "override-policy.json"
+      ]
+    },
+    "before_finish": {
+      "governance_and_feedback_mode": [
+        "governance-checkpoints.json",
+        "override-policy.json"
+      ],
+      "representation_and_serialization_mode": [
+        "representation-bundle.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "governance_and_feedback_mode": {
+      "if_missing": "loop back to evaluation_validation",
+      "why": "multi-reviewer topology, review order, and rejection handling must be explicit before export release"
+    },
+    "representation_and_serialization_mode": {
+      "if_missing": "loop back to semantic_clarification or branch_plan_generation depending on the missing export target",
+      "why": "all reviewers must inspect one stable payload rather than a semantically drifting export"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "mode_precedence": [
+    {
+      "higher_mode": "governance_and_feedback_mode",
+      "lower_mode": "representation_and_serialization_mode",
+      "precedence_basis": "review topology and release eligibility outrank export release timing",
+      "applies_to": [
+        "approval order",
+        "release eligibility",
+        "rejection handling"
+      ],
+      "note": "Representation may prepare the shared payload, but governance decides who must review it, in what order, and when release is allowed."
+    },
+    {
+      "higher_mode": "source_aligned_core",
+      "lower_mode": "representation_and_serialization_mode",
+      "precedence_basis": "representation cannot redefine the semantics being exported",
+      "applies_to": [
+        "payload meaning",
+        "bundle content"
+      ],
+      "note": "Representation stays downstream-only over semantic meaning."
+    }
+  ],
+  "cross_mode_handoffs": [
+    {
+      "from_mode": "representation_and_serialization_mode",
+      "to_mode": "governance_and_feedback_mode",
+      "via_artifact": "xml-rewrite.xml",
+      "handoff_purpose": "Expose one concrete export payload to the multi-reviewer approval chain.",
+      "conflict_if_missing": "Different reviewers may end up approving different payload revisions."
+    },
+    {
+      "from_mode": "representation_and_serialization_mode",
+      "to_mode": "governance_and_feedback_mode",
+      "via_artifact": "representation-bundle.json",
+      "handoff_purpose": "Package the shared payload and related visibility targets so every reviewer inspects the same candidate set.",
+      "conflict_if_missing": "Reviewer visibility may drift across approval steps."
+    },
+    {
+      "from_mode": "governance_and_feedback_mode",
+      "to_mode": "representation_and_serialization_mode",
+      "via_artifact": "governance-checkpoints.json",
+      "handoff_purpose": "Define review topology, approval order, and required artifact visibility before release.",
+      "conflict_if_missing": "Representation may publish or package outputs without knowing which review gates still apply."
+    },
+    {
+      "from_mode": "governance_and_feedback_mode",
+      "to_mode": "representation_and_serialization_mode",
+      "via_artifact": "override-policy.json",
+      "handoff_purpose": "Define what happens when one reviewer rejects, edits, or requests regeneration of the payload.",
+      "conflict_if_missing": "Serialization may freeze an export that governance has sent back for revision."
+    }
+  ],
+  "authority_boundaries": [
+    {
+      "subject": "export payload structure",
+      "computed_by": "representation_and_serialization_mode",
+      "overridden_by": "none",
+      "serialized_by": "representation_and_serialization_mode",
+      "final_authority": "representation_and_serialization_mode"
+    },
+    {
+      "subject": "multi-reviewer topology and approval order",
+      "computed_by": "governance_and_feedback_mode",
+      "overridden_by": "human_review_board",
+      "serialized_by": "governance_and_feedback_mode",
+      "final_authority": "governance_and_feedback_mode"
+    },
+    {
+      "subject": "final export release",
+      "computed_by": "governance_and_feedback_mode",
+      "overridden_by": "human_release_approver",
+      "serialized_by": "none",
+      "final_authority": "governance_and_feedback_mode"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "governance_and_feedback_mode",
+        "representation_and_serialization_mode"
+      ],
+      "active_when": "one serialized export candidate must pass through multiple human review roles before release",
+      "note": "Keep payload construction separate from approval topology and final release authority."
+    },
+    {
+      "related_modes": [
+        "governance_and_feedback_mode",
+        "representation_and_serialization_mode"
+      ],
+      "active_when": "a reviewer may reject or request edits after an earlier reviewer has already approved",
+      "note": "Use override-policy.json to define whether the payload is regenerated, partially re-reviewed, or fully re-reviewed."
+    }
+  ]
+}

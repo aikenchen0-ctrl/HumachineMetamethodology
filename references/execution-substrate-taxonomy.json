@@ -1,0 +1,77 @@
+{
+  "taxonomy_id": "execution-substrate-taxonomy-v1",
+  "purpose": "Archive execution substrate taxonomy and carrier assumptions from the OPML without promoting them into workflow contracts by default.",
+  "substrate_classes": [
+    {
+      "substrate_id": "exec_001_multi_account_control_agent",
+      "title": "Multi-Account Control Agent",
+      "surface_type": "account_bearing",
+      "memory_continuity": "persistent",
+      "source_signals": [
+        "控制多个社交账号的agent"
+      ],
+      "current_status": "substrate_archive",
+      "why_archived": "Account-surface taxonomy is a substrate concern, not a workflow-stage or orchestration contract."
+    },
+    {
+      "substrate_id": "exec_002_single_account_control_agent",
+      "title": "Single-Account Control Agent",
+      "surface_type": "account_bearing",
+      "memory_continuity": "persistent",
+      "source_signals": [
+        "只有控制单社交账号的agent"
+      ],
+      "current_status": "substrate_archive",
+      "why_archived": "This distinction matters only if executor selection or risk policy really depends on account surface count."
+    },
+    {
+      "substrate_id": "exec_003_accountless_persistent_agent",
+      "title": "Accountless Persistent Agent",
+      "surface_type": "accountless",
+      "memory_continuity": "persistent",
+      "source_signals": [
+        "无账号但记忆连贯的agent"
+      ],
+      "current_status": "substrate_archive",
+      "why_archived": "Continuity policy belongs to execution substrate design unless a downstream consumer explicitly needs the distinction."
+    },
+    {
+      "substrate_id": "exec_004_accountless_limited_memory_agent",
+      "title": "Accountless Limited-Memory Agent",
+      "surface_type": "accountless",
+      "memory_continuity": "limited",
+      "source_signals": [
+        "无账号但记忆有限的agent"
+      ],
+      "current_status": "substrate_archive",
+      "why_archived": "Memory-limit taxonomy should not be fused into workflow shell or branch topology."
+    },
+    {
+      "substrate_id": "exec_005_temporary_external_helper",
+      "title": "Temporary External Helper",
+      "surface_type": "external_helper",
+      "memory_continuity": "temporary",
+      "source_signals": [
+        "临时外援agent"
+      ],
+      "current_status": "substrate_archive",
+      "why_archived": "Temporary helper identity is a substrate/persona distinction, not a default execution-unit contract."
+    },
+    {
+      "substrate_id": "exec_006_openclaw_execution_carrier",
+      "title": "Openclaw Execution Carrier",
+      "surface_type": "carrier_assumption",
+      "memory_continuity": "carrier_defined",
+      "source_signals": [
+        "执行交给若干个openclaw"
+      ],
+      "current_status": "substrate_archive",
+      "why_archived": "Concrete execution carrier choice is an environment assumption rather than a workflow contract by default."
+    }
+  ],
+  "default_rules": [
+    "Keep substrate taxonomy separate from orchestration contracts unless executor selection really depends on it.",
+    "Do not treat account-bearing or accountless distinctions as branch topology.",
+    "Do not treat concrete carriers such as openclaw as workflow-state or branch-class semantics."
+  ]
+}

@@ -1,5 +1,5 @@
 machine_version: 1
-machine_id: problem-structuring-agentic-mvp
+machine_id: hmm-mvp
 source_contract: state-contracts.yaml
 source_policy: terminology-policy.md
 source_alignment_policy: references/source-alignment-policy.md
@@ -45,9 +45,46 @@ global_invariants:
 
 source_alignment_rules:
   - "当当前轮任务明确是对齐 metaPrompt.md 或 agentic-nested-state-machine.opml 时，默认只激活 source-aligned core。"
-  - "在 source alignment 轮次中，orchestration_and_memory_mode 只默认覆盖 orchestration-plan.json、execution-supervision.json、executor-interface.json、executor-capability-registry.json、memory-pruning.json 与 writeback-ledger.json。"
+  - "在 source alignment 轮次中，orchestration_and_memory_mode 只默认覆盖 orchestration-plan.json、shared-context-map.json、execution-supervision.json、executor-interface.json、executor-capability-registry.json、memory-pruning.json 与 writeback-ledger.json。"
   - "runtime/provider/governance 运维层 artifact 属于 derived runtime extension，不得因为一般分支、共享文件、执行监督或治理诉求自动激活。"
   - "只有当前任务明确涉及真实 runtime signal、外部 service hook、provider topology、持续 drift monitor 或长期治理运维时，derived runtime extension 才允许进入 required_outputs。"
+
+core_workflow_shell:
+  owner_layer: source_aligned_core
+  states:
+    - problem_intake
+    - semantic_clarification
+    - demand_constraint_modeling
+    - branch_plan_generation
+    - evaluation_validation
+    - loop_or_finish
+  terminal_states:
+    - finish
+  primary_transition_chain:
+    - problem_intake->semantic_clarification
+    - semantic_clarification->demand_constraint_modeling
+    - demand_constraint_modeling->branch_plan_generation
+    - branch_plan_generation->evaluation_validation
+    - evaluation_validation->loop_or_finish
+    - loop_or_finish->finish_or_loopback
+  shell_artifacts:
+    - intake-record.json
+    - problem-brief.json
+    - constraints-matrix.json
+    - branch-plan.json
+    - evaluation-report.xml
+    - loop-decision.json
+  shell_rules:
+    - "branch_plan_generation is the last core planning state; branch classes remain plan objects rather than workflow states."
+    - "evaluation_validation audits coherence and required outputs before any finish decision."
+    - "loop_or_finish owns loop routing and finish gating; it does not redefine upstream modeling artifacts."
+    - "The shell remains the same whether or not extension modes are active."
+
+core_extension_boundary:
+  separation_rules:
+    - "parallel_branch, parallel_worker, serial_branch, suspended_traversal, and parallel_fork belong to orchestration branch classes rather than the core state chain."
+    - "shared-context-map.json, orchestration-plan.json, execution-supervision.json, executor-interface.json, executor-capability-registry.json, memory-pruning.json, and writeback-ledger.json are extension artifacts attached around the shell."
+    - "runtime/provider/governance operations remain derived extensions and do not become part of the core workflow shell by default."
 
 advanced_mode:
   activation_if:
@@ -64,6 +101,7 @@ advanced_mode:
     - contradiction-analysis.json
     - solution-set.json
   optional_outputs:
+    - resource-priority-policy.json
     - multi-screen-analysis.json
   finish_guard_when_active:
     - "至少一个深度系统模型已生成。"
@@ -79,7 +117,6 @@ template_mode:
   optional_outputs:
     - template-chain.json
     - pruning-notes.json
-    - shared-context-map.json
   finish_guard_when_active:
     - "若已声明启用 template mode，则至少应生成 template-chain.json。"
 
@@ -106,6 +143,7 @@ orchestration_and_memory_mode:
     - "当前问题已经进入多分支或多执行路径阶段，需要正式定义并行/串行/挂起与可见上下文范围。"
   optional_outputs:
     - orchestration-plan.json
+    - shared-context-map.json
     - execution-supervision.json
     - executor-interface.json
     - executor-capability-registry.json
@@ -321,6 +359,7 @@ mode_attachment_rules:
       - contradiction-analysis.json
       - solution-set.json
     optional_outputs:
+      - resource-priority-policy.json
       - multi-screen-analysis.json
       - critique-report.json
   template_mode:
@@ -331,7 +370,6 @@ mode_attachment_rules:
       - template-chain.json
     optional_outputs:
       - pruning-notes.json
-      - shared-context-map.json
       - checklist-migration-pointer.json
       - checklist-migration-pointer-registry.json
   library_and_weighting_mode:
@@ -361,6 +399,7 @@ mode_attachment_rules:
       - orchestration-plan.json
       - execution-supervision.json
     optional_outputs:
+      - shared-context-map.json
       - memory-pruning.json
   variant_and_composition_mode:
     activation_check_state: branch_plan_generation
@@ -417,6 +456,190 @@ mode_attachment_rules:
     required_any_of:
       - xml-rewrite.xml
       - representation-bundle.json
+
+advanced_rule_contracts:
+  resource_scan_step:
+    attach_after_state: demand_constraint_modeling
+    inputs:
+      - constraints-matrix.json
+    optional_inputs:
+      - search-notes.json
+    outputs:
+      - resource-graph.json
+    optional_outputs:
+      - resource-priority-policy.json
+    rules:
+      - "search-notes.json is bounded scan evidence and must not be treated as the resource graph itself."
+      - "resource-graph.json is the structural output of discovered resources and must stay separate from scan-order narration."
+      - "If the round declares explicit scan ordering or resource ranking, resource-priority-policy.json should record that policy and resource-graph.json should reference it rather than absorbing the whole rule."
+    evaluation_hooks:
+      - fact_validation_chain
+      - same_source_consistency
+
+orchestration_rule_contracts:
+  shared_context_contract:
+    attach_after_state: branch_plan_generation
+    inputs:
+      - orchestration-plan.json
+    outputs:
+      - shared-context-map.json
+    optional_outputs:
+      - execution-supervision.json
+      - executor-interface.json
+    rules:
+      - "shared-context-map.json is the planning source for shared files, ownership, read scope, write scope, and synchronization notes."
+      - "execution-supervision.json may refine coordination behavior, but it must not silently redefine shared ownership or read/write boundaries already declared in shared-context-map.json."
+      - "executor-interface.json writable targets must stay inside the shared context contract."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  write_scope_rule:
+    attach_after_state: branch_plan_generation
+    inputs:
+      - shared-context-map.json
+      - execution-supervision.json
+      - executor-interface.json
+    outputs:
+      - execution-supervision.json
+      - executor-interface.json
+    optional_outputs:
+      - writeback-ledger.json
+    rules:
+      - "execution-supervision.json shared_file_contracts and prohibited_cross_branch_writes must stay consistent with the ownership and write_scope declared in shared-context-map.json."
+      - "executor-interface.json writable_targets must be a subset of the writable surface implied by shared-context-map.json and execution-supervision.json."
+      - "expected_writebacks must only target artifacts or shared files that the declared write scope allows."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  writeback_audit_rule:
+    attach_after_state: loop_or_finish
+    inputs:
+      - execution-supervision.json
+    optional_inputs:
+      - shared-context-map.json
+    optional_outputs:
+      - writeback-ledger.json
+    rules:
+      - "If execution-supervision.json contains non-empty shared_file_contracts or checkpoint_writebacks, writeback-ledger.json must exist before finish."
+      - "When shared-context-map.json exists, writeback-ledger.json should record which shared context contract and audited writeback surfaces it closes."
+      - "merge_decisions and conflict_events must make shared-file coordination outcomes auditable instead of collapsing them into a final merged state only."
+    evaluation_hooks:
+      - fact_validation_chain
+      - mode_interaction_checks
+
+  execution_unit_contract:
+    attach_after_state: branch_plan_generation
+    inputs:
+      - execution-supervision.json
+      - executor-interface.json
+    rules:
+      - "executor-interface.json execution_units are the authoritative execution identities for the current round."
+      - "execution-supervision.json assignment_units must map supervision targets to explicit execution units rather than to informal agent labels."
+      - "executor_kind_bindings, required_capability_bindings, and completion_signals must be bound per execution unit."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  worker_scope_contract:
+    attach_after_state: branch_plan_generation
+    inputs:
+      - execution-supervision.json
+      - executor-interface.json
+    rules:
+      - "execution-supervision.json worker_scopes define the bounded task scope, readable context, and prohibited writes for each execution unit."
+      - "executor-interface.json unit_objectives, visibility_bindings, permission_bindings, writable_targets, and prohibited_targets must stay inside the declared worker scope."
+      - "If two execution units differ materially in scope, that difference must be represented by worker_scopes and interface bindings rather than by informal role names."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  reference_context_binding_rule:
+    attach_after_state: branch_plan_generation
+    inputs:
+      - execution-supervision.json
+      - executor-interface.json
+    rules:
+      - "execution-supervision.json reference_context_policy defines how upstream context is treated as reference material rather than freely rewritten memory."
+      - "executor-interface.json reference_context_refs must point execution units to the reference context they may read without implying ownership of that context."
+      - "resume_signals and checkpoint_hook_bindings must preserve continuity without collapsing reference context into mutable identity memory."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  memory_pruning_rule:
+    attach_after_state: loop_or_finish
+    inputs:
+      - memory-pruning.json
+    rules:
+      - "memory-pruning.json owns pruning decisions, suspended paths, reactivation conditions, memory_edit_targets, and replacement_summaries."
+      - "pruned_paths and suspended_paths must be justified by pruning_reasons and prune_after_failed_rounds rather than by informal tool usage."
+      - "replacement_summaries must preserve enough continuity for later reactivation without reintroducing the full discarded history."
+    evaluation_hooks:
+      - fact_validation_chain
+      - mode_interaction_checks
+
+  writeback_memory_edit_event:
+    attach_after_state: loop_or_finish
+    inputs:
+      - writeback-ledger.json
+    optional_inputs:
+      - memory-pruning.json
+    rules:
+      - "writeback-ledger.json memory_edit_events are the authoritative audit trail for actual memory replacement or pruning writebacks."
+      - "If memory-pruning.json names memory_edit_targets or replacement_summaries, writeback-ledger.json should record the corresponding memory_edit_events."
+      - "memory_edit_events must not be collapsed into generic merge_decisions when history replacement materially changes future context."
+    evaluation_hooks:
+      - same_source_consistency
+      - fact_validation_chain
+
+  replacement_summary_rule:
+    attach_after_state: loop_or_finish
+    inputs:
+      - memory-pruning.json
+    optional_inputs:
+      - writeback-ledger.json
+    rules:
+      - "replacement_summaries should preserve the kept conclusion, the discarded path identity, and the reactivation boundary."
+      - "retained_summaries and replacement_summaries must stay consistent so later rounds do not lose why a path was cut and what remains reusable."
+      - "If writeback-ledger.json records memory_edit_events, the replacement summary should be referentially aligned with those edits."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+library_rule_contracts:
+  multiple_solution_sorting_rule:
+    attach_after_state: branch_plan_generation
+    inputs:
+      - decision-weighting.json
+    optional_inputs:
+      - variant-set.json
+      - branch-plan.json
+      - override-policy.json
+    rules:
+      - "decision-weighting.json owns ranking semantics, criteria, derived weights, and ranking_result."
+      - "ranking_scope or ranked_subjects_ref must bind ranking targets to stable branch ids or variant ids rather than display order."
+      - "If variant-set.json exists, default_variant must follow the weighted ranking or explicit override basis instead of presentation order."
+      - "Illustrative phrases and UI list position remain non-authoritative example residue."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+variant_rule_contracts:
+  solution_list_artifact_boundary:
+    attach_after_state: branch_plan_generation
+    inputs:
+      - variant-set.json
+    optional_inputs:
+      - decision-weighting.json
+    rules:
+      - "variant-set.json records comparable candidate variants and a default_variant pointer, but it does not compute ranking logic by itself."
+      - "ranking_basis should point to a weighting artifact, optimization artifact, or explicit comparison basis rather than UI order or example numbering."
+      - "When decision-weighting.json exists, variant-set.json should reference it through ranking_ref or default_selection_basis instead of restating the full ranking rule."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
 
 mode_inference_signals:
   advanced_mode:
@@ -492,6 +715,13 @@ mode_resolution_policy:
     - "若用户显式点名某个原本 optional 的产物，则必须把它写入 requested_outputs，并同时提升到 required_outputs。"
     - "若当前轮是 source-aligned review，且请求的是 `critique-report.json` 这类高阶 review 产物，则可把它写入 requested_outputs 而不自动视为 advanced_mode 完成。"
     - "若某产物当前无法生成但用户要求了它，必须写入 blocked_outputs，并在 evaluation-report 中解释原因。"
+    - "若两个及以上扩展模式同时激活，mode-resolution.json 应显式记录 mode_precedence、cross_mode_handoffs、authority_boundaries 与 interaction_notes。"
+    - "若 library_and_weighting_mode 与 governance_and_feedback_mode 同时激活，则应显式记录 `decision-weighting.json -> override-policy.json` 的 handoff，且 authority_boundaries 必须表明人类 override 优先于自动 ranking。"
+    - "若 library_and_weighting_mode 与 variant_and_composition_mode 同时激活，则应显式记录 `variant-set.json -> decision-weighting.json` 的候选集 handoff；若 default_variant 依赖排序结果，则还应显式记录 `decision-weighting.json -> variant-set.json` 的回写依据。"
+    - "若 discovery_and_hypothesis_mode 与 governance_and_feedback_mode 同时激活，则应显式记录 `feedback-hooks.json -> feedback-ledger.json` 的 handoff。"
+    - "若 representation_and_serialization_mode 与任一上游分析模式同时激活，则 authority_boundaries 必须表明表示层只序列化既有语义，不得发明新语义。"
+    - "若两个及以上扩展模式同时激活，则 evaluation-report.xml 应优先包含 mode_interaction_checks，用于显式审查 handoff、authority boundary 与 cross-mode drift。"
+    - "若 decision-weighting.json 用于多个候选方案排序，则 ranking_scope 或 ranked_subjects_ref 必须绑定稳定候选 id，不得使用显示顺序、方案编号措辞或示例位置作为排序依据。"
 
 mode_aware_state_requirements:
   after_semantic_clarification:
@@ -650,8 +880,10 @@ orchestration_dispatch_rules:
     - "若 drift monitor 需要接入真实 scheduler，则 drift-scheduler-service-hook.json 必须存在。"
     - "若 orchestration-plan.json 中出现 suspended_traversal，或 memory-pruning.json 中存在 pruned_paths / suspended_paths，则 before_finish 前必须存在 memory-pruning.json。"
     - "若 shared_context_strategy 不是 none，则 execution-supervision.json 必须显式记录 context_visibility、worker_scopes 与 prohibited_cross_branch_writes。"
+    - "若 shared_context_strategy 指向共享文件协同，或 execution-supervision.json 中存在非空 shared_file_contracts，则 branch_plan_generation 阶段必须先生成 shared-context-map.json。"
     - "若启用 orchestration_and_memory_mode，则执行节点必须把上游上下文视为 reference_context，而不是可任意改写的工作记忆。"
     - "若采用共享文件或环境变化协同，则 execution-supervision.json 必须显式记录 shared_file_contracts 与 environment_observation_rules。"
+    - "若 shared-context-map.json 已存在，则 execution-supervision.json 与 executor-interface.json 不得越过其中声明的 ownership、read_scope 与 write_scope。"
     - "默认 direct_message_policy 为 disallowed；若允许直接通信，必须显式说明理由与边界。"
     - "若 todo 是由上游节点逐项分配的，则 execution-supervision.json 必须显式记录 todo_distribution_policy。"
     - "若分工依赖可见上下文范围或权限差异，则 execution-supervision.json 必须显式记录 visibility_classes 与 permission_classes。"
@@ -720,6 +952,7 @@ orchestration_dispatch_rules:
     - "若治理告警或审批发生 provider/channel failover，则 governance-delivery-failover-ledger.json 必须记录 failover_events、attempted_providers、selected_providers、dropped_messages 与 resulting_delivery_state。"
     - "若某 execution_unit 所需能力不在 capability_matrix 中，或权限/上下文窗口不满足，则不得直接 finish，必须走 fallback_bindings 或 escalation_routes。"
     - "若 execution-supervision.json 中定义了非空 checkpoint_writebacks、非空 shared_file_contracts 或非空 environment_observation_rules，则 loop_or_finish 前必须生成 writeback-ledger.json。"
+    - "若共享文件协同已显式建模，则 writeback-ledger.json 应优先记录 source_shared_context_ref 与 audited_contracts。"
     - "writeback-ledger.json 必须记录 observed_writebacks、checkpoint_results、merge_decisions 与 final_shared_state。"
 
 guard_definitions:

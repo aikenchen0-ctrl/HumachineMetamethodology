@@ -87,8 +87,11 @@ Required top-level fields:
 Useful optional structure:
 
 - `review_roles`
+- `review_topology`
+- `approval_order`
 - `checkpoint_entry_conditions`
 - `checkpoint_exit_conditions`
+- `rejection_reentry_rules`
 - `required_artifact_visibility`
 
 ### `override-policy.json`
@@ -103,8 +106,10 @@ Useful optional structure:
 
 - `plan_override_rules`
 - `conflict_resolution_order`
+- `reviewer_conflict_resolution`
 - `fallback_weight_method`
 - `consistency_check_requirement`
+- `export_regeneration_rules`
 
 ### `feedback-ledger.json`
 

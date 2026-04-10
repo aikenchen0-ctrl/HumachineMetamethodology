@@ -19,15 +19,24 @@
 
 ## 高级模式顺序
 
-### 步骤 3 对应：资源图
+### 步骤 3 对应：资源扫描与资源图
 
 产物：
 
 - `resource-graph.json`
 
+动作证据：
+
+- `search-notes.json`
+
+可选规则产物：
+
+- `resource-priority-policy.json`
+
 目标：
 
 - 遍历当前系统中的可用资源
+- 把扫描动作、优先级规则、资源图结构拆开
 - 把资源写成显式结构，而不是散落在自然语言里
 
 最少应包含：
@@ -39,13 +48,18 @@
 - 约束
 - 可替代性
 
-若用户要求深度资源重构，进一步补：
+拆分规则：
 
-- `scan_order`
-- `resource_priority`
-- `self_service_checks`
-- `harm_to_benefit_checks`
-- `ifr_paths`
+- `search-notes.json` 只承接有界扫描证据与未决资源问题
+- `resource-graph.json` 只承接资源结构、位置、约束与替代关系
+- `resource-priority-policy.json` 承接扫描顺序、优先级规则、自服务检查、害益检查与 IFR 路径
+
+若用户要求深度资源重构，优先补：
+
+- `resource-priority-policy.json`
+  最少包含 `scan_sequence`、`priority_axes`、`priority_rules`
+- `resource-graph.json`
+  通过 `scan_evidence_ref` 或 `resource_priority_policy_ref` 指向上游证据或规则，而不是把全部扫描逻辑塞回图产物里
 
 ### 步骤 4 对应：行动者网络图
 

@@ -1,0 +1,121 @@
+{
+  "checklist_id": "release-consolidation-checklist-v1",
+  "purpose": "Release-ready consolidation map for the current HMM reference stack.",
+  "current_operating_mode": "maintenance_consolidation",
+  "loading_tiers": [
+    {
+      "tier_id": "tier_1_core_runtime_boundary",
+      "when_to_read": "Maintaining or executing the skill core.",
+      "assets": [
+        "references/scope-boundary.md",
+        "references/node-taxonomy.md",
+        "references/terminology-policy.md",
+        "references/state-contracts.yaml",
+        "references/state-machine.yaml",
+        "references/core-method.md",
+        "references/source-alignment-policy.md"
+      ]
+    },
+    {
+      "tier_id": "tier_2_optional_mode_references",
+      "when_to_read": "Only when the corresponding extension mode is actually needed.",
+      "assets": [
+        "references/advanced-mode.md",
+        "references/template-mode.md",
+        "references/output-and-evaluation.md",
+        "references/screen-and-critique-mode.md",
+        "references/library-and-weighting-mode.md",
+        "references/orchestration-and-memory-mode.md",
+        "references/variant-and-composition-mode.md",
+        "references/traversal-and-invention-mode.md",
+        "references/discovery-and-hypothesis-mode.md",
+        "references/portfolio-and-optimization-mode.md",
+        "references/governance-and-feedback-mode.md",
+        "references/representation-and-serialization-mode.md"
+      ]
+    },
+    {
+      "tier_id": "tier_3_source_review_maintenance",
+      "when_to_read": "Aligning the skill back to the source or maintaining source-review assets.",
+      "assets": [
+        "references/examples-index.md",
+        "references/examples-index.json",
+        "references/opml-promotion-status-model.md",
+        "references/opml-promotion-status-model.json",
+        "references/source-node-promotion-catalog.json",
+        "references/opml-promotion-backlog.json",
+        "references/opml-architecture-optimization-roadmap.md",
+        "references/opml-architecture-optimization-roadmap.json",
+        "references/release-consolidation-checklist.md",
+        "references/release-consolidation-checklist.json",
+        "references/release-final-review.md",
+        "references/release-final-review.json",
+        "references/typed-source-node-index.md",
+        "references/typed-source-node-index.yaml",
+        "references/metaPrompt-step-index.md",
+        "references/metaPrompt-step-index.json",
+        "references/source-node-type-registry.md",
+        "references/source-node-type-registry.json"
+      ]
+    },
+    {
+      "tier_id": "tier_4_frozen_boundary_archive",
+      "when_to_read": "Only when a real downstream consumer or explicit review question requires them.",
+      "assets": [
+        "references/legacy-artifact-compatibility-policy.md",
+        "references/legacy-artifact-compatibility-policy.json",
+        "references/branch-topology-decision-table.md",
+        "references/branch-topology-decision-table.json",
+        "references/product-interaction-boundary.md",
+        "references/ui-pattern-archive.json",
+        "references/executor-persona-boundary.md",
+        "references/execution-substrate-taxonomy.json",
+        "references/strategy-intervention-boundary.md",
+        "references/optional-strategy-mode.json",
+        "references/boundary-razor-policy.md",
+        "references/boundary-razor-policy.json"
+      ]
+    }
+  ],
+  "release_gates": [
+    "all_reference_assets_parse",
+    "promotion_backlog_has_no_non_completed_items",
+    "typed_source_index_covers_promotion_catalog",
+    "typed_source_and_promotion_catalog_align_on_shared_source_fields",
+    "dual_source_precedence_between_metaPrompt_and_opml_is_explicit",
+    "meta_prompt_step_index_preserves_linear_scaffold_and_numbering_anomalies",
+    "release_consolidation_checklist_covers_source_review_reference_catalog",
+    "original_source_files_match_reference_copies_by_hash",
+    "release_final_review_exists_when_all_other_release_gates_are_satisfied",
+    "frozen_archive_planes_not_expanded_without_real_consumer",
+    "remaining_candidate_rules_have_explicit_rationale",
+    "no_hardcoded_local_machine_paths_in_distribution"
+  ],
+  "preferred_maintenance_work": [
+    "typed_source_alignment_maintenance",
+    "catalog_synchronization",
+    "boundary_preservation"
+  ],
+  "default_post_closeout_work": [
+    "release_review",
+    "commit_preparation",
+    "packaging",
+    "distribution"
+  ],
+  "current_snapshot": {
+    "source_review_reference_count": 19,
+    "promotion_catalog_count": 46,
+    "typed_source_entry_count": 56,
+    "backlog_total": 8,
+    "backlog_non_done": 0,
+    "source_hash_match": true,
+    "example_count": 8,
+    "ui_pattern_count": 6,
+    "execution_substrate_class_count": 6,
+    "strategy_class_count": 4,
+    "remaining_candidate_rule_count": 1,
+    "remaining_candidate_rule_ids": [
+      "src_029_parallel_fork"
+    ]
+  }
+}

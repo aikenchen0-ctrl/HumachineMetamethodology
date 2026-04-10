@@ -1,0 +1,248 @@
+{
+  "catalog_id": "hmm-examples-index-v1",
+  "purpose": "Machine-readable index of standard cross-mode examples for selecting mode-resolution and evaluation-report patterns.",
+  "reading_order": [
+    "mode_resolution_example",
+    "evaluation_report_example"
+  ],
+  "examples": [
+    {
+      "example_id": "ex_weighting_governance_representation",
+      "title": "Weighting To Governance To Representation",
+      "mode_resolution_example": "references/mode-resolution-example.json",
+      "evaluation_report_example": "references/evaluation-report-example.xml",
+      "covered_modes": [
+        "library_and_weighting_mode",
+        "governance_and_feedback_mode",
+        "representation_and_serialization_mode"
+      ],
+      "use_when": [
+        "automatic ranking exists",
+        "human override is in scope",
+        "final exports must serialize the post-override state"
+      ],
+      "key_interaction_focus": [
+        "decision-weighting.json -> override-policy.json",
+        "override-policy.json -> representation outputs"
+      ],
+      "architecture_focus": "authority handoff from automatic ranking to human override before serialization",
+      "related_source_nodes": [
+        "src_003_multiple_solution_sorting",
+        "src_006_mermaid_sequence",
+        "src_019_parameter_library",
+        "src_022_graph_format_selection"
+      ],
+      "related_backlog_items": [
+        "pb_001_multiple_solution_sorting_split"
+      ]
+    },
+    {
+      "example_id": "ex_discovery_governance",
+      "title": "Discovery To Governance",
+      "mode_resolution_example": "references/mode-resolution-example-discovery-governance.json",
+      "evaluation_report_example": "references/evaluation-report-example-discovery-governance.xml",
+      "covered_modes": [
+        "discovery_and_hypothesis_mode",
+        "governance_and_feedback_mode"
+      ],
+      "use_when": [
+        "latent demand and visibility barriers remain active",
+        "feedback re-entry points must later become accountable feedback records"
+      ],
+      "key_interaction_focus": [
+        "feedback-hooks.json -> feedback-ledger.json",
+        "hypothesis-register.json -> governance review boundary"
+      ],
+      "architecture_focus": "discovery owns framing while governance owns actual review and writeback",
+      "related_source_nodes": [
+        "src_002_user_question_style",
+        "src_043_root_demand_effect_library",
+        "src_044_prompt_guidance_source"
+      ],
+      "related_backlog_items": []
+    },
+    {
+      "example_id": "ex_advanced_representation",
+      "title": "Advanced To Representation",
+      "mode_resolution_example": "references/mode-resolution-example-advanced-representation.json",
+      "evaluation_report_example": "references/evaluation-report-example-advanced-representation.xml",
+      "covered_modes": [
+        "advanced_mode",
+        "representation_and_serialization_mode"
+      ],
+      "use_when": [
+        "advanced modeling is the semantic source of truth",
+        "representation mode must export downstream views without redefining them"
+      ],
+      "key_interaction_focus": [
+        "actor-network.json -> sequence-diagram.mmd",
+        "solution-set.json -> representation-bundle.json"
+      ],
+      "architecture_focus": "representation remains downstream-only and non-authoritative over advanced semantics",
+      "related_source_nodes": [
+        "src_033_resource_graph_artifact",
+        "src_034_actor_network_graph_artifact",
+        "src_036_ant_reference",
+        "src_037_flow_analysis_reference",
+        "src_038_safc_reference"
+      ],
+      "related_backlog_items": [
+        "pb_004_resource_scan_split"
+      ]
+    },
+    {
+      "example_id": "ex_template_orchestration",
+      "title": "Template To Orchestration",
+      "mode_resolution_example": "references/mode-resolution-example-template-orchestration.json",
+      "evaluation_report_example": "references/evaluation-report-example-template-orchestration.xml",
+      "covered_modes": [
+        "template_mode",
+        "orchestration_and_memory_mode"
+      ],
+      "use_when": [
+        "template mode defines reusable method semantics",
+        "orchestration mode defines execution topology and writeback boundaries"
+      ],
+      "key_interaction_focus": [
+        "template-chain.json -> orchestration-plan.json",
+        "shared-context-map.json -> execution-supervision.json",
+        "writeback-ledger.json -> future template refinement"
+      ],
+      "architecture_focus": "template stays semantic-upstream while orchestration stays execution-downstream",
+      "related_source_nodes": [
+        "src_004_shared_file_editor",
+        "src_005_template_format",
+        "src_023_execution_supervision",
+        "src_030_child_agent",
+        "src_031_history_memory_edit_tool"
+      ],
+      "related_backlog_items": [
+        "pb_002_shared_file_editor_split",
+        "pb_005_child_agent_rename",
+        "pb_006_history_memory_split",
+        "pb_008_parallel_fork_hold"
+      ]
+    },
+    {
+      "example_id": "ex_portfolio_weighting_governance",
+      "title": "Portfolio To Weighting To Governance",
+      "mode_resolution_example": "references/mode-resolution-example-portfolio-weighting-governance.json",
+      "evaluation_report_example": "references/evaluation-report-example-portfolio-weighting-governance.xml",
+      "covered_modes": [
+        "portfolio_and_optimization_mode",
+        "library_and_weighting_mode",
+        "governance_and_feedback_mode"
+      ],
+      "use_when": [
+        "portfolio preserves a near-optimal set",
+        "weighting ranks within that set",
+        "governance retains final override authority"
+      ],
+      "key_interaction_focus": [
+        "optimization-report.json -> decision-weighting.json",
+        "decision-weighting.json -> override-policy.json"
+      ],
+      "architecture_focus": "portfolio owns candidate-space preservation, weighting owns internal ranking, governance owns final adoption",
+      "related_source_nodes": [
+        "src_003_multiple_solution_sorting",
+        "src_019_parameter_library",
+        "src_020_effect_library",
+        "src_040_five_direction_near_optimal_method"
+      ],
+      "related_backlog_items": [
+        "pb_001_multiple_solution_sorting_split"
+      ]
+    },
+    {
+      "example_id": "ex_representation_governance_approval",
+      "title": "Representation Plus Governance Approval",
+      "mode_resolution_example": "references/mode-resolution-example-representation-governance-approval.json",
+      "evaluation_report_example": "references/evaluation-report-example-representation-governance-approval.xml",
+      "covered_modes": [
+        "governance_and_feedback_mode",
+        "representation_and_serialization_mode"
+      ],
+      "use_when": [
+        "export payloads must be generated",
+        "governance must approve or gate release",
+        "representation construction must stay separate from export authorization"
+      ],
+      "key_interaction_focus": [
+        "xml-rewrite.xml -> governance-checkpoints.json",
+        "governance-checkpoints.json / override-policy.json -> final export release"
+      ],
+      "architecture_focus": "representation builds payload structure while governance decides release eligibility",
+      "related_source_nodes": [
+        "src_002_user_question_style",
+        "src_006_mermaid_sequence",
+        "src_022_graph_format_selection"
+      ],
+      "related_backlog_items": []
+    },
+    {
+      "example_id": "ex_template_discovery",
+      "title": "Template Plus Discovery",
+      "mode_resolution_example": "references/mode-resolution-example-template-discovery.json",
+      "evaluation_report_example": "references/evaluation-report-example-template-discovery.xml",
+      "covered_modes": [
+        "template_mode",
+        "discovery_and_hypothesis_mode"
+      ],
+      "use_when": [
+        "template compression is needed before demand visibility is fully stable",
+        "discovery must keep latent demand and open assumptions explicit"
+      ],
+      "key_interaction_focus": [
+        "demand-visibility.json / hypothesis-register.json -> template-chain.json",
+        "pruning-notes.json -> future discovery reopening"
+      ],
+      "architecture_focus": "discovery keeps demand framing open while template mode compresses only the reusable method shell",
+      "related_source_nodes": [
+        "src_005_template_format",
+        "src_043_root_demand_effect_library",
+        "src_044_prompt_guidance_source"
+      ],
+      "related_backlog_items": []
+    },
+    {
+      "example_id": "ex_multi_reviewer_export_approval",
+      "title": "Representation Plus Governance Multi-Reviewer Export Approval",
+      "mode_resolution_example": "references/mode-resolution-example-multi-reviewer-export-approval.json",
+      "evaluation_report_example": "references/evaluation-report-example-multi-reviewer-export-approval.xml",
+      "covered_modes": [
+        "governance_and_feedback_mode",
+        "representation_and_serialization_mode"
+      ],
+      "use_when": [
+        "export payloads must pass through more than one human reviewer role",
+        "review order and release eligibility must be explicit",
+        "rejection or edit requests must map back into regeneration or re-review logic"
+      ],
+      "key_interaction_focus": [
+        "xml-rewrite.xml / representation-bundle.json -> multi-reviewer visibility package",
+        "governance-checkpoints.json -> approval order and review topology",
+        "override-policy.json -> rejection reentry and regeneration rules"
+      ],
+      "architecture_focus": "representation builds one stable export candidate while governance defines the multi-reviewer approval topology over that same payload",
+      "related_source_nodes": [
+        "src_002_user_question_style",
+        "src_006_mermaid_sequence",
+        "src_022_graph_format_selection"
+      ],
+      "related_backlog_items": []
+    }
+  ],
+  "coverage_status": {
+    "covered_interactions": [
+      "weighting-heavy interaction",
+      "discovery-heavy interaction",
+      "advanced-analysis-heavy interaction",
+      "execution-heavy interaction",
+      "portfolio-heavy interaction",
+      "approval-heavy export interaction",
+      "multi-reviewer export approval topology",
+      "discovery-template interaction"
+    ],
+    "missing_interactions": []
+  }
+}

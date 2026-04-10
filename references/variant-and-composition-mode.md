@@ -55,6 +55,21 @@
 - `default_variant`
 - `ranking_basis`
 
+推荐补充：
+
+- `ranking_ref`
+- `default_selection_basis`
+- `variant_identity_rule`
+- `comparison_notes`
+
+若 `variants` 是结构化条目，优先让每个条目暴露：
+
+- `variant_id`
+- `title`
+- `summary`
+- `constraint_profile`
+- `selection_status`
+
 其中每个 variant 至少包含：
 
 - `variant_id`
@@ -102,3 +117,13 @@ Use this pattern when the path may be freely recomposed under different constrai
 - `branch-plan.json` 解决“怎么拆问题”
 - `variant-set.json` 解决“拆出来后有哪些可比较方案”
 - `composition-plan.json` 解决“怎么从多个方案中重组出新方案”
+
+默认边界：
+
+- `variant-set.json` 记录候选方案集合和默认指针
+- `decision-weighting.json` 记录排序语义
+
+因此：
+
+- `variant-set.json` 不应把 UI 顺序或示例措辞当成排名依据
+- 若排序来自 `decision-weighting.json`，则应通过 `ranking_ref` 或 `default_selection_basis` 显式指向它

@@ -144,14 +144,32 @@ Useful optional structure:
 - `fallback_used`
 - `override_handoff_target`
 - `ranking_scope`
+- `ranked_subjects_ref`
+- `default_selection_rule`
+- `selection_evidence_ref`
 
 ## Cross-Mode Boundary
 
 - `decision-weighting.json` belongs to library and weighting mode.
+- `variant-set.json` belongs to variant and composition mode.
 - `override-policy.json` belongs to governance and feedback mode.
 
 The first computes or records a ranking.
-The second says whether a human can override that ranking, in what order, and how the override should be applied.
+The second holds the comparable candidate set and any default-variant pointer.
+The third says whether a human can override that ranking, in what order, and how the override should be applied.
+
+Default boundary:
+
+- `decision-weighting.json` owns ranking semantics.
+- `variant-set.json` owns candidate listing.
+- `override-policy.json` owns final override authority.
+
+Do not let UI list position, example numbering, or phrases such as "方案一提示词" become ranking logic.
+
+If `variant-set.json` exists:
+
+- `ranking_scope` or `ranked_subjects_ref` should bind ranking to stable variant ids,
+- and `default_selection_rule` should explain how the final default is chosen without relying on presentation order.
 
 Do not merge these responsibilities by default.
 

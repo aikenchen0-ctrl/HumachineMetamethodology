@@ -23,6 +23,56 @@ The original source is primarily about:
 
 It is not primarily about long-lived runtime operations engineering.
 
+## Dual-Source Arbitration
+
+The source is not one document.
+
+It is two cooperating but non-identical source layers:
+
+- `metaPrompt.md`
+- `agentic-nested-state-machine.opml`
+
+Use this default arbitration rule:
+
+### `metaPrompt.md` Is Authoritative For
+
+- the linear step chain,
+- the step 1 to step 8 progression,
+- the advanced-analysis sequence itself,
+- and what counts as the original linear method scaffold.
+
+### `agentic-nested-state-machine.opml` Is Authoritative For
+
+- the mother-structure around branching,
+- workflow shell context,
+- orchestration imagination,
+- archive and product interaction residue,
+- and the larger source ecology around collaboration, evaluation, and execution imagination.
+
+### When They Overlap
+
+- use `metaPrompt.md` to decide linear step order,
+- use `agentic-nested-state-machine.opml` to decide mother-structure, branch semantics, and surrounding source planes,
+- and use the current typed source and promotion assets only to normalize that relation, not to replace it.
+
+### Practical Conflict Rule
+
+If a conflict appears:
+
+1. ask whether it is about linear step order or about mother-structure
+2. if it is about linear step order, prefer `metaPrompt.md`
+3. if it is about branch / orchestration / archive / interaction structure, prefer `agentic-nested-state-machine.opml`
+4. if the conflict remains mixed, record it explicitly in source-review assets rather than silently merging the two interpretations
+
+## Typed Dual-Source Entry
+
+For maintenance work, prefer these typed entry points:
+
+- `references/metaPrompt-step-index.json`
+  for the linear step scaffold
+- `references/typed-source-node-index.yaml`
+  for the OPML mother-structure
+
 ## Two Rings
 
 ### Ring 1: Source-Aligned Core

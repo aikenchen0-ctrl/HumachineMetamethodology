@@ -61,13 +61,12 @@
 - 自服务验证
 - 变害为益验证
 
-推荐在 `resource-graph.json` 中补以下字段：
+推荐拆成两层：
 
-- `scan_order`
-- `resource_priority`
-- `self_service_checks`
-- `harm_to_benefit_checks`
-- `ifr_paths`
+- `resource-graph.json`
+  只保留资源结构、位置、约束、替代关系，以及对上游证据或优先级规则的引用
+- `resource-priority-policy.json`
+  记录 `scan_sequence`、`priority_axes`、`priority_rules`、`self_service_checks`、`harm_to_benefit_checks`、`ifr_paths`
 
 ## 批判辩证复盘
 

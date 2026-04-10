@@ -1,0 +1,183 @@
+{
+  "resolved_modes": [
+    "discovery_and_hypothesis_mode",
+    "governance_and_feedback_mode"
+  ],
+  "mode_sources": [
+    {
+      "mode": "discovery_and_hypothesis_mode",
+      "source": "system_inference",
+      "basis": [
+        "the current round still depends on high-uncertainty demand assumptions",
+        "visibility barriers and latent demand need explicit treatment"
+      ]
+    },
+    {
+      "mode": "governance_and_feedback_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "human review and editable checkpoints are in scope",
+        "real-world feedback should later write back into the method"
+      ]
+    }
+  ],
+  "activation_reasons": [
+    {
+      "mode": "discovery_and_hypothesis_mode",
+      "reasons": [
+        "The base-chain visible demand split is not enough.",
+        "Latent demand, visibility barriers, and reversible assumptions are first-class."
+      ]
+    },
+    {
+      "mode": "governance_and_feedback_mode",
+      "reasons": [
+        "Human checkpoints must be explicit before the round can finish.",
+        "Feedback hooks need a later ledger target for actual correction tracking."
+      ]
+    }
+  ],
+  "source_alignment_basis": [
+    "references/core-method.md",
+    "references/discovery-and-hypothesis-mode.md",
+    "references/governance-and-feedback-mode.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "discovery_and_hypothesis_mode": [
+      "semantic_clarification",
+      "loop_or_finish"
+    ],
+    "governance_and_feedback_mode": [
+      "semantic_clarification",
+      "evaluation_validation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "discovery_and_hypothesis_mode": [
+      "demand-visibility.json",
+      "hypothesis-register.json",
+      "feedback-hooks.json"
+    ],
+    "governance_and_feedback_mode": [
+      "interaction-policy.json",
+      "governance-checkpoints.json",
+      "feedback-ledger.json"
+    ]
+  },
+  "optional_outputs": {
+    "discovery_and_hypothesis_mode": [],
+    "governance_and_feedback_mode": [
+      "override-policy.json"
+    ]
+  },
+  "requested_outputs": [
+    "demand-visibility.json",
+    "hypothesis-register.json",
+    "feedback-hooks.json",
+    "interaction-policy.json",
+    "governance-checkpoints.json",
+    "feedback-ledger.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "governance-source-drift-report.json",
+    "governance-review-scheduler.json"
+  ],
+  "stage_requirements": {
+    "after_semantic_clarification": {
+      "discovery_and_hypothesis_mode": [
+        "demand-visibility.json",
+        "hypothesis-register.json"
+      ],
+      "governance_and_feedback_mode": [
+        "interaction-policy.json"
+      ]
+    },
+    "before_finish": {
+      "discovery_and_hypothesis_mode": [
+        "feedback-hooks.json"
+      ],
+      "governance_and_feedback_mode": [
+        "governance-checkpoints.json",
+        "feedback-ledger.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "discovery_and_hypothesis_mode": {
+      "if_missing": "loop back to semantic_clarification",
+      "why": "latent demand discovery and open-hypothesis governance begin at the clarification boundary"
+    },
+    "governance_and_feedback_mode": {
+      "if_missing": "loop back to evaluation_validation",
+      "why": "human review points and feedback ledger should be settled before finish"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "mode_precedence": [
+    {
+      "higher_mode": "governance_and_feedback_mode",
+      "lower_mode": "discovery_and_hypothesis_mode",
+      "precedence_basis": "discovery proposes entry points, governance decides how actual review and writeback are controlled",
+      "applies_to": [
+        "human review timing",
+        "feedback application"
+      ],
+      "note": "Discovery still owns latent-demand and visibility-barrier analysis."
+    }
+  ],
+  "cross_mode_handoffs": [
+    {
+      "from_mode": "discovery_and_hypothesis_mode",
+      "to_mode": "governance_and_feedback_mode",
+      "via_artifact": "feedback-hooks.json",
+      "handoff_purpose": "Define where feedback can re-enter and what governance ledger should later receive it.",
+      "conflict_if_missing": "Feedback may exist conceptually but never land in an accountable correction record."
+    },
+    {
+      "from_mode": "discovery_and_hypothesis_mode",
+      "to_mode": "governance_and_feedback_mode",
+      "via_artifact": "hypothesis-register.json",
+      "handoff_purpose": "Expose which assumptions remain reversible before governance freezes or validates them.",
+      "conflict_if_missing": "Governance may review a path without knowing which assumptions are still provisional."
+    }
+  ],
+  "authority_boundaries": [
+    {
+      "subject": "latent-demand framing",
+      "computed_by": "discovery_and_hypothesis_mode",
+      "overridden_by": "none",
+      "serialized_by": "none",
+      "final_authority": "discovery_and_hypothesis_mode"
+    },
+    {
+      "subject": "human review and feedback application",
+      "computed_by": "governance_and_feedback_mode",
+      "overridden_by": "human_reviewer",
+      "serialized_by": "none",
+      "final_authority": "governance_and_feedback_mode"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "discovery_and_hypothesis_mode",
+        "governance_and_feedback_mode"
+      ],
+      "active_when": "the round still has high-uncertainty assumptions and also requires human review or real-world writeback",
+      "note": "Do not confuse feedback entry conditions with actual feedback history."
+    }
+  ]
+}

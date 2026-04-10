@@ -126,6 +126,9 @@ Use this only when a compressed artifact such as `checklist-summary.json` is mea
 
 仅当用户明确需要共创或多节点协作时启用。
 
+当前架构中，它应由 `orchestration_and_memory_mode` 持有；
+`template_mode` 只在需要时为它提供上游 handoff 语义，而不再把它视为自己的默认收尾产物。
+
 最少应包含：
 
 - `shared_files`
@@ -237,7 +240,7 @@ Prefer this registry when more than one preserved consumer needs the same discov
 2. 再从已有产物中抽取模板边界
 3. 把步骤压成 `template-chain.json`
 4. 若探索过程中已排除某些路径，则输出 `pruning-notes.json`
-5. 只有在用户明确需要协作结构时，才输出 `shared-context-map.json`
+5. 若需要协作结构，则把 `template-chain.json` 的 handoff 语义交给 `orchestration_and_memory_mode`，由后者决定是否生成 `shared-context-map.json`
 
 ## 和基础/高级模式的关系
 

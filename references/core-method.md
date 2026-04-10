@@ -20,7 +20,33 @@ The source is not one prompt. It is a two-layer structure:
 2. `agentic-nested-state-machine.opml`
    The mother-structure around state space, branching, pruning, evaluation, and human collaboration.
 
+Default precedence:
+
+- use `metaPrompt.md` for linear step order,
+- use `agentic-nested-state-machine.opml` for the mother-structure around those steps,
+- and do not let downstream normalization assets silently replace either source layer.
+
 ## Core Ideas That Must Survive
+
+### 0. One Explicit Workflow Shell
+
+The source mother-structure is rich, but the default shell should remain explicit and small:
+
+1. problem intake
+2. semantic clarification
+3. demand and constraint modeling
+4. branch planning
+5. evaluation and validation
+6. loop or finish
+
+This shell should not be redefined by:
+
+- branch classes,
+- shared-file coordination,
+- execution supervision,
+- or runtime-style orchestration imagination.
+
+Those belong to extension planes attached around the shell, not inside it.
 
 ### 1. True Demand And True Constraints Before Solution
 

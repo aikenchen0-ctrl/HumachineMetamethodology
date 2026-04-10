@@ -1,0 +1,77 @@
+{
+  "policy_id": "boundary-razor-policy-v1",
+  "purpose": "Prevent unnecessary architecture-surface expansion after the main source-alignment work is already complete.",
+  "default_rule": "When a plane already exists in maintained usable form, freeze it unless a real downstream consumer or active contract gap requires further expansion.",
+  "freeze_states": [
+    {
+      "freeze_state_id": "alignment_surface",
+      "meaning": "Keep aligned and maintained, but do not expand by default."
+    },
+    {
+      "freeze_state_id": "archive_boundary",
+      "meaning": "Keep non-core material out of workflow contracts; expand only when a real consumer requires it."
+    },
+    {
+      "freeze_state_id": "gated_optional_plane",
+      "meaning": "Keep available, but never activate implicitly into the neutral core."
+    },
+    {
+      "freeze_state_id": "wait_real_case",
+      "meaning": "Hold current decision-table form until a real distinguishing case appears."
+    },
+    {
+      "freeze_state_id": "policy_defined",
+      "meaning": "Treat current policy as sufficient unless an explicit reactivation trigger appears."
+    }
+  ],
+  "current_freeze_matrix": [
+    {
+      "plane_id": "typed_source_plane",
+      "freeze_state": "alignment_surface"
+    },
+    {
+      "plane_id": "product_interaction_archive_plane",
+      "freeze_state": "archive_boundary"
+    },
+    {
+      "plane_id": "execution_substrate_plane",
+      "freeze_state": "archive_boundary"
+    },
+    {
+      "plane_id": "strategy_intervention_plane",
+      "freeze_state": "gated_optional_plane"
+    },
+    {
+      "plane_id": "topology_decision_plane",
+      "freeze_state": "wait_real_case"
+    },
+    {
+      "plane_id": "archive_compatibility_plane",
+      "freeze_state": "policy_defined"
+    }
+  ],
+  "expansion_tests": [
+    "real_downstream_consumer_requires_missing_distinction",
+    "active_contract_still_reconstructs_plane_implicitly",
+    "source_change_invalidates_current_first_pass_layer"
+  ],
+  "stop_rule": {
+    "activate_when_all_true": [
+      "release_gates_satisfied",
+      "no_non_completed_backlog_items",
+      "frozen_planes_already_bounded_by_policy",
+      "no_real_downstream_consumer_requires_new_distinction"
+    ],
+    "default_next_work": [
+      "release_review",
+      "commit_preparation",
+      "packaging",
+      "distribution"
+    ]
+  },
+  "preferred_next_work": [
+    "typed_source_alignment_maintenance",
+    "catalog_synchronization",
+    "boundary_preservation"
+  ]
+}

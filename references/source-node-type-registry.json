@@ -1,0 +1,57 @@
+{
+  "registry_id": "source-node-type-registry-v1",
+  "purpose": "Define typed source node roles and source-plane hints for the maintained typed source companion.",
+  "node_types": [
+    {
+      "node_type_id": "state",
+      "meaning": "Workflow-stage or stage-like control object."
+    },
+    {
+      "node_type_id": "rule",
+      "meaning": "Reusable decision boundary, interaction constraint, topology rule, or execution rule."
+    },
+    {
+      "node_type_id": "artifact",
+      "meaning": "Concrete output object or historical file identity."
+    },
+    {
+      "node_type_id": "reference",
+      "meaning": "Theory, format, optional method background, or supporting reference."
+    },
+    {
+      "node_type_id": "ui",
+      "meaning": "Product interaction or client implementation idea."
+    },
+    {
+      "node_type_id": "example",
+      "meaning": "Illustrative scenario or local probe."
+    }
+  ],
+  "scope_layers": [
+    "core",
+    "orchestration",
+    "reference",
+    "ui-product"
+  ],
+  "source_planes": [
+    "workflow_control_plane",
+    "interaction_plane",
+    "execution_plane",
+    "capability_mode_plane",
+    "representation_plane",
+    "evaluation_plane",
+    "product_interaction_archive_plane",
+    "execution_substrate_plane",
+    "archive_and_compatibility_plane",
+    "topology_decision_plane",
+    "optional_strategy_intervention_plane"
+  ],
+  "synthetic_id_rule": {
+    "allowed_prefixes": [
+      "src_ui_",
+      "src_exec_",
+      "src_strat_"
+    ],
+    "use_when": "A product-interaction, execution-substrate, or strategy/intervention archive pattern is worth indexing in the typed source companion before it receives full promotion-catalog coverage."
+  }
+}

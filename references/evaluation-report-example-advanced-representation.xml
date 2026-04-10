@@ -1,0 +1,134 @@
+<evaluation_report>
+  <evaluation_id>advanced-representation-interaction-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>resource-graph.json</artifact>
+    <artifact>actor-network.json</artifact>
+    <artifact>function-field-model.json</artifact>
+    <artifact>flow-analysis.json</artifact>
+    <artifact>safc-model.json</artifact>
+    <artifact>contradiction-analysis.json</artifact>
+    <artifact>solution-set.json</artifact>
+    <artifact>sequence-diagram.mmd</artifact>
+    <artifact>representation-bundle.json</artifact>
+  </checked_artifacts>
+  <completeness_score>97</completeness_score>
+  <consistency_score>98</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If the advanced artifact set changes after export generation, sequence and bundle exports must be regenerated.</risk>
+  </non_blocking_risks>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.94</confidence>
+  <advanced_mode_findings>
+    <item>The semantic source of truth remains in advanced-mode artifacts rather than the export layer.</item>
+    <item>When ordered resource scanning is explicit, resource-priority-policy.json should carry scan and ranking logic separately from resource-graph.json.</item>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The graph, flow, contradiction, solution, and exported representation all refer to the same bounded system object.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>The Mermaid and representation bundle exports serialize the same advanced outputs that the JSON artifacts already define.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm system graph and flow artifacts exist before contradiction and solution outputs are reviewed.</item>
+    <item>Confirm resource-graph.json stays structural and does not absorb the full scan-order or resource-priority policy.</item>
+    <item>Confirm sequence export uses actor-network participants rather than inventing its own actors.</item>
+    <item>Confirm representation bundle targets finalized advanced artifacts rather than intermediate drafts.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The downstream consumer of the representation bundle requires exactly the current set of selected exports and not a different serialization profile.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>advanced_mode</mode>
+      <status>pass</status>
+      <note>Core advanced artifact chain is present through solution-set.json.</note>
+    </check>
+    <check>
+      <mode>representation_and_serialization_mode</mode>
+      <status>pass</status>
+      <note>sequence-diagram.mmd and representation-bundle.json exist and remain downstream-only.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>solution-set.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>sequence-diagram.mmd</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>representation-bundle.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>No derived runtime operations artifact was required; the export layer remained attached to source-aligned advanced artifacts only.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>derived runtime extension</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>after_demand_constraint_modeling</state>
+      <status>pass</status>
+      <note>resource-graph.json and actor-network.json were established before later exports.</note>
+    </check>
+    <check>
+      <state>after_branch_plan_generation</state>
+      <status>pass</status>
+      <note>sequence-diagram.mmd was generated only after stable advanced interaction artifacts existed.</note>
+    </check>
+    <check>
+      <state>before_finish</state>
+      <status>pass</status>
+      <note>representation-bundle.json points to finalized advanced outputs.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because advanced modeling remains the semantic source and representation stays downstream-only.</item>
+  </dispatch_recommendations>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>solution-set.json</step_or_artifact>
+      <role_classification>sufficient_condition</role_classification>
+      <why>Once the advanced modeling chain has stabilized through solution-set.json, representation can proceed without reopening upstream semantics.</why>
+      <evidence>representation-bundle.json and sequence-diagram.mmd both consume advanced outputs downstream.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>actor-network.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, the sequence export lacks a stable participant and interaction basis.</why>
+      <evidence>mode-resolution.json explicitly hands off actor-network.json to representation mode.</evidence>
+    </check>
+  </key_step_role_checks>
+  <mode_interaction_checks>
+    <check>
+      <interacting_modes>advanced_mode,representation_and_serialization_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_advanced_mode_for_semantics</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+  </mode_interaction_checks>
+  <self_score>94</self_score>
+  <score_reason>The example clearly shows advanced-to-representation handoff, but still covers only one export-heavy interaction pattern.</score_reason>
+</evaluation_report>

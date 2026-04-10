@@ -1,0 +1,256 @@
+{
+  "resolved_modes": [
+    "portfolio_and_optimization_mode",
+    "library_and_weighting_mode",
+    "governance_and_feedback_mode"
+  ],
+  "mode_sources": [
+    {
+      "mode": "portfolio_and_optimization_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the round requires multi-path approximate-optimal comparison",
+        "research and execution planning need to be layered"
+      ]
+    },
+    {
+      "mode": "library_and_weighting_mode",
+      "source": "system_inference",
+      "basis": [
+        "candidate paths need explicit ranking support",
+        "no explicit human weights have been supplied yet"
+      ]
+    },
+    {
+      "mode": "governance_and_feedback_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "human override authority must remain explicit",
+        "automatic ranking is not the final authority once human review enters"
+      ]
+    }
+  ],
+  "activation_reasons": [
+    {
+      "mode": "portfolio_and_optimization_mode",
+      "reasons": [
+        "The round must preserve a near-optimal set instead of collapsing early to one path.",
+        "Methodology branching and staged commitment are first-class requirements."
+      ]
+    },
+    {
+      "mode": "library_and_weighting_mode",
+      "reasons": [
+        "A ranking aid is needed to compare candidate paths inside the near-optimal set.",
+        "A fallback weighting method is required because human weights are absent."
+      ]
+    },
+    {
+      "mode": "governance_and_feedback_mode",
+      "reasons": [
+        "The ranking result must stay overridable by humans.",
+        "The round needs explicit override priority and review checkpoints before commitment."
+      ]
+    }
+  ],
+  "source_alignment_basis": [
+    "references/portfolio-and-optimization-mode.md",
+    "references/library-and-weighting-mode.md",
+    "references/governance-and-feedback-mode.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "portfolio_and_optimization_mode": [
+      "demand_constraint_modeling",
+      "branch_plan_generation",
+      "evaluation_validation",
+      "loop_or_finish"
+    ],
+    "library_and_weighting_mode": [
+      "semantic_clarification",
+      "demand_constraint_modeling",
+      "branch_plan_generation",
+      "loop_or_finish"
+    ],
+    "governance_and_feedback_mode": [
+      "semantic_clarification",
+      "evaluation_validation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "portfolio_and_optimization_mode": [
+      "state-space-matrix.json",
+      "methodology-portfolio.json",
+      "method-branch-map.json",
+      "research-plan.json",
+      "execution-roadmap.json",
+      "optimization-report.json"
+    ],
+    "library_and_weighting_mode": [
+      "decision-weighting.json"
+    ],
+    "governance_and_feedback_mode": [
+      "override-policy.json",
+      "governance-checkpoints.json"
+    ]
+  },
+  "optional_outputs": {
+    "portfolio_and_optimization_mode": [],
+    "library_and_weighting_mode": [
+      "variant-set.json",
+      "prompt-guidance.json",
+      "checklist-summary.json"
+    ],
+    "governance_and_feedback_mode": [
+      "interaction-policy.json",
+      "feedback-ledger.json"
+    ]
+  },
+  "requested_outputs": [
+    "state-space-matrix.json",
+    "methodology-portfolio.json",
+    "research-plan.json",
+    "execution-roadmap.json",
+    "optimization-report.json",
+    "decision-weighting.json",
+    "override-policy.json",
+    "governance-checkpoints.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "governance-source-drift-report.json",
+    "governance-review-scheduler.json"
+  ],
+  "stage_requirements": {
+    "after_demand_constraint_modeling": {
+      "portfolio_and_optimization_mode": [
+        "state-space-matrix.json"
+      ],
+      "library_and_weighting_mode": [
+        "decision-weighting.json"
+      ]
+    },
+    "after_branch_plan_generation": {
+      "portfolio_and_optimization_mode": [
+        "methodology-portfolio.json",
+        "method-branch-map.json"
+      ]
+    },
+    "before_finish": {
+      "portfolio_and_optimization_mode": [
+        "research-plan.json",
+        "execution-roadmap.json",
+        "optimization-report.json"
+      ],
+      "governance_and_feedback_mode": [
+        "override-policy.json",
+        "governance-checkpoints.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "portfolio_and_optimization_mode": {
+      "if_missing": "loop back to demand_constraint_modeling or branch_plan_generation depending on the missing portfolio artifact",
+      "why": "portfolio outputs depend on stable multi-objective structure"
+    },
+    "library_and_weighting_mode": {
+      "if_missing": "loop back to branch_plan_generation",
+      "why": "weighting requires stable candidate paths and criteria"
+    },
+    "governance_and_feedback_mode": {
+      "if_missing": "loop back to evaluation_validation",
+      "why": "override policy must be explicit before final commitment"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "mode_precedence": [
+    {
+      "higher_mode": "portfolio_and_optimization_mode",
+      "lower_mode": "library_and_weighting_mode",
+      "precedence_basis": "portfolio defines the candidate-path universe and preserves the approximate-best set",
+      "applies_to": [
+        "candidate path inclusion",
+        "non-dominated set membership"
+      ],
+      "note": "Weighting may rank within the set, but it should not silently collapse the portfolio's broader approximation space."
+    },
+    {
+      "higher_mode": "governance_and_feedback_mode",
+      "lower_mode": "library_and_weighting_mode",
+      "precedence_basis": "human override outranks automatic ranking",
+      "applies_to": [
+        "final route adoption",
+        "weight adoption"
+      ],
+      "note": "Automatic weighting remains valid as upstream decision support."
+    }
+  ],
+  "cross_mode_handoffs": [
+    {
+      "from_mode": "portfolio_and_optimization_mode",
+      "to_mode": "library_and_weighting_mode",
+      "via_artifact": "optimization-report.json",
+      "handoff_purpose": "Provide candidate paths, tradeoffs, and approximate-best set before ranking support is applied.",
+      "conflict_if_missing": "Weighting may rank a space that portfolio never stabilized."
+    },
+    {
+      "from_mode": "portfolio_and_optimization_mode",
+      "to_mode": "library_and_weighting_mode",
+      "via_artifact": "method-branch-map.json",
+      "handoff_purpose": "Provide branch-level changed constraints and weights so weighting does not ignore branch asymmetry.",
+      "conflict_if_missing": "Ranking may flatten routes that belong to materially different branch conditions."
+    },
+    {
+      "from_mode": "library_and_weighting_mode",
+      "to_mode": "governance_and_feedback_mode",
+      "via_artifact": "decision-weighting.json",
+      "handoff_purpose": "Provide ranked options and fallback weighting source before any human override is applied.",
+      "conflict_if_missing": "Override policy loses a concrete upstream ranking target."
+    }
+  ],
+  "authority_boundaries": [
+    {
+      "subject": "candidate path universe",
+      "computed_by": "portfolio_and_optimization_mode",
+      "overridden_by": "none",
+      "serialized_by": "none",
+      "final_authority": "portfolio_and_optimization_mode"
+    },
+    {
+      "subject": "automatic path ranking",
+      "computed_by": "library_and_weighting_mode",
+      "overridden_by": "governance_and_feedback_mode",
+      "serialized_by": "none",
+      "final_authority": "governance_and_feedback_mode"
+    },
+    {
+      "subject": "final route adoption",
+      "computed_by": "governance_and_feedback_mode",
+      "overridden_by": "human_reviewer",
+      "serialized_by": "none",
+      "final_authority": "governance_and_feedback_mode"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "portfolio_and_optimization_mode",
+        "library_and_weighting_mode",
+        "governance_and_feedback_mode"
+      ],
+      "active_when": "the round both preserves a near-optimal set and still needs a final ranked recommendation under human review",
+      "note": "Do not let weighting silently collapse the portfolio before governance review."
+    }
+  ]
+}

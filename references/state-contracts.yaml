@@ -1,5 +1,5 @@
 contract_version: 1
-skill_scope: problem-structuring-agentic-mvp
+skill_scope: hmm-mvp
 source_files:
   - scope-boundary.md
   - node-taxonomy.md
@@ -27,6 +27,14 @@ source_alignment:
   direct_source_reference:
     - metaPrompt.md
     - agentic-nested-state-machine.opml
+  dual_source_precedence:
+    linear_step_order_authority: metaPrompt.md
+    mother_structure_authority: agentic-nested-state-machine.opml
+    normalization_assets_must_not_override_source: true
+    conflict_rule: "Prefer metaPrompt.md for linear step order and prefer agentic-nested-state-machine.opml for branching, orchestration, archive, and surrounding source-structure semantics."
+    typed_dual_source_companions:
+      meta_prompt_linear_scaffold: references/metaPrompt-step-index.json
+      opml_mother_structure: references/typed-source-node-index.yaml
   source_aligned_core_modes:
     - advanced_mode
     - template_mode
@@ -40,6 +48,7 @@ source_alignment:
     - representation_and_serialization_mode
   source_aligned_orchestration_outputs:
     - orchestration-plan.json
+    - shared-context-map.json
     - execution-supervision.json
     - executor-interface.json
     - executor-capability-registry.json
@@ -77,6 +86,514 @@ naming_policy:
     - yaml
     - xml
   note: "状态名面向流程，artifact 名面向文件系统；同一状态只绑定一个主产物文件。"
+
+source_review_reference_policy:
+  default_rule: "These files are lightweight reference contracts for source-aligned architecture review. They guide example selection, node promotion, and backlog prioritization, but they do not replace per-round stage outputs."
+  required_when:
+    - "The task critiques or improves the abstract functional design of agentic-nested-state-machine.opml."
+    - "The task decides whether a source-derived node should remain an example, become a rule, become an active contract, or become an archived reference."
+    - "The task prioritizes which source-derived ideas should be split, renamed, archived, or promoted next."
+  consistency_expectations:
+    - "examples-index.json, source-node-promotion-catalog.json, and opml-promotion-backlog.json must cross-reference each other through stable ids."
+    - "opml-promotion-status-model.json defines the allowed promotion statuses and gate logic consumed by the catalog and backlog."
+    - "typed-source-node-index.yaml is the maintenance authority for source_label, node_type, scope_layer, source_plane, and source locator fields when a source node is covered there."
+    - "source-node-promotion-catalog.json is the maintenance authority for promotion_status, promotion_basis, downstream_consumers, and evaluation_hooks."
+    - "release-consolidation-checklist.json should explicitly place every source-review reference asset into a loading tier."
+    - "These files may classify or prioritize active contracts, but they must not redefine the schema of active per-round artifacts."
+  finish_guard_rule: "These reference contracts are not finish guards by themselves; they become relevant only when the round explicitly includes source review, promotion review, or example selection."
+
+source_review_reference_catalog:
+  - reference_id: examples_index
+    file: references/examples-index.json
+    format: json
+    paired_human_readable_ref: references/examples-index.md
+    role: standard_cross_mode_example_catalog
+    purpose: "Machine-readable catalog of standard cross-mode examples used to choose mode-resolution and evaluation-report interaction patterns."
+    required_top_level_fields:
+      - catalog_id
+      - purpose
+      - reading_order
+      - examples
+      - coverage_status
+    key_entry_fields:
+      - example_id
+      - covered_modes
+      - mode_resolution_example
+      - evaluation_report_example
+      - key_interaction_focus
+      - architecture_focus
+      - related_source_nodes
+      - related_backlog_items
+    consumed_by:
+      - branch_plan_generation
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "Each example entry must point to both a mode-resolution example and an evaluation-report example."
+      - "related_backlog_items must resolve to item_id values in references/opml-promotion-backlog.json."
+      - "related_source_nodes must resolve to source_node_id values in references/source-node-promotion-catalog.json."
+
+  - reference_id: opml_promotion_status_model
+    file: references/opml-promotion-status-model.json
+    format: json
+    paired_human_readable_ref: references/opml-promotion-status-model.md
+    role: source_node_promotion_model
+    purpose: "Machine-readable promotion model defining which source-originated ideas remain examples, become candidate rules, become active contracts, or become archived references."
+    required_top_level_fields:
+      - model_id
+      - purpose
+      - statuses
+      - promotion_gates
+      - promotion_tests
+      - candidate_rule_extra_tests
+      - demotion_rules
+      - suggested_machine_fields
+    key_entry_fields:
+      - status_id
+      - allowed_roles
+      - properties
+      - from_status
+      - to_status
+      - gate_checks
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "Status values used by references/source-node-promotion-catalog.json and references/opml-promotion-backlog.json must come from this model."
+      - "Promotion and demotion reasoning in architecture review should reference this model before changing source-node status."
+
+  - reference_id: source_node_promotion_catalog
+    file: references/source-node-promotion-catalog.json
+    format: json
+    role: source_node_inventory
+    purpose: "Machine-readable catalog mapping important OPML source nodes to their current promotion status, blockers, consumers, and recommended next moves."
+    required_top_level_fields:
+      - catalog_id
+      - source_file
+      - entries
+    key_entry_fields:
+      - source_node_id
+      - source_label
+      - node_type
+      - scope_layer
+      - promotion_status
+      - promotion_basis
+      - promotion_gates_passed
+      - downstream_consumers
+      - authority_owner
+      - evaluation_hooks
+    optional_entry_fields:
+      - promotion_blockers
+      - decomposition_required
+      - decomposes_into
+      - recommended_next_status
+      - promotion_strategy
+      - resolution_action
+      - backlog_item_ref
+      - example_refs
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "source_node_id values should resolve to references/typed-source-node-index.yaml."
+      - "If a source node is covered by references/typed-source-node-index.yaml, source_label, node_type, and scope_layer should stay aligned with that typed source entry."
+      - "promotion_status must follow references/opml-promotion-status-model.json."
+      - "backlog_item_ref must resolve to item_id values in references/opml-promotion-backlog.json when a source node still needs migration work."
+      - "example_refs must resolve to example_id values in references/examples-index.json when the source node has a standard example mapping."
+
+  - reference_id: opml_promotion_backlog
+    file: references/opml-promotion-backlog.json
+    format: json
+    role: source_node_migration_backlog
+    purpose: "Machine-readable prioritized backlog for promoting, splitting, renaming, deferring, or archiving source-derived candidate rules."
+    required_top_level_fields:
+      - backlog_id
+      - source_catalog_ref
+      - prioritization_basis
+      - tracking_model
+      - items
+      - priority_order
+    key_entry_fields:
+      - item_id
+      - source_node_id
+      - current_status
+      - target_status
+      - priority
+      - action_type
+      - recommended_owner
+      - success_condition
+      - execution_state
+      - last_review_round
+      - depends_on_items
+      - unblock_conditions
+      - evidence_refs
+      - next_checkpoint
+    optional_entry_fields:
+      - promotion_strategy
+      - related_example_ids
+      - related_contract_assets
+      - prerequisite_assets
+      - defer_reason
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "source_node_id must resolve to references/source-node-promotion-catalog.json."
+      - "current_status and target_status must follow references/opml-promotion-status-model.json."
+      - "related_example_ids must resolve to example_id values in references/examples-index.json."
+
+  - reference_id: opml_architecture_optimization_roadmap
+    file: references/opml-architecture-optimization-roadmap.json
+    format: json
+    paired_human_readable_ref: references/opml-architecture-optimization-roadmap.md
+    role: post_p2_architecture_roadmap
+    purpose: "Machine-readable maintenance-mode architecture map for the abstract source-alignment work that remains after the main promotions."
+    required_top_level_fields:
+      - roadmap_id
+      - scope
+      - completed_foundational_promotions
+      - remaining_weak_logic_clusters
+      - recommended_sequence
+    key_entry_fields:
+      - cluster_id
+      - title
+      - current_problem
+      - source_signals
+      - related_source_nodes
+      - related_backlog_items
+      - proposed_plane
+      - proposed_assets
+      - priority
+      - status
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "related_backlog_items must resolve to item_id values in references/opml-promotion-backlog.json."
+      - "related_source_nodes should resolve to source_node_id values in references/source-node-promotion-catalog.json when they refer to typed source nodes."
+
+  - reference_id: legacy_artifact_compatibility_policy
+    file: references/legacy-artifact-compatibility-policy.json
+    format: json
+    paired_human_readable_ref: references/legacy-artifact-compatibility-policy.md
+    role: archive_and_compatibility_policy
+    purpose: "Machine-readable policy for deciding whether historical source artifact names stay active, become compatibility-only, or become archived references."
+    required_top_level_fields:
+      - policy_id
+      - purpose
+      - artifact_classes
+      - decision_tests
+      - default_rules
+      - current_source_aligned_decisions
+    key_entry_fields:
+      - class_id
+      - source_node_id
+      - current_decision
+      - semantic_successor_artifacts
+      - reactivation_gate
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "current_source_aligned_decisions source_node_id values should resolve to references/source-node-promotion-catalog.json."
+
+  - reference_id: branch_topology_decision_table
+    file: references/branch-topology-decision-table.json
+    format: json
+    paired_human_readable_ref: references/branch-topology-decision-table.md
+    role: topology_decision_policy
+    purpose: "Machine-readable decision table for selecting branch topology classes and for deciding when parallel_fork deserves a distinct contract identity."
+    required_top_level_fields:
+      - table_id
+      - purpose
+      - decision_axes
+      - topology_classes
+      - default_rules
+      - current_source_aligned_decisions
+    key_entry_fields:
+      - topology_id
+      - use_when
+      - source_node_id
+      - current_decision
+      - reason
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "current_source_aligned_decisions source_node_id values should resolve to references/source-node-promotion-catalog.json."
+
+  - reference_id: typed_source_node_index
+    file: references/typed-source-node-index.yaml
+    format: yaml
+    paired_human_readable_ref: references/typed-source-node-index.md
+    role: typed_source_companion
+    purpose: "First-pass typed companion for the OPML source, exposing typed roles, scope layers, source planes, and lightweight locators before downstream promotion logic."
+    required_top_level_fields:
+      - index_version
+      - index_id
+      - source_file
+      - locator_policy
+      - entries
+    key_entry_fields:
+      - source_node_id
+      - source_label
+      - node_type
+      - scope_layer
+      - source_plane
+      - promotion_status
+      - locator
+      - structural_cluster
+      - downstream_refs
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "source_node_id values should resolve to references/source-node-promotion-catalog.json."
+
+  - reference_id: meta_prompt_step_index
+    file: references/metaPrompt-step-index.json
+    format: json
+    paired_human_readable_ref: references/metaPrompt-step-index.md
+    role: typed_meta_source_companion
+    purpose: "Typed companion for the linear source scaffold in metaPrompt.md, preserving raw step labels and skill-aligned interpretation."
+    required_top_level_fields:
+      - index_id
+      - source_file
+      - purpose
+      - normalization_policy
+      - steps
+    key_entry_fields:
+      - normalized_step_id
+      - raw_step_label
+      - raw_title
+      - raw_sequence_position
+      - source_role
+      - step_plane
+      - skill_aligned_interpretation
+      - downstream_refs
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+
+  - reference_id: source_node_type_registry
+    file: references/source-node-type-registry.json
+    format: json
+    paired_human_readable_ref: references/source-node-type-registry.md
+    role: typed_source_role_registry
+    purpose: "Registry of node types, scope layers, and source-plane hints used by the maintained typed source companion."
+    required_top_level_fields:
+      - registry_id
+      - purpose
+      - node_types
+      - scope_layers
+      - source_planes
+    key_entry_fields:
+      - node_type_id
+      - meaning
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+
+  - reference_id: product_interaction_boundary
+    file: references/product-interaction-boundary.md
+    format: md
+    role: product_interaction_boundary
+    purpose: "Human-readable boundary for separating product interaction archive material from executable workflow contracts."
+    required_top_level_fields:
+      - purpose
+
+  - reference_id: ui_pattern_archive
+    file: references/ui-pattern-archive.json
+    format: json
+    role: product_interaction_archive
+    purpose: "Machine-readable archive of UI and product interaction patterns that should stay out of workflow contracts by default."
+    required_top_level_fields:
+      - archive_id
+      - purpose
+      - patterns
+    key_entry_fields:
+      - pattern_id
+      - title
+      - pattern_class
+      - source_signals
+      - related_source_nodes
+      - current_status
+      - related_contract_assets
+      - why_archived
+      - promotion_trigger
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+    cross_reference_requirements:
+      - "related_source_nodes should resolve to source_node_id values in references/source-node-promotion-catalog.json when they refer to typed source nodes."
+
+  - reference_id: executor_persona_boundary
+    file: references/executor-persona-boundary.md
+    format: md
+    role: execution_substrate_boundary
+    purpose: "Human-readable boundary for separating execution substrate taxonomy from orchestration contracts."
+    required_top_level_fields:
+      - purpose
+
+  - reference_id: execution_substrate_taxonomy
+    file: references/execution-substrate-taxonomy.json
+    format: json
+    role: execution_substrate_archive
+    purpose: "Machine-readable archive of execution substrate taxonomy and carrier assumptions from the OPML."
+    required_top_level_fields:
+      - taxonomy_id
+      - purpose
+      - substrate_classes
+      - default_rules
+    key_entry_fields:
+      - substrate_id
+      - title
+      - surface_type
+      - memory_continuity
+      - source_signals
+      - current_status
+      - why_archived
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+
+  - reference_id: strategy_intervention_boundary
+    file: references/strategy-intervention-boundary.md
+    format: md
+    role: strategy_intervention_boundary
+    purpose: "Human-readable boundary for separating optional strategy/intervention logic from the default neutral core."
+    required_top_level_fields:
+      - purpose
+
+  - reference_id: optional_strategy_mode
+    file: references/optional-strategy-mode.json
+    format: json
+    role: optional_strategy_archive
+    purpose: "Machine-readable boundary and class registry for optional strategy/intervention logic from the OPML."
+    required_top_level_fields:
+      - mode_id
+      - purpose
+      - activation_only_if
+      - default_core_exclusions
+      - strategy_classes
+      - default_rules
+    key_entry_fields:
+      - strategy_id
+      - title
+      - source_signals
+      - current_status
+      - why_optional
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+
+  - reference_id: boundary_razor_policy
+    file: references/boundary-razor-policy.json
+    format: json
+    paired_human_readable_ref: references/boundary-razor-policy.md
+    role: architecture_boundary_policy
+    purpose: "Machine-readable policy for freezing archive planes and preventing unnecessary architecture-surface expansion."
+    required_top_level_fields:
+      - policy_id
+      - purpose
+      - default_rule
+      - freeze_states
+      - current_freeze_matrix
+      - expansion_tests
+      - preferred_next_work
+    key_entry_fields:
+      - freeze_state_id
+      - meaning
+      - plane_id
+      - freeze_state
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+
+  - reference_id: release_consolidation_checklist
+    file: references/release-consolidation-checklist.json
+    format: json
+    paired_human_readable_ref: references/release-consolidation-checklist.md
+    role: maintenance_release_checklist
+    purpose: "Machine-readable release-ready consolidation map for the current reference stack and loading tiers."
+    required_top_level_fields:
+      - checklist_id
+      - purpose
+      - current_operating_mode
+      - loading_tiers
+      - release_gates
+      - preferred_maintenance_work
+    key_entry_fields:
+      - tier_id
+      - when_to_read
+      - assets
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+
+  - reference_id: release_final_review
+    file: references/release-final-review.json
+    format: json
+    paired_human_readable_ref: references/release-final-review.md
+    role: release_closeout_record
+    purpose: "Machine-readable closeout record for the current release-ready state of the maintained reference stack."
+    required_top_level_fields:
+      - review_id
+      - purpose
+      - blocking_findings
+      - non_blocking_residual_risks
+      - current_state
+      - release_judgment
+      - assumptions
+    consumed_by:
+      - evaluation_validation
+      - loop_or_finish
+
+core_rule_catalog:
+  - rule_id: workflow_state_chain
+    owner_layer: source_aligned_core
+    purpose: "Make the minimal core workflow shell explicit instead of leaving it diffused across mixed source branches."
+    required_states:
+      - problem_intake
+      - semantic_clarification
+      - demand_constraint_modeling
+      - branch_plan_generation
+      - evaluation_validation
+      - loop_or_finish
+    terminal_states:
+      - finish
+    required_artifacts:
+      - intake-record.json
+      - problem-brief.json
+      - constraints-matrix.json
+      - branch-plan.json
+      - evaluation-report.xml
+      - loop-decision.json
+    contract_rules:
+      - "branch_plan_generation is the last core planning state; branch classes remain plan objects and do not become workflow states."
+      - "evaluation_validation audits coherence and required outputs; it does not dispatch execution as a replacement for the workflow shell."
+      - "loop_or_finish owns routing and finish gating, while loop logic remains separated into its own active loop rule."
+      - "The core workflow shell remains valid whether or not extension modes are active."
+    evaluation_hooks:
+      - same_source_consistency
+      - stage_requirement_checks
+
+  - rule_id: orchestration_extension_boundary
+    owner_layer: source_aligned_core
+    purpose: "Keep workflow shell semantics separate from orchestration-heavy execution semantics."
+    required_inputs:
+      - branch-plan.json
+      - mode-resolution.json
+    optional_inputs:
+      - orchestration-plan.json
+      - execution-supervision.json
+    contract_rules:
+      - "parallel_branch, parallel_worker, serial_branch, suspended_traversal, and parallel_fork are orchestration branch classes rather than workflow states."
+      - "shared-context-map.json, execution-supervision.json, executor-interface.json, executor-capability-registry.json, memory-pruning.json, and writeback-ledger.json attach around the core shell but do not redefine it."
+      - "runtime, provider, and long-horizon governance operations remain derived extensions and must not be absorbed into the core workflow shell by default."
+    evaluation_hooks:
+      - same_source_consistency
+      - scope_alignment_checks
 
 advanced_mode:
   activation_if:
@@ -161,7 +678,7 @@ artifact_catalog:
     file: search-notes.json
     format: json
     owner_state: semantic_clarification
-    purpose: "承接有界 first_search 的轻量证据、来源链接和未解决问题。该产物是可选的。"
+    purpose: "承接有界 first_search 的轻量证据、来源链接和未解决问题。高级模式显式做资源扫描时，它也可作为 resource_scan_step 的有界扫描证据。该产物是可选的。"
     required_top_level_fields:
       - query_scope
       - sources
@@ -227,6 +744,33 @@ artifact_catalog:
       - dispatch_actions
       - scope_alignment_status
       - resolution_status
+    optional_top_level_fields:
+      - mode_precedence
+      - cross_mode_handoffs
+      - authority_boundaries
+      - interaction_notes
+    optional_mode_precedence_fields:
+      - higher_mode
+      - lower_mode
+      - precedence_basis
+      - applies_to
+      - note
+    optional_cross_mode_handoff_fields:
+      - from_mode
+      - to_mode
+      - via_artifact
+      - handoff_purpose
+      - conflict_if_missing
+    optional_authority_boundary_fields:
+      - subject
+      - computed_by
+      - overridden_by
+      - serialized_by
+      - final_authority
+    optional_interaction_note_fields:
+      - related_modes
+      - active_when
+      - note
 
   - artifact_id: constraints_matrix
     file: constraints-matrix.json
@@ -309,8 +853,20 @@ artifact_catalog:
       - dispatch_recommendations
     optional_top_level_fields:
       - key_step_role_checks
+      - mode_interaction_checks
       - self_score
       - score_reason
+    optional_key_step_role_check_fields:
+      - step_or_artifact
+      - role_classification
+      - why
+      - evidence
+    optional_mode_interaction_check_fields:
+      - interacting_modes
+      - handoff_status
+      - authority_status
+      - drift_risk
+      - decision
 
   - artifact_id: loop_decision
     file: loop-decision.json
@@ -425,7 +981,7 @@ library_artifact_catalog:
   - artifact_id: decision_weighting
     file: decision-weighting.json
     format: json
-    insertion_after_state: loop_or_finish
+    insertion_after_state: branch_plan_generation
     purpose: "记录分支或方案的权重决策结果。"
     required_top_level_fields:
       - criteria
@@ -439,6 +995,179 @@ library_artifact_catalog:
       - fallback_used
       - override_handoff_target
       - ranking_scope
+      - ranked_subjects_ref
+      - default_selection_rule
+      - selection_evidence_ref
+
+library_rule_catalog:
+  - rule_id: multiple_solution_sorting_rule
+    owner_mode: library_and_weighting_mode
+    insertion_after_state: branch_plan_generation
+    purpose: "Separate ranking semantics from UI order and example phrasing when multiple candidates must be sorted."
+    required_inputs:
+      - decision-weighting.json
+    optional_inputs:
+      - variant-set.json
+      - branch-plan.json
+      - override-policy.json
+    contract_rules:
+      - "decision-weighting.json owns ranking semantics, criteria, derived weights, and ranking_result."
+      - "ranking_scope or ranked_subjects_ref must bind the ranked subjects to stable branch ids or variant ids rather than display order or example numbering."
+      - "If variant-set.json exists, default_variant must be justified by the weighted ranking or explicit override basis rather than by first-item presentation order."
+      - "Illustrative phrases such as '方案一提示词' remain example residue and must not become executable ranking logic."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+orchestration_rule_catalog:
+  - rule_id: shared_context_contract
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: branch_plan_generation
+    purpose: "Replace the generic shared-file tool metaphor with an explicit shared coordination contract."
+    required_inputs:
+      - orchestration-plan.json
+    required_outputs:
+      - shared-context-map.json
+    optional_outputs:
+      - execution-supervision.json
+      - executor-interface.json
+    contract_rules:
+      - "shared-context-map.json is the planning source for shared files, ownership, read scope, write scope, and synchronization notes."
+      - "execution-supervision.json may refine coordination behavior, but it must not silently redefine shared ownership or write/read boundaries already declared in shared-context-map.json."
+      - "executor-interface.json may bind execution units to writable targets, but those bindings must stay inside the shared context contract."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  - rule_id: write_scope_rule
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: branch_plan_generation
+    purpose: "Make write permissions and prohibited cross-branch writes auditable instead of leaving them implicit in a shared-file tool idea."
+    required_inputs:
+      - shared-context-map.json
+      - execution-supervision.json
+      - executor-interface.json
+    required_outputs:
+      - execution-supervision.json
+      - executor-interface.json
+    optional_outputs:
+      - writeback-ledger.json
+    contract_rules:
+      - "execution-supervision.json must bind shared_file_contracts and prohibited_cross_branch_writes to the write_scope declared in shared-context-map.json."
+      - "executor-interface.json writable_targets must be a subset of the writable surface implied by shared-context-map.json and execution-supervision.json."
+      - "Expected writebacks must only target artifacts or shared files that the write scope explicitly allows."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  - rule_id: writeback_audit_rule
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: loop_or_finish
+    purpose: "Turn shared-file coordination into auditable writeback evidence rather than leaving merge results implicit."
+    required_inputs:
+      - execution-supervision.json
+    optional_inputs:
+      - shared-context-map.json
+    optional_outputs:
+      - writeback-ledger.json
+    contract_rules:
+      - "If execution-supervision.json contains non-empty shared_file_contracts or checkpoint_writebacks, writeback-ledger.json must be generated before finish."
+      - "When shared-context-map.json exists, writeback-ledger.json should record which shared context contract and audited writeback surfaces it closes."
+      - "merge_decisions and conflict_events must make shared-file coordination outcomes auditable instead of collapsing them into a final merged result only."
+    evaluation_hooks:
+      - fact_validation_chain
+      - mode_interaction_checks
+
+  - rule_id: execution_unit_contract
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: branch_plan_generation
+    purpose: "Replace child-agent identity language with explicit execution unit semantics."
+    required_inputs:
+      - execution-supervision.json
+      - executor-interface.json
+    contract_rules:
+      - "executor-interface.json execution_units are the authoritative execution identities for the current round."
+      - "execution-supervision.json assignment_units must map supervision targets to explicit execution units rather than to informal agent labels."
+      - "executor_kind_bindings, required_capability_bindings, and completion_signals must be bound per execution unit."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  - rule_id: worker_scope_contract
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: branch_plan_generation
+    purpose: "Make worker scope explicit instead of leaving role boundaries attached to agent identity language."
+    required_inputs:
+      - execution-supervision.json
+      - executor-interface.json
+    contract_rules:
+      - "execution-supervision.json worker_scopes define the bounded task scope, readable context, and prohibited writes for each execution unit."
+      - "executor-interface.json unit_objectives, visibility_bindings, permission_bindings, writable_targets, and prohibited_targets must stay inside the declared worker scope."
+      - "If two execution units differ materially in scope, that difference must be represented by worker_scopes and interface bindings rather than by informal role names."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  - rule_id: reference_context_binding_rule
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: branch_plan_generation
+    purpose: "Normalize reference-context handling as a contract boundary instead of a child-agent capability intuition."
+    required_inputs:
+      - execution-supervision.json
+      - executor-interface.json
+    contract_rules:
+      - "execution-supervision.json reference_context_policy defines how upstream context is treated as reference material rather than freely rewritten memory."
+      - "executor-interface.json reference_context_refs must point execution units to the reference context they may read without implying ownership of that context."
+      - "resume_signals and checkpoint_hook_bindings must preserve continuity without collapsing reference context into mutable identity memory."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
+
+  - rule_id: memory_pruning_rule
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: loop_or_finish
+    purpose: "Replace the generic history-memory editing tool idea with explicit pruning and reactivation semantics."
+    required_inputs:
+      - memory-pruning.json
+    contract_rules:
+      - "memory-pruning.json owns pruning decisions, suspended paths, reactivation conditions, memory_edit_targets, and replacement_summaries."
+      - "pruned_paths and suspended_paths must be justified by pruning_reasons and prune_after_failed_rounds rather than by informal tool usage."
+      - "replacement_summaries must preserve enough continuity for later reactivation without reintroducing the full discarded history."
+    evaluation_hooks:
+      - fact_validation_chain
+      - mode_interaction_checks
+
+  - rule_id: writeback_memory_edit_event
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: loop_or_finish
+    purpose: "Make memory-edit writeback events explicit and auditable instead of leaving history replacement implicit."
+    required_inputs:
+      - writeback-ledger.json
+    optional_inputs:
+      - memory-pruning.json
+    contract_rules:
+      - "writeback-ledger.json memory_edit_events are the authoritative audit trail for actual memory replacement or pruning writebacks."
+      - "If memory-pruning.json names memory_edit_targets or replacement_summaries, writeback-ledger.json should record the corresponding memory_edit_events."
+      - "memory_edit_events must not be collapsed into generic merge_decisions when history replacement materially changes future context."
+    evaluation_hooks:
+      - same_source_consistency
+      - fact_validation_chain
+
+  - rule_id: replacement_summary_rule
+    owner_mode: orchestration_and_memory_mode
+    insertion_after_state: loop_or_finish
+    purpose: "Keep replacement summaries as an explicit semantic bridge between pruned history and future continuation."
+    required_inputs:
+      - memory-pruning.json
+    optional_inputs:
+      - writeback-ledger.json
+    contract_rules:
+      - "replacement_summaries should preserve the kept conclusion, the discarded path identity, and the reactivation boundary."
+      - "retained_summaries and replacement_summaries must stay consistent so later rounds do not lose why a path was cut and what remains reusable."
+      - "If writeback-ledger.json records memory_edit_events, the replacement summary should be referentially aligned with those edits."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
 
 orchestration_artifact_catalog:
   - artifact_id: orchestration_plan
@@ -460,6 +1189,23 @@ orchestration_artifact_catalog:
       - permission_surface
       - shared_fact_scope
       - local_hypothesis_scope
+
+  - artifact_id: shared_context_map
+    file: shared-context-map.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "Record shared files, ownership, read and write scope, and lightweight coordination structure before execution supervision consumes them."
+    required_top_level_fields:
+      - shared_files
+      - ownership
+      - write_scope
+      - read_scope
+      - synchronization_notes
+    optional_top_level_fields:
+      - shared_fact_scope
+      - local_hypothesis_scope
+      - merge_contract
+      - writeback_requirements
 
   - artifact_id: execution_supervision
     file: execution-supervision.json
@@ -484,6 +1230,10 @@ orchestration_artifact_catalog:
       - status_checkpoints
       - checkpoint_writebacks
       - escalation_rules
+    optional_top_level_fields:
+      - shared_context_ref
+      - write_scope_bindings
+      - writeback_audit_policy
 
   - artifact_id: executor_interface
     file: executor-interface.json
@@ -511,6 +1261,10 @@ orchestration_artifact_catalog:
       - checkpoint_hook_bindings
       - retry_policy
       - merge_readiness_conditions
+    optional_top_level_fields:
+      - shared_context_ref
+      - write_scope_enforcement
+      - writeback_channel_bindings
 
   - artifact_id: executor_capability_registry
     file: executor-capability-registry.json
@@ -1447,6 +2201,29 @@ orchestration_artifact_catalog:
       - memory_edit_events
       - deferred_updates
       - final_shared_state
+    optional_top_level_fields:
+      - source_shared_context_ref
+      - audited_contracts
+      - unresolved_merge_risks
+      - memory_pruning_ref
+      - replacement_summary_refs
+
+variant_rule_catalog:
+  - rule_id: solution_list_artifact_boundary
+    owner_mode: variant_and_composition_mode
+    insertion_after_state: branch_plan_generation
+    purpose: "Keep the candidate-solution list artifact separate from ranking semantics."
+    required_inputs:
+      - variant-set.json
+    optional_inputs:
+      - decision-weighting.json
+    contract_rules:
+      - "variant-set.json records comparable candidate variants and a default_variant pointer, but it does not compute ranking logic by itself."
+      - "ranking_basis should point to a weighting artifact, optimization artifact, or explicit comparison basis rather than UI order or example numbering."
+      - "When decision-weighting.json exists, variant-set.json should reference that weighting artifact through ranking_ref or default_selection_basis instead of restating the full ranking rule."
+    evaluation_hooks:
+      - same_source_consistency
+      - mode_interaction_checks
 
 variant_artifact_catalog:
   - artifact_id: variant_set
@@ -1458,6 +2235,17 @@ variant_artifact_catalog:
       - variants
       - default_variant
       - ranking_basis
+    optional_top_level_fields:
+      - ranking_ref
+      - default_selection_basis
+      - variant_identity_rule
+      - comparison_notes
+    optional_variant_fields:
+      - variant_id
+      - title
+      - summary
+      - constraint_profile
+      - selection_status
 
   - artifact_id: step_normalization
     file: step-normalization.json
@@ -1790,8 +2578,11 @@ governance_artifact_catalog:
       - non_overridable_constraints
     optional_top_level_fields:
       - review_roles
+      - review_topology
+      - approval_order
       - checkpoint_entry_conditions
       - checkpoint_exit_conditions
+      - rejection_reentry_rules
       - required_artifact_visibility
 
   - artifact_id: override_policy
@@ -1806,11 +2597,13 @@ governance_artifact_catalog:
     optional_top_level_fields:
       - plan_override_rules
       - conflict_resolution_order
+      - reviewer_conflict_resolution
       - fallback_weight_method
       - consistency_check_requirement
       - upstream_weight_artifact
       - override_application_scope
       - override_writeback_policy
+      - export_regeneration_rules
 
   - artifact_id: feedback_ledger
     file: feedback-ledger.json
@@ -1871,24 +2664,63 @@ representation_artifact_catalog:
       - omitted_formats
       - selection_rationale
 
+advanced_rule_catalog:
+  - rule_id: resource_scan_step
+    owner_mode: advanced_mode
+    insertion_after_state: demand_constraint_modeling
+    purpose: "Separate bounded resource-scanning action from the resource graph artifact."
+    required_inputs:
+      - constraints-matrix.json
+    optional_inputs:
+      - search-notes.json
+    required_outputs:
+      - resource-graph.json
+    optional_outputs:
+      - resource-priority-policy.json
+    contract_rules:
+      - "search-notes.json records bounded scan evidence and unresolved resource questions; it must not be treated as the resource graph itself."
+      - "resource-graph.json records discovered resources, their structure, and substitution options; it must stay separate from scan narration."
+      - "If the round declares explicit scan ordering or resource ranking, resource-priority-policy.json should carry that policy instead of embedding the whole rule inside resource-graph.json."
+    evaluation_hooks:
+      - same_source_consistency
+      - fact_validation_chain
+
 advanced_artifact_catalog:
   - artifact_id: resource_graph
     file: resource-graph.json
     format: json
     insertion_after_state: demand_constraint_modeling
     derived_from_metaPrompt_step: 3
-    purpose: "遍历资源并构建资源图。"
+    purpose: "Build the structural resource graph after bounded scanning evidence is available."
     required_top_level_fields:
       - resources
       - resource_types
       - resource_locations
-      - scan_order
-      - resource_priority
+      - constraints
+      - substitution_options
+    optional_top_level_fields:
+      - scan_evidence_ref
+      - resource_priority_policy_ref
+      - graph_notes
+
+  - artifact_id: resource_priority_policy
+    file: resource-priority-policy.json
+    format: json
+    insertion_after_state: demand_constraint_modeling
+    derived_from_metaPrompt_step: 3
+    purpose: "Record ordered resource scan and priority policy separately from the resource graph artifact."
+    required_top_level_fields:
+      - scan_sequence
+      - priority_axes
+      - priority_rules
       - self_service_checks
       - harm_to_benefit_checks
       - ifr_paths
-      - constraints
-      - substitution_options
+      - evaluation_scope
+    optional_top_level_fields:
+      - derived_from_search_notes
+      - excluded_resource_classes
+      - tie_break_rules
 
   - artifact_id: actor_network
     file: actor-network.json
@@ -2027,18 +2859,6 @@ template_artifact_catalog:
       - reasons
       - evidence
       - replacement_strategy
-
-  - artifact_id: shared_context_map
-    file: shared-context-map.json
-    format: json
-    insertion_after_state: loop_or_finish
-    purpose: "记录共享文件、读写范围和轻量协作结构。"
-    required_top_level_fields:
-      - shared_files
-      - ownership
-      - write_scope
-      - read_scope
-      - synchronization_notes
 
   - artifact_id: checklist_migration_pointer
     file: checklist-migration-pointer.json

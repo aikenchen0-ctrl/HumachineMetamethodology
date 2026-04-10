@@ -1,0 +1,138 @@
+<evaluation_report>
+  <evaluation_id>template-orchestration-interaction-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>template-chain.json</artifact>
+    <artifact>shared-context-map.json</artifact>
+    <artifact>orchestration-plan.json</artifact>
+    <artifact>execution-supervision.json</artifact>
+    <artifact>executor-interface.json</artifact>
+    <artifact>executor-capability-registry.json</artifact>
+    <artifact>writeback-ledger.json</artifact>
+  </checked_artifacts>
+  <completeness_score>96</completeness_score>
+  <consistency_score>96</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If shared-context ownership changes after execution-supervision.json is produced, executor-interface.json and writeback-ledger expectations must be updated together.</risk>
+  </non_blocking_risks>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.92</confidence>
+  <advanced_mode_findings>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The reusable template chain, shared-context plan, orchestration topology, and writeback evidence all refer to the same bounded workflow object.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>The execution packets and writeback targets preserve the same template handoff semantics already defined upstream.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm template-chain.json defines stable templates, variable mappings, and handoff rules.</item>
+    <item>Confirm shared-context-map.json defines shared files, ownership, read scope, and write scope.</item>
+    <item>Confirm orchestration-plan.json and execution-supervision.json consume those shared-context assumptions rather than redefining them.</item>
+    <item>Confirm executor-interface.json expresses execution_units and reference_context_refs rather than relying on informal child-agent identity.</item>
+    <item>If pruning or replacement is active, confirm memory-pruning.json and writeback-ledger.json align on memory_edit_events and replacement summaries.</item>
+    <item>Confirm writeback-ledger.json is present because execution-side shared-file coordination is active.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The current executor-capability-registry.json remains valid for the target execution environment and will not require a later discovery step.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>template_mode</mode>
+      <status>pass</status>
+      <note>template-chain.json exists and defines reusable method handoffs for downstream execution design.</note>
+    </check>
+    <check>
+      <mode>orchestration_and_memory_mode</mode>
+      <status>pass</status>
+      <note>shared-context-map.json, orchestration-plan.json, execution-supervision.json, executor-interface.json, executor-capability-registry.json, and writeback-ledger.json exist.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>template-chain.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>shared-context-map.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>orchestration-plan.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>writeback-ledger.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>The round stays inside source-aligned orchestration core and does not activate runtime/provider/governance operations extension.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>executor runtime hook</item>
+    <item>runtime event source contract</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>after_branch_plan_generation</state>
+      <status>pass</status>
+      <note>shared-context-map.json and other orchestration core artifacts were generated before writeback audit and finish-oriented packaging completed.</note>
+    </check>
+    <check>
+      <state>before_finish</state>
+      <status>pass</status>
+      <note>writeback-ledger.json exists because shared-file coordination and checkpoint writebacks are active.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because template semantics remain upstream, execution topology remains downstream, and writeback evidence is preserved explicitly.</item>
+  </dispatch_recommendations>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>template-chain.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, execution packets would not have a stable reusable method chain to consume.</why>
+      <evidence>mode-resolution.json explicitly hands off template-chain.json into orchestration artifacts.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>shared-context-map.json</step_or_artifact>
+      <role_classification>pivot_variable</role_classification>
+      <why>It bridges reusable upstream handoff semantics and execution-side coordination policy.</why>
+      <evidence>execution-supervision.json and executor-interface.json both depend on its ownership and scope assumptions.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>executor-interface.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, execution identity and reference-context bindings may collapse back into informal agent wording.</why>
+      <evidence>execution_units, reference_context_refs, and required_capability_bindings are the explicit replacement surface for child-agent semantics.</evidence>
+    </check>
+  </key_step_role_checks>
+  <mode_interaction_checks>
+    <check>
+      <interacting_modes>template_mode,orchestration_and_memory_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_template_for_method_semantics_and_orchestration_for_execution_policy</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+  </mode_interaction_checks>
+  <self_score>92</self_score>
+  <score_reason>The example cleanly demonstrates template-to-orchestration handoff, but still covers only one execution-heavy interaction pattern.</score_reason>
+</evaluation_report>

@@ -24,6 +24,7 @@
 当当前任务是在对齐原始 `metaPrompt.md` 与 `agentic-nested-state-machine.opml` 时，本模式应优先停留在 source-aligned core：
 
 - `orchestration-plan.json`
+- `shared-context-map.json`
 - `execution-supervision.json`
 - `executor-interface.json`
 - `executor-capability-registry.json`
@@ -135,6 +136,29 @@
 - 是否禁止直接消息式通信
 - 上下文是“参考资料”还是“可被节点自行重写的记忆”
 
+共享文件不应再被理解成一个“工具”。
+
+更稳定的拆分是：
+
+- `shared_context_contract`
+  用 `shared-context-map.json` 记录共享文件、ownership、read_scope、write_scope 与同步说明
+- `write_scope_rule`
+  用 `execution-supervision.json` 和 `executor-interface.json` 约束谁可以写什么，以及禁止哪些跨分支写入
+- `writeback_audit_rule`
+  用 `writeback-ledger.json` 记录实际回写、冲突处理、检查点结果与最终共享状态
+- `execution_unit_contract`
+  用 `executor-interface.json` 的 `execution_units` 取代子 agent 这类身份化叫法
+- `worker_scope_contract`
+  用 `execution-supervision.json` 的 `worker_scopes` 与接口绑定定义每个执行单元的边界
+- `reference_context_binding_rule`
+  用 `reference_context_policy` 与 `reference_context_refs` 约束执行单元如何读取上游上下文
+- `memory_pruning_rule`
+  用 `memory-pruning.json` 记录剪枝、挂起、重启条件与替代摘要
+- `writeback_memory_edit_event`
+  用 `writeback-ledger.json` 的 `memory_edit_events` 留痕实际发生的记忆替换或剪枝回写
+- `replacement_summary_rule`
+  用 `replacement_summaries` 保留被剪掉路径的可续接摘要，而不是把历史直接抹掉
+
 ## 执行监督
 
 原文对“执行监督”的核心担忧是：
@@ -189,6 +213,23 @@
 - `shared_fact_scope`
 - `local_hypothesis_scope`
 
+### `shared-context-map.json`
+
+最少应包含：
+
+- `shared_files`
+- `ownership`
+- `write_scope`
+- `read_scope`
+- `synchronization_notes`
+
+推荐补充：
+
+- `shared_fact_scope`
+- `local_hypothesis_scope`
+- `merge_contract`
+- `writeback_requirements`
+
 ### `execution-supervision.json`
 
 最少应包含：
@@ -210,6 +251,20 @@
 - `status_checkpoints`
 - `checkpoint_writebacks`
 - `escalation_rules`
+
+推荐补充：
+
+- `shared_context_ref`
+- `write_scope_bindings`
+- `writeback_audit_policy`
+
+这些字段应服务于：
+
+- `assignment_units`
+- `worker_scopes`
+- `reference_context_policy`
+
+而不是重新发明“子 agent 类型”。
 
 ### `executor-interface.json`
 
@@ -235,6 +290,14 @@
 - `checkpoint_hook_bindings`
 - `retry_policy`
 - `merge_readiness_conditions`
+
+推荐补充：
+
+- `shared_context_ref`
+- `write_scope_enforcement`
+- `writeback_channel_bindings`
+
+`execution_units`、`reference_context_refs`、`executor_kind_bindings` 与 `required_capability_bindings` 共同承担了过去“子 agent”节点的主要功能语义。
 
 ### `executor-capability-registry.json`
 
@@ -1035,6 +1098,15 @@
 - `memory_edit_targets`
 - `replacement_summaries`
 
+这些字段共同承担了过去“历史记忆编辑工具”的主要语义：
+
+- `memory_edit_targets`
+  指向哪些历史上下文或路径被替换
+- `replacement_summaries`
+  指向替换后保留下来的可续接摘要
+- `reactivation_conditions`
+  指向何时允许恢复被挂起或被替换的路径
+
 ### `writeback-ledger.json`
 
 最少应包含：
@@ -1048,6 +1120,17 @@
 - `deferred_updates`
 - `final_shared_state`
 
+若本轮发生了记忆替换或剪枝回写，推荐补充：
+
+- `memory_pruning_ref`
+- `replacement_summary_refs`
+
+推荐补充：
+
+- `source_shared_context_ref`
+- `audited_contracts`
+- `unresolved_merge_risks`
+
 ## 默认规则
 
 - 不要过早硬剪枝
@@ -1056,7 +1139,11 @@
 - 如果分支只是执行差异而不是问题空间差异，优先视为并行而不是并行分支
 - 如果挂起路径未来仍可能恢复，必须写入 `memory-pruning.json`，不能只在自然语言里口头说明
 - 如果节点通过共享文件协同，默认禁止直接互发消息，除非另有显式授权
+- 如果共享文件协同已显式存在，则应先生成 `shared-context-map.json`，再让 `execution-supervision.json` 和 `executor-interface.json` 细化它
+- `shared-context-map.json` 是 planning source；`execution-supervision.json` 与 `executor-interface.json` 可以细化，但不应改写其中的 ownership、read_scope、write_scope
 - 执行节点看到的上游材料默认应视为 `reference_context`，而不是它自己可随意改写的记忆
+- 不要再用“子 agent”作为默认 contract 名称；默认应使用 `execution_unit`、`worker_scope` 与 `reference_context` 这些结构语义
+- 不要再用“历史记忆编辑工具”作为默认 contract 名称；默认应使用 `memory_pruning`、`memory_edit_events` 与 `replacement_summaries` 这些结构语义
 - 如果存在共享文件回写、环境观察或检查点写回，则应生成 `writeback-ledger.json`，把实际回写和最终合并状态留痕
 - 如果已经进入执行监督层，则应生成 `executor-interface.json`，把 todo 分发和 reference_context 边界压成显式接口
 - 如果希望 executor-interface 能被真实执行器消费，则必须继续把执行器类型、输入输出契约、失败信号、恢复信号和检查点钩子压成显式字段

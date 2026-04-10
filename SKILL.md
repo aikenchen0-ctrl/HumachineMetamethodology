@@ -1,9 +1,9 @@
 ---
-name: problem-structuring-agentic
+name: HMM
 description: Multi-mode problem structuring and method orchestration for vague requests, prompt systems, nested state machines, and research workflows. Use when Codex needs not only problem briefs, constraints matrices, branch plans, and evaluation loops, but also advanced system modeling, template chains, variant recomposition, traversal and invention analysis, optimization portfolios, governance and feedback rules, or explicit XML and graph exports.
 ---
 
-# Problem Structuring Agentic
+# HMM
 
 ## Overview
 
@@ -125,6 +125,51 @@ Do not stop at final-output checks. Also verify stage-level mode requirements:
 6. `loop_or_finish`
 Either finish the round or loop back to the earliest state that can fix the current defect with the lowest repair cost. Record `scope_alignment_decision`, `scope_repair_target`, and `stage_dispatch_target` explicitly whenever the round is source-aligned or has stage-level output gaps.
 
+## Global Mode Interaction
+
+When more than one extension mode is active in the same round, do not leave their interaction implicit.
+
+`mode-resolution.json` should preferably make these explicit:
+
+- `mode_precedence`
+  Which mode's decision boundary wins when two modes touch the same object.
+- `cross_mode_handoffs`
+  Which artifact becomes upstream input to which later artifact across modes.
+- `authority_boundaries`
+  Which mode computes, which mode overrides, and which mode only serializes.
+- `interaction_notes`
+  Short notes for any non-default cross-mode arrangement in the current round.
+
+Prefer these as explicit structured entries rather than free-form prose:
+
+- `mode_precedence`
+  Use entries such as `higher_mode`, `lower_mode`, `precedence_basis`, `applies_to`.
+- `cross_mode_handoffs`
+  Use entries such as `from_mode`, `to_mode`, `via_artifact`, `handoff_purpose`.
+- `authority_boundaries`
+  Use entries such as `subject`, `computed_by`, `overridden_by`, `serialized_by`, `final_authority`.
+- `interaction_notes`
+  Use entries such as `related_modes`, `active_when`, `note`.
+
+Typical examples:
+
+- library and weighting mode computes ranking, governance and feedback mode may override it.
+- discovery and hypothesis mode defines feedback entry points, governance and feedback mode records actual feedback events.
+- portfolio and optimization mode may consume weighting outputs, but it should not silently replace explicit human override policy.
+- representation and serialization mode may export an artifact, but it should not invent semantics that upstream modes did not establish.
+
+Reference examples:
+
+- `references/examples-index.md`
+- `references/mode-resolution-example.json`
+- `references/evaluation-report-example.xml`
+- `references/mode-resolution-example-discovery-governance.json`
+- `references/evaluation-report-example-discovery-governance.xml`
+- `references/mode-resolution-example-advanced-representation.json`
+- `references/evaluation-report-example-advanced-representation.xml`
+- `references/mode-resolution-example-template-orchestration.json`
+- `references/evaluation-report-example-template-orchestration.xml`
+
 ## Advanced Mode
 
 If the user wants the original `metaPrompt` chain to continue beyond the base workflow, enable `advanced mode`.
@@ -171,14 +216,12 @@ Use template mode when the user explicitly wants:
 - a template chain,
 - explicit variable mapping,
 - batch exploration from one method,
-- pruning notes for rejected paths,
-- or a shared context map for lightweight co-creation.
+- pruning notes for rejected paths.
 
 Template mode extends the current work with:
 
 - `template-chain.json`
 - `pruning-notes.json`
-- `shared-context-map.json` when collaboration structure is explicitly needed
 - `checklist-migration-pointer.json` when preserved legacy template consumers need an explicit shared-file pointer to discover `checklist-migration-map.json`
 - `checklist-migration-pointer-registry.json` when multiple preserved legacy template consumers should share one discovery entry instead of each depending on a separate implicit pointer path
 
@@ -232,6 +275,12 @@ Boundary to governance:
 - `override-policy.json` decides what happens when human instructions override that ranking,
 - and when both are active, the weighting artifact should be treated as upstream input rather than the final authority.
 
+Boundary to candidate listing:
+
+- `decision-weighting.json` owns ranking semantics,
+- `variant-set.json` owns the comparable candidate list when explicit variants exist,
+- and ranking should bind to stable branch or variant ids rather than display order, list position, or example numbering.
+
 When `checklist-summary.json` is expected to be consumed by downstream template routing, its `items` may also be structured entries with stable `item_id` values instead of plain strings only.
 
 When older checklist artifacts must be preserved for history while newer consumers expect stable `item_id` values, emit `checklist-migration-map.json` instead of rewriting old rounds in place.
@@ -261,6 +310,7 @@ This mode extends the current work with:
 Source-aligned orchestration core:
 
 - `orchestration-plan.json`
+- `shared-context-map.json` when shared-file coordination structure must be made explicit before execution supervision
 - `execution-supervision.json`
 - `executor-interface.json`
 - `executor-capability-registry.json`
@@ -310,6 +360,18 @@ Also make the shared-context and supervision boundaries explicit:
 - what counts as shared fact,
 - what remains local hypothesis,
 - and when a suspended or pruned path may be restored.
+
+Prefer structural execution language over agent-identity language:
+
+- `execution_units` for executable identities,
+- `worker_scopes` for bounded responsibility,
+- and `reference_context_refs` for upstream context bindings.
+
+Prefer structural memory language over tool language:
+
+- `memory-pruning.json` for pruning and reactivation policy,
+- `memory_edit_events` for actual replacement writebacks,
+- and `replacement_summaries` for what future rounds should retain.
 
 When the orchestration design is execution-oriented, also make these explicit:
 
@@ -365,6 +427,12 @@ This mode extends the current work with:
 - `variant-set.json`
 - `step-normalization.json`
 - `composition-plan.json`
+
+Keep this boundary explicit:
+
+- `variant-set.json` records the candidate set and default pointer,
+- `decision-weighting.json` records ranking semantics when explicit sorting is needed,
+- and `default_variant` should be justified by ranking or override basis rather than by presentation order.
 
 Read `references/variant-and-composition-mode.md` before building these artifacts.
 
@@ -622,12 +690,47 @@ Load references progressively, not all at once.
 - Read `references/node-taxonomy.md` when a node mixes state, rule, artifact, UI, theory, or example roles.
 - Read `references/state-contracts.yaml` when producing or checking state outputs.
 - Read `references/state-machine.yaml` when deciding transitions, loopbacks, pruning, or finish conditions.
+- Read `references/examples-index.md` when more than one extension mode is active, or when you need a concrete cross-mode example before writing `mode-resolution.json` or `evaluation-report.xml`.
+- Read `references/opml-functional-architecture-review.md` when the task is to critique or optimize the abstract functional design of the original OPML rather than only refining the skill contracts.
+- Read `references/examples-index.json` when example selection itself should be machine-readable rather than only human-readable.
+- Read `references/opml-promotion-status-model.md` when the task is to decide whether a source-derived idea should stay an example, become a rule, become a contract, or remain a reference.
+- Read `references/opml-promotion-status-model.json` when the promotion model itself should be machine-readable.
+- Read `references/source-node-promotion-catalog.json` when you need concrete current promotion-status mappings for high-value OPML nodes.
+- Read `references/opml-promotion-backlog.json` when the task is to prioritize which candidate source nodes should be split, renamed, archived, or promoted next.
+- Read `references/opml-architecture-optimization-roadmap.md` when the task has moved beyond local promotion fixes and into maintenance-mode abstract architecture alignment of the original OPML.
+- Read `references/opml-architecture-optimization-roadmap.json` when that maintenance-mode architecture map should itself be machine-readable.
+- Read `references/legacy-artifact-compatibility-policy.md` when the task is to decide whether a historical source artifact should stay active, become compatibility-only, or become archived.
+- Read `references/legacy-artifact-compatibility-policy.json` when that archive/compatibility decision should be machine-readable.
+- Read `references/branch-topology-decision-table.md` when the task is to normalize topology choice among `parallel_worker`, `parallel_branch`, `serial_branch`, `suspended_traversal`, and `parallel_fork`.
+- Read `references/branch-topology-decision-table.json` when that topology decision logic should be machine-readable.
+- Read `references/typed-source-node-index.md` when the task should start from a typed companion of the OPML source rather than reconstructing roles directly from the free-form tree.
+- Read `references/typed-source-node-index.yaml` when that typed source companion should be machine-readable.
+- Read `references/metaPrompt-step-index.md` when the task should start from a typed companion of the linear `metaPrompt.md` scaffold rather than reconstructing step order from prose.
+- Read `references/metaPrompt-step-index.json` when that linear source scaffold should be machine-readable.
+- Read `references/source-node-type-registry.md` when the task needs the meaning of typed source node roles, scope layers, and source-plane hints.
+- Read `references/source-node-type-registry.json` when that role registry should be machine-readable.
+- Read `references/product-interaction-boundary.md` when the task is to keep UI/product ideas out of workflow contracts.
+- Read `references/ui-pattern-archive.json` when product interaction residue from the OPML should be machine-readable instead of staying only in prose review.
+- Read `references/executor-persona-boundary.md` when the task is to keep execution substrate taxonomy out of orchestration contracts.
+- Read `references/execution-substrate-taxonomy.json` when execution substrate residue from the OPML should be machine-readable instead of staying only in prose review.
+- Read `references/strategy-intervention-boundary.md` when the task is to keep strategy/intervention material out of the neutral default core unless explicitly activated.
+- Read `references/optional-strategy-mode.json` when optional strategy/intervention residue from the OPML should be machine-readable instead of staying only in prose review.
+- Read `references/boundary-razor-policy.md` when the task is to decide whether an already-defined archive plane should freeze or expand.
+- Read `references/boundary-razor-policy.json` when that freeze-versus-expand decision should be machine-readable.
+- Read `references/release-consolidation-checklist.md` when the task is about release-ready maintenance, loading priority, or keeping the reference stack consolidated.
+- Read `references/release-consolidation-checklist.json` when that maintenance map should be machine-readable.
+- Read `references/release-final-review.md` when the task is to check or communicate the current closeout judgment for the maintained reference stack.
+- Read `references/release-final-review.json` when that closeout judgment should be machine-readable.
+
+If the maintenance-consolidation gates are already satisfied, do not keep creating new architecture layers by default.
+Prefer release review, commit preparation, packaging, or distribution unless a real downstream consumer or source drift explicitly reopens architecture work.
+- Treat `references/examples-index.json`, `references/opml-promotion-status-model.json`, `references/source-node-promotion-catalog.json`, and `references/opml-promotion-backlog.json` as lightweight source-review reference contracts rather than per-round required outputs.
 - Read `references/terminology-policy.md` when rewriting source material into neutral analysis language.
 - Read `references/source-alignment-policy.md` when the task is to align the skill back to the original source, or when you suspect orchestration has drifted into runtime/provider/governance operations beyond the source.
 - Read `references/core-method.md` when you need the distilled core ideas from the original two source files without loading all of their raw text.
 - Read `references/advanced-mode.md` when the user wants the original `metaPrompt` steps 3 to 8, or any graph / flow / SAFC / contradiction / solution-set expansion.
 - Read `references/output-and-evaluation.md` when the user needs template variable mapping, graph formats, triple formats, DAG formats, logic formats, or stronger evaluation methods.
-- Read `references/template-mode.md` when the user wants template chains, batch exploration, pruning notes, or shared context mapping.
+- Read `references/template-mode.md` when the user wants template chains, batch exploration, or pruning notes.
 - Read `references/screen-and-critique-mode.md` when the user wants multi-screen analysis, ordered resource scanning, IFR-style resource reconstruction, or critique reports.
 - Read `references/library-and-weighting-mode.md` when the user wants libraries, guidance prompts, graph-format choices, or weighted decision outputs.
 - Read `references/orchestration-and-memory-mode.md` when the user wants branch strategies, asynchronous coordination, execution supervision, or memory pruning.
@@ -676,7 +779,6 @@ If template mode is active, extend the artifact set with:
 
 - `template-chain.json`
 - `pruning-notes.json`
-- `shared-context-map.json` when collaboration structure is explicitly requested
 
 If library and weighting mode is active, extend the artifact set with:
 
@@ -806,6 +908,12 @@ If the user asks for stronger verification, also separate:
 - cross-format consistency,
 - fact-level validation chain,
 - and unverifiable assumptions.
+
+If two or more extension modes are active in the same round, also check:
+
+- whether their handoffs are explicit,
+- whether their authority boundaries conflict,
+- and whether any mode is silently redefining an upstream artifact it should only consume.
 
 ## When To Stop
 

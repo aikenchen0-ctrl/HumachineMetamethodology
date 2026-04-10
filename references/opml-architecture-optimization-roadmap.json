@@ -1,0 +1,171 @@
+{
+  "roadmap_id": "opml-architecture-optimization-roadmap-v1",
+  "scope": "Maintenance-mode abstract functional-design optimization map for agentic-nested-state-machine.opml.",
+  "completed_foundational_promotions": [
+    "pb_001_multiple_solution_sorting_split",
+    "pb_002_shared_file_editor_split",
+    "pb_003_solution_flow_split",
+    "pb_004_resource_scan_split",
+    "pb_005_child_agent_rename",
+    "pb_006_history_memory_split"
+  ],
+  "maintenance_snapshot": {
+    "source_review_reference_count": 19,
+    "promotion_catalog_count": 46,
+    "typed_source_entry_count": 56,
+    "backlog_total": 8,
+    "backlog_non_done": 0,
+    "example_count": 8,
+    "ui_pattern_count": 6,
+    "execution_substrate_class_count": 6,
+    "strategy_class_count": 4,
+    "remaining_candidate_rule_count": 1,
+    "remaining_candidate_rule_ids": [
+      "src_029_parallel_fork"
+    ]
+  },
+  "remaining_weak_logic_clusters": [
+    {
+      "cluster_id": "typed_source_plane",
+      "title": "Typed Source Plane",
+      "current_problem": "The OPML remains a free-form tree, so node typing, scope layer, and promotion status are still reconstructed downstream rather than declared at the source.",
+      "source_signals": [
+        "free-form OPML tree remains the primary source archive",
+        "promotion and node typing are reconstructed in downstream review assets"
+      ],
+      "related_source_nodes": [],
+      "related_backlog_items": [],
+      "proposed_plane": "typed_source_plane",
+      "proposed_assets": [
+        "typed-source-node-index.yaml",
+        "source-node-type-registry.json"
+      ],
+      "priority": "R1",
+      "status": "frozen_alignment_surface"
+    },
+    {
+      "cluster_id": "product_interaction_archive_plane",
+      "title": "Product Interaction Archive Plane",
+      "current_problem": "Viewport, selection, color-coding, scrolling, extraction, and concrete client interaction ideas still live in the same mother-structure as workflow logic.",
+      "source_signals": [
+        "multiple Text Viewport composition",
+        "color-coded方案 display",
+        "selection and extraction interactions",
+        "UICollectionView + CompositionalLayout references"
+      ],
+      "related_source_nodes": [
+        "src_008_ui_collection_view",
+        "src_009_user_wants_multiple_solutions_execute"
+      ],
+      "related_backlog_items": [],
+      "proposed_plane": "product_interaction_archive_plane",
+      "proposed_assets": [
+        "product-interaction-boundary.md",
+        "ui-pattern-archive.json"
+      ],
+      "priority": "R1",
+      "status": "frozen_archive_boundary"
+    },
+    {
+      "cluster_id": "execution_substrate_plane",
+      "title": "Execution Substrate Plane",
+      "current_problem": "Agent taxonomy, account-bearing execution identities, external helper types, and substrate-specific execution imagination are still mixed with method architecture.",
+      "source_signals": [
+        "agent分类 ideas",
+        "控制多个社交账号的agent",
+        "临时外援agent",
+        "openclaw execution references"
+      ],
+      "related_source_nodes": [
+        "src_030_child_agent"
+      ],
+      "related_backlog_items": [],
+      "proposed_plane": "execution_substrate_plane",
+      "proposed_assets": [
+        "execution-substrate-taxonomy.json",
+        "executor-persona-boundary.md"
+      ],
+      "priority": "R2",
+      "status": "frozen_archive_boundary"
+    },
+    {
+      "cluster_id": "topology_decision_plane",
+      "title": "Topology Decision Plane",
+      "current_problem": "Branch-topology semantics are partially normalized, but the source still contains overlapping fork/split/candidate-generation imagination without one decisive topology table.",
+      "source_signals": [
+        "平行分叉",
+        "分裂",
+        "两种模式",
+        "多轮生成多个候选"
+      ],
+      "related_source_nodes": [
+        "src_029_parallel_fork"
+      ],
+      "related_backlog_items": [
+        "pb_008_parallel_fork_hold"
+      ],
+      "proposed_plane": "topology_decision_plane",
+      "proposed_assets": [
+        "branch-topology-decision-table.json",
+        "topology-selection-boundary.md"
+      ],
+      "priority": "R1",
+      "status": "decision_table_defined_waiting_real_case"
+    },
+    {
+      "cluster_id": "archive_compatibility_plane",
+      "title": "Archive And Compatibility Plane",
+      "current_problem": "Historical artifacts and compatibility-only concepts are still tail-heavy decisions rather than one normalized archive/compatibility layer.",
+      "source_signals": [
+        "创建初始提示词.md",
+        "保留之前的记录"
+      ],
+      "related_source_nodes": [
+        "src_018_create_initial_prompt_md"
+      ],
+      "related_backlog_items": [
+        "pb_007_create_initial_prompt_archive"
+      ],
+      "proposed_plane": "archive_and_compatibility_plane",
+      "proposed_assets": [
+        "legacy-artifact-compatibility-policy.json",
+        "archive-decision-log.json"
+      ],
+      "priority": "R1",
+      "status": "policy_defined_frozen"
+    },
+    {
+      "cluster_id": "strategy_intervention_plane",
+      "title": "Optional Strategy And Intervention Plane",
+      "current_problem": "Demand visibility shaping, field construction, adoption pressure, and optional acceleration mechanisms are still too close to the default problem-structuring core.",
+      "source_signals": [
+        "场域创造",
+        "需求制造出可见性",
+        "非理性放大器",
+        "北极星指标与竞争壁垒 related material"
+      ],
+      "related_source_nodes": [
+        "src_043_root_demand_effect_library",
+        "src_044_prompt_guidance_source"
+      ],
+      "related_backlog_items": [],
+      "proposed_plane": "optional_strategy_intervention_plane",
+      "proposed_assets": [
+        "strategy-intervention-boundary.md",
+        "optional-strategy-mode.json"
+      ],
+      "priority": "R2",
+      "status": "gated_optional_plane"
+    }
+  ],
+  "recommended_sequence": [
+    "Keep typed_source_plane aligned with the promotion catalog rather than expanding architecture surface by default.",
+    "Keep the metaPrompt linear scaffold explicit through metaPrompt-step-index.json rather than reconstructing step order from prose each round.",
+    "Keep product_interaction_archive_plane frozen unless a real product-facing consumer now requires extra distinctions.",
+    "Keep execution_substrate_plane frozen unless executor selection or continuity policy really depends on substrate taxonomy.",
+    "Keep topology_decision_plane waiting for a real distinguishing case.",
+    "Keep archive_compatibility_plane policy-defined unless a real reactivation trigger appears.",
+    "Keep strategy_intervention_plane explicitly gated outside the neutral core.",
+    "Use release-consolidation-checklist.json as the default maintenance map."
+  ]
+}
