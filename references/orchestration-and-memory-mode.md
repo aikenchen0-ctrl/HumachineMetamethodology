@@ -43,6 +43,39 @@
 
 只有当前任务明确涉及真实 runtime 信号、真实 service hook、provider topology、持续 drift monitor 或长期治理运维时，才继续向这些扩展推进。
 
+## 边界读取方式
+
+本模式应按两层读取，而不是把全文当成普通轮次的默认输出清单：
+
+### 第一层：Source-Aligned Orchestration Core
+
+只在任务真的需要以下能力时启用：
+
+- 分支类型设计
+- 共享上下文契约
+- 执行监督
+- 执行接口
+- 执行器能力注册
+- 记忆剪枝
+- 回写留痕
+
+### 第二层：Derived Runtime Operations Extension
+
+只有任务明确进入真实 runtime / service / provider / governance 运维范围时才启用，例如：
+
+- runtime 信号接入
+- 外部 service hook
+- provider topology
+- 持续 drift monitor
+- 长期治理运维
+
+### 读取规则
+
+- 本文中出现某个 artifact 名称，不等于当前轮次默认必须产出该 artifact
+- 如果当前轮次只需要分支规划、共享上下文、执行监督、记忆剪枝和回写留痕，就停留在第一层
+- 只有第一层已经不足以覆盖真实运维问题时，才继续向第二层下钻
+- 如果任务仍是 source alignment、skill review 或一般执行编排，不要把第二层 artifact 当成默认义务
+
 ## 分支类型
 
 推荐使用以下规范化标签：
@@ -195,6 +228,13 @@
 
 ## 推荐产物
 
+先按边界顺序读取：
+
+1. 先看第一层 source-aligned orchestration core
+2. 只有第一层无法覆盖真实运维范围时，才进入第二层 derived runtime operations extension
+
+### 第一层：Source-Aligned Orchestration Core
+
 ### `orchestration-plan.json`
 
 最少应包含：
@@ -316,6 +356,10 @@
 - `fallback_routes`
 - `escalation_routes`
 - `availability_status`
+
+### 第二层：Derived Runtime Operations Extension
+
+从这里开始的 artifact 目录，只有在真实 runtime / service / provider / governance 运维范围被显式激活时才继续展开。
 
 ### `executor-capability-version-policy.json`
 
@@ -1084,6 +1128,10 @@
 - `escalations`
 - `next_scan_plan`
 
+### 第一层闭环补充：Memory Pruning And Writeback
+
+下面两个 artifact 虽然出现在文档尾部，但仍然属于第一层 source-aligned orchestration core 的闭环产物，而不是第二层运维扩张产物。
+
 ### `memory-pruning.json`
 
 最少应包含：
@@ -1133,6 +1181,10 @@
 
 ## 默认规则
 
+- 本文列出的 artifact 是边界化目录，不是普通轮次默认全量清单
+- 如果第一层已经足以支撑当前轮次，就停止，不继续向第二层扩张
+- 未出现真实 runtime / service / provider / governance 运维需求时，不要继续生成第二层 artifact
+- 第二层中的 “应生成 / 应补齐” 都应理解为条件成立后的局部义务，而不是默认义务
 - 不要过早硬剪枝
 - 不可逆删除必须慎用
 - 对低置信路径优先挂起，不要立刻永久删除

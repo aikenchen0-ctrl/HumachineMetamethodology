@@ -4,7 +4,7 @@
 
 这份文档提炼自 [agentic-nested-state-machine.opml](agentic-nested-state-machine.opml) 中与以下内容直接相关的部分：
 
-- 多个方案排序，默认按方案一提示词
+- 多个方案比较时，需要显式默认指针与排序依据
 - 每一个 step 必须是一个可单独执行的操作子
 - 相同步骤应文本一致并便于显示异同
 - dependencies 必须显式列出 step_id
@@ -44,6 +44,14 @@
 
 - 方案比较不是终点
 - 组合式重构是一级能力
+
+### 4. 默认方案不是展示顺序
+
+当前边界下：
+
+- `default_variant` 只能来自显式选择依据
+- 列表顺序、方案编号、示例措辞都只能承担展示作用
+- 如果默认方案来自排序结果，应显式指向 `ranking_basis`、`ranking_ref` 或 `default_selection_basis`
 
 ## 推荐产物
 
@@ -111,6 +119,7 @@ Use this pattern when the path may be freely recomposed under different constrai
 - 依赖只要存在，就必须显式写出，不能只靠上下文暗示
 - 若两个步骤实质相同，应先归一化，再比较
 - 组合后必须重新做 `coherence_check`
+- 不要把 `variant` 的展示顺序、编号顺序或“方案一”之类的历史措辞当成默认方案依据
 
 ## 和 branch-plan 的关系
 

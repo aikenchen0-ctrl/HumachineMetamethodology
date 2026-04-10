@@ -57,7 +57,42 @@ It should record:
 - what is still pending validation,
 - and what remains unresolved even after a correction was applied.
 
+## Boundary Reading
+
+This mode should be read in two layers rather than as a bridge into runtime governance systems by default.
+
+### Layer 1: Human Review And Feedback Core
+
+This is the default meaning of governance in this mode:
+
+- guided questioning
+- human review checkpoints
+- human override priority
+- artifact editability
+- real-world feedback writeback
+
+### Layer 2: Runtime Governance Systems Extension
+
+This is not the default meaning of governance in this mode:
+
+- threshold governance workflows
+- external governance source-of-truth
+- governance schedulers
+- governance alert routing
+- governance approval channels
+- provider failover for governance delivery
+
+Those concerns belong to real operational scope and should stay blocked unless the task explicitly widens into runtime/provider/governance operations.
+
+### Reading Rule
+
+- If the current task only needs human review, override logic, or feedback writeback, stay in Layer 1.
+- Do not treat the word `governance` by itself as permission to activate runtime governance systems.
+- If the user is still doing source alignment, skill review, or normal workflow control, Layer 2 should remain inactive.
+
 ## Recommended Artifacts
+
+The artifacts below belong to Layer 1 human-review and feedback core.
 
 ### `interaction-policy.json`
 
@@ -148,3 +183,9 @@ Enable this mode when:
 - or the current workflow already contains human review points, override points, or feedback writeback requirements.
 
 Do not activate runtime governance operations just because governance mode is active. This mode stays on the human-review and feedback side unless the task explicitly widens into real runtime governance systems.
+
+## Default Boundary Rule
+
+- The artifacts in this file are the default governance-and-feedback artifacts.
+- They do not imply threshold governance, approval-channel integration, runtime scheduling, or provider-level governance delivery.
+- If those runtime governance concerns become real requirements, treat them as operational-scope expansion rather than as ordinary governance-mode defaults.

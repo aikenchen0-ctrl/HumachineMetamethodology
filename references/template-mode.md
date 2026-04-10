@@ -24,7 +24,7 @@
 - 用户要求“变量映射”
 - 用户要求“批量探索”
 - 用户要求“多个模板串起来”
-- 用户要求“共享文件协作”或“收敛剪枝记忆”
+- 用户要求“共享文件协作”或“收敛剪枝记忆”，且这些能力是为了模板复用、模板链 handoff 或批量探索服务，而不是单纯执行编排
 
 ## 核心思想
 
@@ -61,6 +61,23 @@
 - 标记哪条路径不再采用
 - 记录为什么不采用
 - 不让已知死路继续污染后续上下文
+
+### 5. Template Mode 不拥有执行编排默认权
+
+即使原始来源同时提到：
+
+- 共创
+- 共享文件
+- 历史记忆编辑
+- 收敛剪枝编辑记忆
+
+也不应自动把这些全部解释为 `template_mode` 的默认范围。
+
+当前边界下：
+
+- `template_mode` 只负责模板链、变量映射、批量复用、轻量 continuation 入口
+- 执行编排、共享上下文、记忆剪枝、回写留痕默认属于 `orchestration_and_memory_mode`
+- 只有当这些结构明确服务于模板复用本身时，`template_mode` 才提供上游 handoff 语义
 
 ## 推荐产物
 
@@ -241,6 +258,13 @@ Prefer this registry when more than one preserved consumer needs the same discov
 3. 把步骤压成 `template-chain.json`
 4. 若探索过程中已排除某些路径，则输出 `pruning-notes.json`
 5. 若需要协作结构，则把 `template-chain.json` 的 handoff 语义交给 `orchestration_and_memory_mode`，由后者决定是否生成 `shared-context-map.json`
+
+## 默认边界规则
+
+- `template_mode` 不是共享文件协作模式的别名
+- `template_mode` 不是记忆剪枝模式的别名
+- 若当前任务只是在做执行编排、共享上下文或剪枝回写，而没有模板复用目标，应优先启用 `orchestration_and_memory_mode`
+- 若当前任务要把方法压成可复用模板链，再把协作语义交给 `orchestration_and_memory_mode`
 
 ## 和基础/高级模式的关系
 

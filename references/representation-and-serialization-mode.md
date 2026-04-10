@@ -55,6 +55,32 @@ When more than one representation format is in play, record:
 - which targets each format points to,
 - and why other formats were omitted.
 
+## Boundary Reading
+
+This mode should be read in two layers rather than as a default instruction to emit every export artifact.
+
+### Layer 1: Targeted Single-Format Export
+
+Use this layer when the task only needs one explicit export target, such as:
+
+- XML wrapping
+- Mermaid sequence export
+- one explicit DAG or triple export path
+
+### Layer 2: Multi-Format Representation Bundle
+
+Use this layer only when:
+
+- more than one representation format is genuinely needed,
+- downstream consumers should not infer which export is authoritative,
+- or an explicit export index is part of the real deliverable.
+
+### Reading Rule
+
+- Entering representation mode does not mean every format should be emitted.
+- If one format is enough, stay in Layer 1 and do not create `representation-bundle.json` just for symmetry.
+- Only move to Layer 2 when multiple export targets really coexist and need explicit coordination.
+
 ## Recommended Artifacts
 
 ### `xml-rewrite.xml`
@@ -117,6 +143,8 @@ Useful optional structure:
 - `omitted_formats`
 - `selection_rationale`
 
+Do not emit this artifact just because a single exported file already exists.
+
 ## Activation
 
 Enable this mode when:
@@ -126,3 +154,9 @@ Enable this mode when:
 - or the current branch / interaction structure is stable enough that representation is now useful rather than premature.
 
 Do not activate it just because an internal JSON artifact already exists. Representation mode is for explicit export intent or downstream format need.
+
+## Default Boundary Rule
+
+- Representation mode is not a default “export everything” layer.
+- Single-format export is the normal case unless multiple downstream consumers require coordination.
+- `representation-bundle.json` is an index artifact for real multi-format cases, not a mandatory wrapper around every export round.

@@ -69,6 +69,22 @@ If not, a lightweight pairwise or AHP-style fallback is acceptable, but it must 
 - whether the comparison was consistent enough,
 - and why the resulting ranking should be trusted only as an approximate decision aid.
 
+### 6. Portfolio Consumes Weighting, It Does Not Automatically Own It
+
+Portfolio mode may need weighting information, but that does not mean it automatically owns reusable ranking semantics.
+
+Current boundary:
+
+- `library_and_weighting_mode` owns reusable ranking logic and `decision-weighting.json`
+- `portfolio_and_optimization_mode` owns multi-route comparison, tradeoff exposure, research/execution separation, and approximate-best reporting
+- `governance_and_feedback_mode` owns human override authority when people overrule ranking or plan selection
+
+Use portfolio-local weighting only when:
+
+- no separate reusable weighting artifact is needed,
+- the weighting stays local to the current optimization round,
+- and the result is explicitly framed as approximate decision aid rather than durable ranking policy.
+
 ## Recommended Artifacts
 
 ### `state-space-matrix.json`
@@ -165,6 +181,10 @@ Useful optional structure:
 - `fallback_weight_method`
 - `consistency_check`
 
+If ranking semantics already exist in `decision-weighting.json`, prefer referencing that basis rather than silently recomputing a second independent ranking logic inside `optimization-report.json`.
+
+If the current round uses only a local approximate comparison, make that limitation explicit in `ranking_basis` or `fallback_weight_method`.
+
 ## Activation
 
 Enable this mode when:
@@ -176,3 +196,6 @@ Enable this mode when:
 - or the current problem already has multiple objectives, routes, and constraints that cannot be represented honestly as one linear plan.
 
 Do not enable it just because there are two candidate ideas. Use it when comparison, tradeoff management, and staged commitment are first-class needs.
+
+Do not enable library-and-weighting mode automatically just because portfolio mode is active.
+Only add reusable weighting artifacts when the ranking logic itself needs to be preserved, reused, or handed off outside the current optimization round.
