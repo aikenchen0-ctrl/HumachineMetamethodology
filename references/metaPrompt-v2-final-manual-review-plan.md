@@ -35,9 +35,9 @@ Reason:
 2. the boundary stop-rule is already explicit and stable,
 3. no remaining high-signal contradiction is currently blocking commit-preparation judgment.
 
-## Current Modified Surface
+## Reviewed Reconstruction Surface
 
-Current working tree contains:
+The following files formed the reviewed reconstruction surface of the just-completed wave:
 
 ### Modified Files
 
@@ -235,7 +235,7 @@ No remaining residue currently requires another broad review expansion.
 
 ## Current Execution Status
 
-The review plan is no longer only theoretical.
+The review plan has now been executed through grouped closeout.
 
 Current execution state:
 
@@ -243,7 +243,8 @@ Current execution state:
 2. Tier B: complete
 3. Tier B2: complete
 4. Tier C: sufficient for commit-preparation judgment
-5. current frontier: grouped closeout execution rather than more review expansion
+5. grouped closeout commits: executed
+6. current frontier: real-task validation or packaging review, not more review expansion
 
 ## Final Rule
 

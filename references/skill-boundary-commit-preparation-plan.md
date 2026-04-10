@@ -261,12 +261,13 @@ The following should not block commit preparation:
 Default recommendation:
 
 - broad boundary work should stop here,
-- and commit preparation may now proceed once the user wants the history grouped.
+- and grouped commit preparation has now been executed.
 
 Current closeout choice:
 
-- the repository should now move into grouped commit preparation first
-- real-task validation should be treated as a later pressure-test branch rather than a blocker for commit grouping
+- grouped commit preparation has been completed
+- real-task validation is now the default next branch
+- packaging review remains optional when distribution is actually needed
 
 The safest path is:
 
@@ -280,7 +281,7 @@ The safest path is:
 
 ## Current Group Coverage Check
 
-Current `39 = 26 modified + 13 new` working-tree entries now map as follows:
+The reviewed `39 = 26 modified + 13 new` reconstruction entries were mapped as follows:
 
 - Group A: maintained source and typed source interpretation
 - Group B: shell and contract boundary
@@ -315,10 +316,10 @@ What is no longer a blocker:
 
 Closeout sequence status:
 
-1. step 7 commit grouping: active and materially completed
-2. step 8 final commit-preparation review: in progress
-3. step 9 exit decision: grouped commit preparation is the current recommended path
-4. real-task validation remains a valid follow-up, but it is no longer the default next move for this closeout pass
+1. step 7 commit grouping: completed
+2. step 8 final commit-preparation review: completed
+3. step 9 exit decision: executed as grouped commit preparation
+4. current next move: real-task validation or packaging review
 
 ## Final Conclusion
 

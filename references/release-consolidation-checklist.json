@@ -1,7 +1,7 @@
 {
   "checklist_id": "release-consolidation-checklist-v1",
   "purpose": "Release-ready consolidation map for the current HMM reference stack.",
-  "current_operating_mode": "active_reconstruction_with_source_alignment",
+  "current_operating_mode": "maintenance_consolidation",
   "loading_tiers": [
     {
       "tier_id": "tier_1_core_runtime_boundary",
@@ -121,7 +121,7 @@
     "backlog_total": 8,
     "backlog_non_done": 0,
     "source_hash_match": true,
-    "working_tree_dirty_entries": 39,
+    "working_tree_dirty_entries": 0,
     "example_count": 8,
     "ui_pattern_count": 6,
     "execution_substrate_class_count": 6,
@@ -132,8 +132,9 @@
     ]
   },
   "interpretation": [
-    "the current stack is in active reconstruction rather than release-ready maintenance mode",
+    "the current stack has left active reconstruction and entered maintenance consolidation",
     "source copies are aligned",
-    "packaging and distribution should wait until the working tree is consolidated"
+    "grouped closeout commits have been recorded",
+    "packaging review may proceed when needed"
   ]
 }

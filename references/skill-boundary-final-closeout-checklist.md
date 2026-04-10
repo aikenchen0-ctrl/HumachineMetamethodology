@@ -42,6 +42,7 @@ The latest manual review and validation round currently supports:
 2. shell wording synchronized with contract wording
 3. no active high-signal ambiguity on source authority, shell compression, or default-core boundary
 4. core release / contract assets parse successfully
+5. grouped closeout commits have been executed and the working tree is now clean
 
 ## Must-Do Now
 
@@ -266,8 +267,9 @@ Choose the closeout exit.
 
 Current recommendation:
 
-- move into grouped commit preparation first
-- keep real-task validation as a follow-up branch when the user wants pressure-testing after grouping or before packaging
+- grouped commit preparation has been executed
+- keep real-task validation as the default next branch
+- keep packaging review as an optional branch when distribution is actually needed
 
 ## Final Conclusion
 

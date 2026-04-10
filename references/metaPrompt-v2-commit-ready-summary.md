@@ -166,7 +166,7 @@ These are not current blockers, but they are intentionally not treated as “don
 1. compatibility-oriented names such as some `linear`-flavored fields still exist
 2. `state-contracts.yaml` is still large and still carries historical residue
 3. `references/orchestration-and-memory-mode.md`, `references/advanced-mode.md`, `references/variant-and-composition-mode.md`, `references/governance-and-feedback-mode.md`, `references/template-mode.md`, `references/representation-and-serialization-mode.md`, and `references/portfolio-and-optimization-mode.md` have received boundary-tightening passes, but they still remain optional extension planes rather than default core
-4. release-facing files intentionally still say “not release-ready”, because the working tree is still dirty
+4. packaging review is still a follow-up concern when a distributable artifact is actually needed
 
 Recent quick-scan result:
 
@@ -183,35 +183,35 @@ Do not:
 
 ## Current Working Tree Shape
 
-Current repository shape is:
+Current repository shape is now:
 
-- `26` modified core/source/reference files
-- `13` newly added reconstruction review files
-- `39` total dirty working-tree entries
-- active reconstruction still in progress
+- grouped closeout commits recorded
+- working tree clean
+- closeout history pushed to `origin/main`
 
 This is consistent with:
 
 - source aligned
 - shell compressed
-- release not yet ready
-- boundary wave closed for now
+- boundary wave closed
+- repository ready for maintenance and packaging review
 
 ## Recommended Next Move
 
 The safest next move is now one of:
 
-1. perform a final manual review of modified files and then prepare a commit
-2. or apply one last tiny cleanup pass only if a specific high-signal ambiguity is found
+1. run packaging review if a distributable artifact is needed now
+2. or run a source-aligned real-task validation round as the next pressure-test branch
 
 Default recommendation:
 
-- choose `1`
+- choose `2` unless packaging is immediately required
 
 Current closeout recommendation:
 
-- enter grouped commit preparation first
-- defer real-task validation to the next branch unless a concrete downstream task is more urgent than grouping the current reconstruction
+- grouped commit preparation has already been executed
+- real-task validation is now the default next branch
+- packaging review is optional and may be performed when distribution is actually needed
 
 ## Final Blockers Before True Closeout
 
@@ -237,4 +237,5 @@ The repository is now best described as:
 - source-aligned,
 - shell-bounded,
 - capability-boundary-converged,
-- but not yet commit-clean.
+- commit-clean,
+- and ready to leave the reconstruction wave behind.

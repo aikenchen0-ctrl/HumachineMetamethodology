@@ -16,7 +16,7 @@ It is the maintenance-facing map for:
 
 The architecture is now in:
 
-- active-reconstruction-with-source-alignment
+- maintenance-consolidation
 
 That means:
 
@@ -162,7 +162,7 @@ unless a real downstream consumer or source drift explicitly reopens architectur
 - backlog total items: `8`
 - backlog non-completed items: `0`
 - original source hash match: `true`
-- working tree dirty entries: `39`
+- working tree dirty entries: `0`
 - standard examples: `8`
 - UI archive patterns: `6`
 - execution substrate classes: `6`
@@ -171,6 +171,7 @@ unless a real downstream consumer or source drift explicitly reopens architectur
 
 Interpretation:
 
-- the current stack is in active reconstruction rather than release-ready maintenance mode,
+- the current stack has left active reconstruction and entered maintenance consolidation,
 - source copies are aligned,
-- but packaging and distribution should wait until the current modified working tree is reviewed and consolidated.
+- grouped closeout commits have been recorded,
+- and packaging review may proceed when needed.

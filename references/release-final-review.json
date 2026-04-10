@@ -1,10 +1,7 @@
 {
   "review_id": "release-final-review-v1",
   "purpose": "Current release-facing closeout record for the maintained HMM reference stack.",
-  "blocking_findings": [
-    "The repository is in active reconstruction rather than a clean release state.",
-    "The working tree currently contains modified and newly added reference assets that have not yet been consolidated."
-  ],
+  "blocking_findings": [],
   "non_blocking_residual_risks": [
     "The OPML itself remains a free-form source archive rather than a typed source of truth.",
     "One intentional deferred concept remains: src_029_parallel_fork.",
@@ -18,7 +15,7 @@
     "backlog_total": 8,
     "backlog_non_done": 0,
     "source_hash_match": true,
-    "working_tree_dirty_entry_count": 39,
+    "working_tree_dirty_entry_count": 0,
     "example_count": 8,
     "ui_pattern_count": 6,
     "execution_substrate_class_count": 6,
@@ -31,9 +28,9 @@
     "dual_source_precedence_explicit": true,
     "frozen_archive_planes_bounded": true,
     "release_checklist_self_covered": true,
-    "stop_rule_satisfied": false
+    "stop_rule_satisfied": true
   },
-  "release_judgment": "not_release_ready_active_reconstruction",
+  "release_judgment": "maintenance_ready_packaging_review_pending",
   "basis_refs": [
     "references/opml-architecture-optimization-roadmap.json",
     "references/release-consolidation-checklist.json",
@@ -47,7 +44,7 @@
   },
   "assumptions": [
     "source copies remain aligned",
-    "reconstruction continues under controlled scope",
-    "packaging waits until the working tree is consolidated"
+    "grouped closeout commits remain the current source of truth",
+    "packaging is treated as a follow-up concern rather than a blocker for repository closeout"
   ]
 }
