@@ -1,7 +1,7 @@
 {
   "checklist_id": "release-consolidation-checklist-v1",
   "purpose": "Release-ready consolidation map for the current HMM reference stack.",
-  "current_operating_mode": "maintenance_consolidation",
+  "current_operating_mode": "active_reconstruction_with_source_alignment",
   "loading_tiers": [
     {
       "tier_id": "tier_1_core_runtime_boundary",
@@ -54,6 +54,16 @@
         "references/typed-source-node-index.yaml",
         "references/metaPrompt-step-index.md",
         "references/metaPrompt-step-index.json",
+        "references/metaPrompt-v2-reconstruction-plan.md",
+        "references/metaPrompt-v2-shell-review.md",
+        "references/metaPrompt-v2-contract-gap-review.md",
+        "references/metaPrompt-v2-third-batch-review.md",
+        "references/skill-capability-boundary-review.md",
+        "references/metaPrompt-v2-consistency-review.md",
+        "references/skill-capability-boundary-limit-review.md",
+        "references/skill-boundary-convergence-review.md",
+        "references/skill-boundary-final-closeout-checklist.md",
+        "references/metaPrompt-v2-consolidation-checklist.md",
         "references/source-node-type-registry.md",
         "references/source-node-type-registry.json"
       ]
@@ -83,16 +93,18 @@
     "typed_source_index_covers_promotion_catalog",
     "typed_source_and_promotion_catalog_align_on_shared_source_fields",
     "dual_source_precedence_between_metaPrompt_and_opml_is_explicit",
-    "meta_prompt_step_index_preserves_linear_scaffold_and_numbering_anomalies",
+    "meta_prompt_step_index_preserves_chapter_scaffold_and_explicit_compatibility_metadata",
     "release_consolidation_checklist_covers_source_review_reference_catalog",
     "original_source_files_match_reference_copies_by_hash",
     "release_final_review_exists_when_all_other_release_gates_are_satisfied",
     "frozen_archive_planes_not_expanded_without_real_consumer",
     "remaining_candidate_rules_have_explicit_rationale",
-    "no_hardcoded_local_machine_paths_in_distribution"
+    "no_hardcoded_local_machine_paths_in_distribution",
+    "working_tree_clean_before_release_packaging"
   ],
   "preferred_maintenance_work": [
     "typed_source_alignment_maintenance",
+    "contract_shell_review",
     "catalog_synchronization",
     "boundary_preservation"
   ],
@@ -103,12 +115,13 @@
     "distribution"
   ],
   "current_snapshot": {
-    "source_review_reference_count": 19,
+    "source_review_reference_count": 28,
     "promotion_catalog_count": 46,
     "typed_source_entry_count": 56,
     "backlog_total": 8,
     "backlog_non_done": 0,
     "source_hash_match": true,
+    "working_tree_dirty_entries": 39,
     "example_count": 8,
     "ui_pattern_count": 6,
     "execution_substrate_class_count": 6,
@@ -117,5 +130,10 @@
     "remaining_candidate_rule_ids": [
       "src_029_parallel_fork"
     ]
-  }
+  },
+  "interpretation": [
+    "the current stack is in active reconstruction rather than release-ready maintenance mode",
+    "source copies are aligned",
+    "packaging and distribution should wait until the working tree is consolidated"
+  ]
 }

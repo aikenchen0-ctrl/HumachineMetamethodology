@@ -1,7 +1,10 @@
 {
   "review_id": "release-final-review-v1",
   "purpose": "Current release-facing closeout record for the maintained HMM reference stack.",
-  "blocking_findings": [],
+  "blocking_findings": [
+    "The repository is in active reconstruction rather than a clean release state.",
+    "The working tree currently contains modified and newly added reference assets that have not yet been consolidated."
+  ],
   "non_blocking_residual_risks": [
     "The OPML itself remains a free-form source archive rather than a typed source of truth.",
     "One intentional deferred concept remains: src_029_parallel_fork.",
@@ -9,12 +12,13 @@
   ],
   "current_state": {
     "source_review_reference_assets_present": true,
-    "source_review_reference_count": 19,
+    "source_review_reference_count": 28,
     "promotion_catalog_count": 46,
     "typed_source_entry_count": 56,
     "backlog_total": 8,
     "backlog_non_done": 0,
     "source_hash_match": true,
+    "working_tree_dirty_entry_count": 39,
     "example_count": 8,
     "ui_pattern_count": 6,
     "execution_substrate_class_count": 6,
@@ -27,9 +31,9 @@
     "dual_source_precedence_explicit": true,
     "frozen_archive_planes_bounded": true,
     "release_checklist_self_covered": true,
-    "stop_rule_satisfied": true
+    "stop_rule_satisfied": false
   },
-  "release_judgment": "release_ready_for_maintenance_and_distribution",
+  "release_judgment": "not_release_ready_active_reconstruction",
   "basis_refs": [
     "references/opml-architecture-optimization-roadmap.json",
     "references/release-consolidation-checklist.json",
@@ -39,11 +43,11 @@
   ],
   "source_hashes": {
     "agentic-nested-state-machine.opml": "578F9A8F428DAA1C77E83B60EF768AF51769D51C871F512E1F8A62BBC15C3884",
-    "metaPrompt.md": "20AFD3896479C85D1E3BAC34F763BB71077558CEA72D9CD2792A949A1A283587"
+    "metaPrompt.md": "790994339F3817D3033C245C9DECA724EA2D3A0765E376EA34235B13000C2887"
   },
   "assumptions": [
-    "no_new_source_drift",
-    "no_new_downstream_consumer_reopens_frozen_archive_planes",
-    "no_request_to_expand_runtime_provider_governance_operations_beyond_current_scope"
+    "source copies remain aligned",
+    "reconstruction continues under controlled scope",
+    "packaging waits until the working tree is consolidated"
   ]
 }

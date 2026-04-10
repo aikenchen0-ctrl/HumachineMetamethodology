@@ -160,7 +160,7 @@
   ],
   "recommended_sequence": [
     "Keep typed_source_plane aligned with the promotion catalog rather than expanding architecture surface by default.",
-    "Keep the metaPrompt linear scaffold explicit through metaPrompt-step-index.json rather than reconstructing step order from prose each round.",
+    "Keep the maintained metaPrompt chapter scaffold explicit through metaPrompt-step-index.json rather than reconstructing chapter order from prose each round.",
     "Keep product_interaction_archive_plane frozen unless a real product-facing consumer now requires extra distinctions.",
     "Keep execution_substrate_plane frozen unless executor selection or continuity policy really depends on substrate taxonomy.",
     "Keep topology_decision_plane waiting for a real distinguishing case.",

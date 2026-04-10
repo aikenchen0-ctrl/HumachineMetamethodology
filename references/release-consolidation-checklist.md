@@ -16,7 +16,7 @@ It is the maintenance-facing map for:
 
 The architecture is now in:
 
-- maintenance-consolidation mode
+- active-reconstruction-with-source-alignment
 
 That means:
 
@@ -75,6 +75,16 @@ Read when aligning the skill back to the source or maintaining source-review ass
 - `references/typed-source-node-index.yaml`
 - `references/metaPrompt-step-index.md`
 - `references/metaPrompt-step-index.json`
+- `references/metaPrompt-v2-reconstruction-plan.md`
+- `references/metaPrompt-v2-shell-review.md`
+- `references/metaPrompt-v2-contract-gap-review.md`
+- `references/metaPrompt-v2-third-batch-review.md`
+- `references/skill-capability-boundary-review.md`
+- `references/metaPrompt-v2-consistency-review.md`
+- `references/skill-capability-boundary-limit-review.md`
+- `references/skill-boundary-convergence-review.md`
+- `references/skill-boundary-final-closeout-checklist.md`
+- `references/metaPrompt-v2-consolidation-checklist.md`
 - `references/source-node-type-registry.md`
 - `references/source-node-type-registry.json`
 
@@ -104,19 +114,21 @@ Before treating the current architecture as release-ready, confirm:
 3. `typed-source-node-index.yaml` covers the current promotion catalog
 4. `typed-source-node-index.yaml` and `source-node-promotion-catalog.json` stay aligned on shared source fields
 5. `metaPrompt.md` versus `agentic-nested-state-machine.opml` precedence stays explicit rather than being silently merged downstream
-6. `metaPrompt-step-index.json` preserves the linear source scaffold and explicit numbering anomalies
+6. `metaPrompt-step-index.json` preserves the maintained chapter scaffold and any compatibility metadata explicitly
 7. `release-consolidation-checklist.json` covers every `source_review_reference_catalog` asset in an explicit loading tier
 8. original source files and `references/` source copies still match by hash
 9. `release-final-review.json` exists as the current closeout record once all release gates are satisfied
 10. frozen archive planes are not being expanded without a real downstream consumer
 11. any remaining `candidate_rule` entries have explicit defer / archive / promotion rationale rather than being unattended leftovers
 12. no hardcoded local-machine paths leak into the distributed skill package
+13. working tree is clean before release packaging
 
 ## Default Maintenance Rule
 
 Prefer:
 
-- alignment maintenance,
+- source alignment,
+- contract-shell review,
 - catalog synchronization,
 - and boundary preservation
 
@@ -144,12 +156,13 @@ unless a real downstream consumer or source drift explicitly reopens architectur
 
 ## Current Snapshot
 
-- source-review reference assets: `19`
+- source-review reference assets: `28`
 - promotion catalog entries: `46`
 - typed source entries: `56`
 - backlog total items: `8`
 - backlog non-completed items: `0`
 - original source hash match: `true`
+- working tree dirty entries: `39`
 - standard examples: `8`
 - UI archive patterns: `6`
 - execution substrate classes: `6`
@@ -158,5 +171,6 @@ unless a real downstream consumer or source drift explicitly reopens architectur
 
 Interpretation:
 
-- the current stack is in release-ready maintenance mode,
-- and the remaining `candidate_rule` is an intentional defer case rather than an unattended gap.
+- the current stack is in active reconstruction rather than release-ready maintenance mode,
+- source copies are aligned,
+- but packaging and distribution should wait until the current modified working tree is reviewed and consolidated.
