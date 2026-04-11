@@ -198,4 +198,10 @@ Current examples cover:
 - multi-reviewer export approval topology
 - discovery-template interaction
 
-Current standard set has no known uncovered high-priority interaction in the existing source-aligned architecture review scope.
+Current standard set currently covers the main extension-mode interaction patterns used in the existing source-aligned architecture review scope.
+
+Still not yet covered as standard examples:
+
+- retrieval and evidence-writeback interaction
+- candidate-generation to evaluation interaction
+- pluginization and self-upgrade interaction

@@ -251,6 +251,11 @@
       "multi-reviewer export approval topology",
       "discovery-template interaction"
     ],
-    "missing_interactions": []
+    "scope_note": "Current standard examples are strongest on extension-mode interaction coverage inside the existing source-aligned architecture review scope.",
+    "missing_interactions": [
+      "retrieval_and_evidence_writeback_interaction",
+      "candidate_generation_to_evaluation_interaction",
+      "pluginization_and_self_upgrade_interaction"
+    ]
   }
 }
