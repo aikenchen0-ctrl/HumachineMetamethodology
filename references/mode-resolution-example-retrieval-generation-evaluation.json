@@ -1,0 +1,139 @@
+{
+  "execution_profile": "autonomous_deep",
+  "profile_source": "user_keyword",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
+  "resolved_modes": [],
+  "mode_sources": [],
+  "activation_reasons": [],
+  "source_alignment_basis": [
+    "references/metaPrompt.md",
+    "references/core-method.md",
+    "references/source-alignment-policy.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "source_generation_and_evaluation_layer": [
+      "semantic_clarification",
+      "branch_plan_generation",
+      "evaluation_validation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "source_generation_and_evaluation_layer": [
+      "search-notes.json",
+      "selected-targets.json",
+      "operator-calls.json",
+      "candidate-pool.json",
+      "solution-comparison.json",
+      "solution-paths.json",
+      "validation-plan.json"
+    ]
+  },
+  "optional_outputs": {
+    "source_generation_and_evaluation_layer": [
+      "combination-hints.json",
+      "implementation-steps.json",
+      "fallback-rules.json"
+    ]
+  },
+  "requested_outputs": [
+    "search-notes.json",
+    "selected-targets.json",
+    "operator-calls.json",
+    "candidate-pool.json",
+    "solution-comparison.json",
+    "solution-paths.json",
+    "validation-plan.json",
+    "implementation-steps.json",
+    "fallback-rules.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json",
+    "search-notes.json",
+    "selected-targets.json",
+    "operator-calls.json",
+    "candidate-pool.json",
+    "solution-comparison.json",
+    "solution-paths.json",
+    "validation-plan.json",
+    "implementation-steps.json",
+    "fallback-rules.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "executor-runtime-hook.json",
+    "runtime-event-source-contract.json",
+    "provider-health-check.json"
+  ],
+  "stage_requirements": {
+    "after_semantic_clarification": {
+      "source_generation_and_evaluation_layer": [
+        "search-notes.json"
+      ]
+    },
+    "after_branch_plan_generation": {
+      "source_generation_and_evaluation_layer": [
+        "selected-targets.json",
+        "operator-calls.json",
+        "candidate-pool.json"
+      ]
+    },
+    "after_evaluation_validation": {
+      "source_generation_and_evaluation_layer": [
+        "solution-comparison.json",
+        "solution-paths.json",
+        "validation-plan.json"
+      ]
+    },
+    "before_finish": {
+      "source_generation_and_evaluation_layer": [
+        "implementation-steps.json",
+        "fallback-rules.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "source_generation_and_evaluation_layer": {
+      "if_missing": "loop back to semantic_clarification, branch_plan_generation, evaluation_validation, or loop_or_finish depending on the missing source-layer output",
+      "why": "bounded retrieval writeback, candidate generation, and implementation shaping should stay staged instead of collapsing into one opaque summary"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "probe_activations": [
+    {
+      "mode": "source_generation_and_evaluation_layer",
+      "trigger_class": "single_high_signal_gain",
+      "trigger_reason": "real evidence gaps appeared before route comparison, so bounded first-search and downstream candidate generation had clear payoff",
+      "probe_scope": "source-aligned retrieval, candidate generation, and evaluation only",
+      "probe_status": "kept",
+      "deepen_when": "if evidence gaps still block comparison after the first bounded search writeback"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "source_generation_and_evaluation_layer"
+      ],
+      "active_when": "the round has real evidence gaps and still needs explicit candidate comparison before finish",
+      "note": "Keep bounded first-search upstream of candidate generation, and keep evaluation downstream of the generated candidate pool."
+    }
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "autonomous deep probing was appropriate because bounded retrieval and downstream candidate shaping improved task progress without widening into runtime operations",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
+}

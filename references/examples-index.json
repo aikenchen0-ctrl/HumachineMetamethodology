@@ -1,6 +1,6 @@
 {
   "catalog_id": "hmm-examples-index-v1",
-  "purpose": "Machine-readable index of standard cross-mode examples for selecting mode-resolution and evaluation-report patterns.",
+  "purpose": "Machine-readable index of standard interaction examples for selecting mode-resolution and evaluation-report patterns across extension-mode and source-layer pressure tests.",
   "reading_order": [
     "mode_resolution_example",
     "evaluation_report_example"
@@ -238,6 +238,68 @@
         "src_022_graph_format_selection"
       ],
       "related_backlog_items": []
+    },
+    {
+      "example_id": "ex_retrieval_generation_evaluation",
+      "title": "Retrieval To Generation To Evaluation",
+      "mode_resolution_example": "references/mode-resolution-example-retrieval-generation-evaluation.json",
+      "evaluation_report_example": "references/evaluation-report-example-retrieval-generation-evaluation.xml",
+      "covered_modes": [],
+      "covered_source_layers": [
+        "retrieval_and_evidence_writeback",
+        "candidate_generation",
+        "implementation_shaping"
+      ],
+      "use_when": [
+        "bounded first-search evidence is needed before route comparison",
+        "candidate generation should stay explicit rather than collapsing into prose",
+        "evaluation and fallback logic must be written before finish"
+      ],
+      "key_interaction_focus": [
+        "search-notes.json -> selected-targets.json / operator-calls.json",
+        "candidate-pool.json -> solution-comparison.json / solution-paths.json",
+        "validation-plan.json -> implementation-steps.json / fallback-rules.json"
+      ],
+      "recommended_execution_profile": "autonomous_deep",
+      "architecture_focus": "bounded retrieval writes into source-aligned generation, which then writes into explicit comparison, validation, implementation, and fallback artifacts",
+      "related_source_nodes": [
+        "src_007_self_scoring",
+        "src_013_evaluation_agent",
+        "src_026_first_search",
+        "src_027_solution_flow"
+      ],
+      "related_backlog_items": [
+        "pb_003_solution_flow_split"
+      ]
+    },
+    {
+      "example_id": "ex_pluginization_self_upgrade",
+      "title": "Pluginization Plus Self Upgrade",
+      "mode_resolution_example": "references/mode-resolution-example-pluginization-self-upgrade.json",
+      "evaluation_report_example": "references/evaluation-report-example-pluginization-self-upgrade.xml",
+      "covered_modes": [],
+      "covered_source_layers": [
+        "pluginization_and_self_upgrade"
+      ],
+      "use_when": [
+        "a reusable method slice has stabilized enough to justify plugin drafting",
+        "plugin structure must remain separate from MCP skill execution identity",
+        "future-round writeback and promotion logic must be explicit before finish"
+      ],
+      "key_interaction_focus": [
+        "plugin-decisions.json -> plugin-drafts.json",
+        "plugin-drafts.json -> plugin-interfaces.json",
+        "plugin-feedbacks.json / plugin-upgrade-rules.json -> future round reuse"
+      ],
+      "recommended_execution_profile": "autonomous_deep",
+      "architecture_focus": "pluginization stays downstream of evaluation and keeps plugin structure, skill shell, writeback, and maturity promotion explicit instead of collapsing them together",
+      "related_source_nodes": [
+        "src_005_template_format",
+        "src_026_first_search",
+        "src_027_solution_flow",
+        "src_044_prompt_guidance_source"
+      ],
+      "related_backlog_items": []
     }
   ],
   "coverage_status": {
@@ -249,13 +311,11 @@
       "portfolio-heavy interaction",
       "approval-heavy export interaction",
       "multi-reviewer export approval topology",
-      "discovery-template interaction"
+      "discovery-template interaction",
+      "retrieval-to-generation-to-evaluation interaction",
+      "pluginization-and-self-upgrade interaction"
     ],
-    "scope_note": "Current standard examples are strongest on extension-mode interaction coverage inside the existing source-aligned architecture review scope.",
-    "missing_interactions": [
-      "retrieval_and_evidence_writeback_interaction",
-      "candidate_generation_to_evaluation_interaction",
-      "pluginization_and_self_upgrade_interaction"
-    ]
+    "scope_note": "Current standard examples now cover the main extension-mode interaction patterns plus two explicit source-layer interaction patterns inside the existing source-aligned architecture review scope.",
+    "missing_interactions": []
   }
 }

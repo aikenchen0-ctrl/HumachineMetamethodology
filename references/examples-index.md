@@ -2,12 +2,13 @@
 
 ## Purpose
 
-This file indexes the standard multi-mode examples that demonstrate how `mode-resolution.json` and `evaluation-report.xml` should be written when more than one extension mode is active in the same round.
+This file indexes the standard interaction examples that demonstrate how `mode-resolution.json` and `evaluation-report.xml` should be written when more than one extension mode is active in the same round, or when a first-class source layer needs an explicit standard interaction pattern.
 
 Use it when:
 
 - rules alone feel too abstract,
 - a new round needs to imitate an existing cross-mode interaction pattern,
+- a source-layer pressure-test needs a concrete baseline,
 - or review work needs a compact map of which example covers which architectural boundary.
 
 ## Example Set
@@ -185,6 +186,48 @@ Suggested execution profile:
 
 - `共创稳推`
 
+### 9. Retrieval -> Generation -> Evaluation
+
+- `references/mode-resolution-example-retrieval-generation-evaluation.json`
+- `references/evaluation-report-example-retrieval-generation-evaluation.xml`
+
+Use when:
+
+- bounded first-search evidence is genuinely needed before route comparison,
+- candidate generation should stay explicit rather than collapsing into one prose summary,
+- and evaluation plus fallback logic must be written before finish.
+
+Key interaction focus:
+
+- `search-notes.json -> selected-targets.json / operator-calls.json`
+- `candidate-pool.json -> solution-comparison.json / solution-paths.json`
+- `validation-plan.json -> implementation-steps.json / fallback-rules.json`
+
+Suggested execution profile:
+
+- `鑷不娣辨帰`
+
+### 10. Pluginization + Self-Upgrade
+
+- `references/mode-resolution-example-pluginization-self-upgrade.json`
+- `references/evaluation-report-example-pluginization-self-upgrade.xml`
+
+Use when:
+
+- a reusable method slice has stabilized enough to justify plugin drafting,
+- plugin structure must stay separate from executable `MCP skill` identity,
+- and future-round feedback plus promotion rules need to be explicit before finish.
+
+Key interaction focus:
+
+- `plugin-decisions.json -> plugin-drafts.json`
+- `plugin-drafts.json -> plugin-interfaces.json`
+- `plugin-feedbacks.json / plugin-upgrade-rules.json -> future round reuse`
+
+Suggested execution profile:
+
+- `鑷不娣辨帰`
+
 ## Coverage Status
 
 Current examples cover:
@@ -197,11 +240,9 @@ Current examples cover:
 - approval-heavy export interaction
 - multi-reviewer export approval topology
 - discovery-template interaction
+- retrieval-to-generation-to-evaluation interaction
+- pluginization-and-self-upgrade interaction
 
-Current standard set currently covers the main extension-mode interaction patterns used in the existing source-aligned architecture review scope.
+Current standard set currently covers the main extension-mode interaction patterns plus two explicit source-layer interaction patterns used in the existing source-aligned architecture review scope.
 
-Still not yet covered as standard examples:
-
-- retrieval and evidence-writeback interaction
-- candidate-generation to evaluation interaction
-- pluginization and self-upgrade interaction
+Current standard set has no known uncovered high-priority interaction in the current source-aligned review scope.
