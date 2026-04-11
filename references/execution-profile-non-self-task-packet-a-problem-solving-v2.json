@@ -1,0 +1,60 @@
+{
+  "packet_id": "ep_nonself_task_packet_a_problem_solving_v2",
+  "task_class": "problem_solving_with_real_evidence_gap",
+  "goal": "Compare autonomous_deep and autonomous_steady on a real problem-solving task that genuinely requires bounded first-search before candidate comparison and fallback planning.",
+  "source_alignment_basis": [
+    "references/metaPrompt.md",
+    "references/execution-profile-non-self-comparison-plan.md",
+    "references/mode-resolution-example-retrieval-generation-evaluation.json",
+    "references/evaluation-report-example-retrieval-generation-evaluation.xml"
+  ],
+  "shared_task_packet": {
+    "task_summary": "Solve one real task with actual evidence gaps and require explicit retrieval writeback, candidate generation, comparison, validation, implementation steps, and fallback rules.",
+    "input_materials": [
+      "one concrete user task statement",
+      "any local files or source materials needed for the task",
+      "explicit constraints if known"
+    ],
+    "explicit_constraints": [
+      "keep the task identical across both runs",
+      "allow bounded first-search only when a real evidence gap appears",
+      "do not activate runtime/provider/governance operations without explicit operational scope",
+      "prefer source-aligned retrieval, generation, evaluation, and fallback shaping"
+    ],
+    "success_criteria": [
+      "problem is structured before search expands",
+      "search evidence writes back into selected targets and candidate generation",
+      "candidate comparison and fallback logic are explicit",
+      "deep and steady show behavior differences without boundary breakage"
+    ]
+  },
+  "deep_prompt": "Use HMM in autonomous_deep mode. Structure the problem first. If clear gain is likely, continue with bounded retrieval, candidate generation, comparison, validation planning, and fallback rules without stopping early unless there is a real blocker.",
+  "steady_prompt": "Use HMM in autonomous_steady mode. Structure the problem first. Only continue with bounded retrieval, candidate generation, comparison, validation planning, and fallback rules when the need is explicit or strongly supported. Avoid low-value expansion unless there is a real blocker.",
+  "recommended_examples": [
+    "references/mode-resolution-example-retrieval-generation-evaluation.json",
+    "references/evaluation-report-example-retrieval-generation-evaluation.xml"
+  ],
+  "recommended_artifacts": [
+    "search-notes.json",
+    "selected-targets.json",
+    "operator-calls.json",
+    "candidate-pool.json",
+    "solution-comparison.json",
+    "solution-paths.json",
+    "validation-plan.json",
+    "implementation-steps.json",
+    "fallback-rules.json"
+  ],
+  "observation_focus": [
+    "whether bounded search is triggered appropriately",
+    "whether search results are written back into generation artifacts",
+    "whether explicit comparison and fallback artifacts appear",
+    "whether autonomous_deep expands earlier or deeper than autonomous_steady"
+  ],
+  "forbidden_expansions": [
+    "runtime operations engineering",
+    "provider failover design",
+    "external governance operations",
+    "representation-layer semantic override"
+  ]
+}

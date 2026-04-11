@@ -198,6 +198,11 @@
 
 - `references/execution-profile-non-self-comparison-scorecard-template.json`
 
+推荐 starter task packet：
+
+- `references/execution-profile-non-self-task-packet-a-problem-solving-v2.json`
+- `references/execution-profile-non-self-task-packet-b-template-pluginization-v2.json`
+
 ## 最低通过标准
 
 把一次对照记为 `pass`，至少要满足：
