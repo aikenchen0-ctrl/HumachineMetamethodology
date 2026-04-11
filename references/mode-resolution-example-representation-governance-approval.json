@@ -1,4 +1,10 @@
 {
+  "execution_profile": "co_create_steady",
+  "profile_source": "user_keyword",
+  "interaction_profile": "co_create",
+  "expansion_profile": "steady_probe",
+  "mode_probe_policy": "explicit_or_two_signal",
+  "confirmation_policy": "milestone_only",
   "resolved_modes": [
     "governance_and_feedback_mode",
     "representation_and_serialization_mode"
@@ -194,5 +200,12 @@
       "active_when": "the round needs structured export but treats export release as an approval-governed act",
       "note": "Separate export construction from export authorization."
     }
-  ]
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "co_create_steady",
+    "recommended_profile": "none",
+    "adjustment_reason": "the co-create steady profile fit an approval-heavy export round because milestone feedback matters more than continuous exploratory narration",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
 }

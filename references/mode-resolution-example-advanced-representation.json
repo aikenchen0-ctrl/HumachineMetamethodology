@@ -1,4 +1,10 @@
 {
+  "execution_profile": "autonomous_deep",
+  "profile_source": "default_normal_round",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
   "resolved_modes": [
     "advanced_mode",
     "representation_and_serialization_mode"
@@ -194,5 +200,12 @@
       "active_when": "the round needs deep system modeling and export-ready outputs in the same pass",
       "note": "Do not let export get ahead of contradiction analysis or solution-set stabilization."
     }
-  ]
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "the default deep autonomous profile fit the round because advanced modeling and downstream export both needed sustained expansion without extra confirmation turns",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
 }

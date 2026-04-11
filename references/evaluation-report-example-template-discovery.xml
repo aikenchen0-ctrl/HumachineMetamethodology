@@ -19,6 +19,12 @@
   <non_blocking_risks>
     <risk>If latent demand changes materially after template compression, the template chain may need a controlled refresh rather than reuse as-is.</risk>
   </non_blocking_risks>
+  <profile_adherence>
+    <status>pass</status>
+    <evidence>The run stayed autonomous and deep, allowing discovery to remain active long enough to protect template compression from premature closure.</evidence>
+  </profile_adherence>
+  <under_expansion_risk>low</under_expansion_risk>
+  <over_expansion_risk>low</over_expansion_risk>
   <recommended_action>proceed</recommended_action>
   <recommended_loop_target>none</recommended_loop_target>
   <confidence>0.92</confidence>
@@ -99,6 +105,13 @@
   <dispatch_recommendations>
     <item>Proceed because discovery still owns demand uncertainty while template mode compresses only the reusable method shell.</item>
   </dispatch_recommendations>
+  <probe_activation_checks>
+    <check>
+      <mode>discovery_and_hypothesis_mode</mode>
+      <status>pass</status>
+      <note>The autonomous deep profile justified a bounded discovery probe because template compression would otherwise risk freezing unstable demand assumptions too early.</note>
+    </check>
+  </probe_activation_checks>
   <key_step_role_checks>
     <check>
       <step_or_artifact>hypothesis-register.json</step_or_artifact>
@@ -122,6 +135,13 @@
       <decision>pass</decision>
     </check>
   </mode_interaction_checks>
+  <profile_adjustment_recommendation>
+    <current_profile>autonomous_deep</current_profile>
+    <recommended_profile>none</recommended_profile>
+    <adjustment_reason>The current profile fit the round because one bounded discovery probe improved template reliability without causing unnecessary branch sprawl.</adjustment_reason>
+    <apply_next_round>false</apply_next_round>
+    <blocked_by_user_override>false</blocked_by_user_override>
+  </profile_adjustment_recommendation>
   <self_score>92</self_score>
   <score_reason>The example closes the template-discovery gap, but still assumes a relatively simple discovery refresh path rather than a more complex multi-round reopening pattern.</score_reason>
 </evaluation_report>

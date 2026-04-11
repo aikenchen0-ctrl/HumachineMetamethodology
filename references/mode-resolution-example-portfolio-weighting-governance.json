@@ -1,4 +1,10 @@
 {
+  "execution_profile": "autonomous_deep",
+  "profile_source": "default_normal_round",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
   "resolved_modes": [
     "portfolio_and_optimization_mode",
     "library_and_weighting_mode",
@@ -174,6 +180,16 @@
   },
   "scope_alignment_status": "aligned",
   "resolution_status": "ready",
+  "probe_activations": [
+    {
+      "mode": "library_and_weighting_mode",
+      "trigger_class": "single_high_signal_gain",
+      "trigger_reason": "the round preserved a candidate portfolio but still lacked explicit human weights, so bounded internal ranking support had clear payoff",
+      "probe_scope": "portfolio-bounded weighting support",
+      "probe_status": "kept",
+      "deepen_when": "if the approximate-best set remains too large for governance review without explicit internal ranking"
+    }
+  ],
   "mode_precedence": [
     {
       "higher_mode": "portfolio_and_optimization_mode",
@@ -252,5 +268,12 @@
       "active_when": "the round both preserves a near-optimal set and still needs a final ranked recommendation under human review",
       "note": "Do not let weighting silently collapse the portfolio before governance review."
     }
-  ]
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "deep autonomous expansion was useful because portfolio preservation, ranking support, and governance override had to be kept explicit in one pass",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
 }

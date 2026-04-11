@@ -1,4 +1,10 @@
 {
+  "execution_profile": "co_create_steady",
+  "profile_source": "user_keyword",
+  "interaction_profile": "co_create",
+  "expansion_profile": "steady_probe",
+  "mode_probe_policy": "explicit_or_two_signal",
+  "confirmation_policy": "milestone_only",
   "resolved_modes": [
     "discovery_and_hypothesis_mode",
     "governance_and_feedback_mode"
@@ -179,5 +185,12 @@
       "active_when": "the round still has high-uncertainty assumptions and also requires human review or real-world writeback",
       "note": "Do not confuse feedback entry conditions with actual feedback history."
     }
-  ]
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "co_create_steady",
+    "recommended_profile": "none",
+    "adjustment_reason": "the co-create steady profile kept discovery uncertainty visible while reserving confirmations for governance-relevant milestones",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
 }

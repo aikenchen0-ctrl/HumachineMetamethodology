@@ -20,6 +20,12 @@
   <non_blocking_risks>
     <risk>If governance-checkpoints change after feedback hooks are defined, the feedback re-entry target may need to be remapped.</risk>
   </non_blocking_risks>
+  <profile_adherence>
+    <status>pass</status>
+    <evidence>The run used co-create steady pacing, keeping discovery uncertainty visible while reserving user-facing confirmation for governance-relevant milestones.</evidence>
+  </profile_adherence>
+  <under_expansion_risk>low</under_expansion_risk>
+  <over_expansion_risk>low</over_expansion_risk>
   <recommended_action>proceed</recommended_action>
   <recommended_loop_target>none</recommended_loop_target>
   <confidence>0.92</confidence>
@@ -119,6 +125,13 @@
       <decision>pass</decision>
     </check>
   </mode_interaction_checks>
+  <profile_adjustment_recommendation>
+    <current_profile>co_create_steady</current_profile>
+    <recommended_profile>none</recommended_profile>
+    <adjustment_reason>The current profile already balanced uncertainty exploration with milestone-based human confirmation.</adjustment_reason>
+    <apply_next_round>false</apply_next_round>
+    <blocked_by_user_override>false</blocked_by_user_override>
+  </profile_adjustment_recommendation>
   <self_score>92</self_score>
   <score_reason>The example cleanly demonstrates discovery-governance handoff, but still covers only one discovery-heavy interaction pattern.</score_reason>
 </evaluation_report>

@@ -1,4 +1,10 @@
 {
+  "execution_profile": "co_create_steady",
+  "profile_source": "user_keyword",
+  "interaction_profile": "co_create",
+  "expansion_profile": "steady_probe",
+  "mode_probe_policy": "explicit_or_two_signal",
+  "confirmation_policy": "milestone_only",
   "resolved_modes": [
     "governance_and_feedback_mode",
     "representation_and_serialization_mode"
@@ -220,5 +226,12 @@
       "active_when": "a reviewer may reject or request edits after an earlier reviewer has already approved",
       "note": "Use override-policy.json to define whether the payload is regenerated, partially re-reviewed, or fully re-reviewed."
     }
-  ]
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "co_create_steady",
+    "recommended_profile": "none",
+    "adjustment_reason": "the co-create steady profile matched multi-reviewer approval because ordered human checkpoints matter more than aggressive optional-mode probing",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
 }

@@ -1,4 +1,10 @@
 {
+  "execution_profile": "autonomous_deep",
+  "profile_source": "default_normal_round",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
   "resolved_modes": [
     "template_mode",
     "discovery_and_hypothesis_mode"
@@ -116,6 +122,16 @@
   },
   "scope_alignment_status": "aligned",
   "resolution_status": "ready",
+  "probe_activations": [
+    {
+      "mode": "discovery_and_hypothesis_mode",
+      "trigger_class": "single_high_signal_gain",
+      "trigger_reason": "template compression would have hardened unstable demand assumptions without a bounded discovery pass",
+      "probe_scope": "uncertainty-first template safeguarding",
+      "probe_status": "kept",
+      "deepen_when": "if latent demand and reversible assumptions continue to reshape reusable template defaults"
+    }
+  ],
   "mode_precedence": [
     {
       "higher_mode": "discovery_and_hypothesis_mode",
@@ -176,5 +192,12 @@
       "active_when": "the round wants reusable method compression before demand visibility has fully crystallized",
       "note": "Keep method compression and demand certainty separate; do not let template defaults silently harden latent-demand assumptions."
     }
-  ]
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "autonomous deep expansion was appropriate because discovery had to remain active long enough to protect template compression from premature closure",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
 }

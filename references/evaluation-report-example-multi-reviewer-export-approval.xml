@@ -18,6 +18,12 @@
   <non_blocking_risks>
     <risk>If governance-checkpoints.json changes after one reviewer has already approved the payload, the approval chain may need to restart from an earlier checkpoint.</risk>
   </non_blocking_risks>
+  <profile_adherence>
+    <status>pass</status>
+    <evidence>The run used co-create steady pacing, which matched ordered human review and kept feedback concentrated on actual approval milestones.</evidence>
+  </profile_adherence>
+  <under_expansion_risk>low</under_expansion_risk>
+  <over_expansion_risk>low</over_expansion_risk>
   <recommended_action>proceed</recommended_action>
   <recommended_loop_target>none</recommended_loop_target>
   <confidence>0.94</confidence>
@@ -128,6 +134,13 @@
       <decision>pass</decision>
     </check>
   </mode_interaction_checks>
+  <profile_adjustment_recommendation>
+    <current_profile>co_create_steady</current_profile>
+    <recommended_profile>none</recommended_profile>
+    <adjustment_reason>The current profile already matched multi-reviewer approval work, where milestone confirmations matter more than aggressive optional-mode expansion.</adjustment_reason>
+    <apply_next_round>false</apply_next_round>
+    <blocked_by_user_override>false</blocked_by_user_override>
+  </profile_adjustment_recommendation>
   <self_score>94</self_score>
   <score_reason>The example now covers a multi-reviewer export approval topology, although it still models a bounded review chain rather than every possible approval graph shape.</score_reason>
 </evaluation_report>
