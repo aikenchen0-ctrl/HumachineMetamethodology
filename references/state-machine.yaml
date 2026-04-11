@@ -715,6 +715,31 @@ variant_rule_contracts:
       - same_source_consistency
       - mode_interaction_checks
 
+pluginization_rule_contracts:
+  pluginization_boundary:
+    attach_after_state: loop_or_finish
+    inputs:
+      - branch-plan.json
+    optional_inputs:
+      - search-notes.json
+      - solution-set.json
+      - template-chain.json
+    outputs:
+      - plugin-decisions.json
+      - plugin-drafts.json
+    optional_outputs:
+      - plugin-interfaces.json
+      - plugin-feedbacks.json
+      - plugin-upgrade-rules.json
+    rules:
+      - "plugin-drafts.json records reusable domain structure, evidence-source preferences, operator mappings, and failure patterns; it must not be treated as an executable MCP skill by itself."
+      - "plugin-interfaces.json may expose future skill shells, but it must remain downstream of plugin-drafts.json rather than redefining plugin semantics independently."
+      - "plugin-feedbacks.json should record vocabulary, analysis, solution, and failure writebacks that can re-enter later rounds."
+      - "plugin-upgrade-rules.json should make P0 to P1 to P2 promotion explicit rather than silently changing maturity."
+    evaluation_hooks:
+      - same_source_consistency
+      - fact_validation_chain
+
 mode_inference_signals:
   advanced_mode:
     - "当前对象是系统、流程或方法体系，而不是单个一步动作。"

@@ -2987,6 +2987,108 @@ template_artifact_catalog:
       - consumer_generation
       - consumer_class
 
+pluginization_artifact_catalog:
+  - artifact_id: plugin_decisions
+    file: plugin-decisions.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "Record whether current reusable method slices should remain local, become plugin drafts, or be exteriorized into future skill-facing structures."
+    required_top_level_fields:
+      - decision_id
+      - promotion_candidates
+      - accepted_plugins
+      - deferred_candidates
+      - decision_basis
+      - promotion_order
+    optional_top_level_fields:
+      - rejected_candidates
+      - source_artifact_refs
+      - skill_exteriorization_targets
+
+  - artifact_id: plugin_drafts
+    file: plugin-drafts.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "Record reusable plugin draft structures derived from the current round without treating them as executable MCP skills."
+    required_top_level_fields:
+      - drafts
+    optional_top_level_fields:
+      - draft_policy
+      - reuse_scope
+      - shared_terms
+    optional_draft_fields:
+      - plugin_name
+      - plugin_level
+      - domain_scope
+      - task_types
+      - core_entities
+      - core_attributes
+      - core_functions
+      - core_constraints
+      - evidence_sources
+      - operator_map
+      - failure_modes
+      - upgrade_rule
+
+  - artifact_id: plugin_interfaces
+    file: plugin-interfaces.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "Record future skill-facing interface shells that depend on plugin drafts but remain separate from MCP skill execution policy."
+    required_top_level_fields:
+      - interfaces
+      - dependency_policy
+      - interface_status
+    optional_top_level_fields:
+      - trigger_bindings
+      - shared_input_contract
+      - shared_output_contract
+      - tool_policy_summary
+    optional_interface_fields:
+      - skill_name
+      - goal
+      - trigger
+      - inputs
+      - outputs
+      - core_steps
+      - tool_policy
+      - plugin_dependency
+      - failure_modes
+      - upgrade_rule
+
+  - artifact_id: plugin_feedbacks
+    file: plugin-feedbacks.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "Record the four feedback writeback classes required for later plugin refinement."
+    required_top_level_fields:
+      - vocabulary_feedback
+      - analysis_feedback
+      - solution_feedback
+      - failure_feedback
+      - writeback_targets
+    optional_top_level_fields:
+      - accepted_changes
+      - deferred_changes
+      - blocked_changes
+
+  - artifact_id: plugin_upgrade_rules
+    file: plugin-upgrade-rules.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "Record explicit maturity transitions and gates for plugin promotion instead of silently upgrading from P0 to P1 to P2."
+    required_top_level_fields:
+      - rules
+      - current_levels
+      - target_levels
+      - verification_gates
+      - rollback_conditions
+    optional_top_level_fields:
+      - dependency_checks
+      - evidence_requirements
+      - promotion_status
+      - blocked_upgrades
+
 states:
   - state_id: problem_intake
     display_name: 问题接收

@@ -1037,6 +1037,22 @@ When these artifacts are present, prefer making the export logic explicit:
 - `sequence-diagram.mmd` should be tied to a real interaction or execution order rather than generated decoratively.
 - `representation-bundle.json` should say which formats were selected, what each target points to, and why some other formats were not emitted.
 
+If source-aligned pluginization and self-upgrade is active, extend the artifact set with:
+
+- `plugin-decisions.json`
+- `plugin-drafts.json`
+- `plugin-interfaces.json`
+- `plugin-feedbacks.json`
+- `plugin-upgrade-rules.json`
+
+When these artifacts are present, prefer making the plugin boundary explicit:
+
+- `plugin-decisions.json` should say what is being promoted, what stays deferred, and why.
+- `plugin-drafts.json` should preserve reusable domain structure, evidence sources, operator mappings, and failure modes without pretending to be an executable MCP skill.
+- `plugin-interfaces.json` should expose future skill shells only after the plugin draft is stable enough to externalize.
+- `plugin-feedbacks.json` should keep vocabulary, analysis, solution, and failure writebacks separate so later rounds can reuse them intentionally.
+- `plugin-upgrade-rules.json` should make `P0 -> P1 -> P2` promotion explicit instead of silently upgrading maturity.
+
 If the user only wants discussion, still think in this artifact shape internally and summarize from it.
 
 If the problem is still unstable after `problem-brief`, explicitly summarize:
