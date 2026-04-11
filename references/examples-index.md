@@ -28,6 +28,10 @@ Key interaction focus:
 - `decision-weighting.json -> override-policy.json`
 - `override-policy.json -> representation outputs`
 
+Suggested execution profile:
+
+- `自治深探`
+
 ### 2. Discovery -> Governance
 
 - `references/mode-resolution-example-discovery-governance.json`
@@ -44,6 +48,10 @@ Key interaction focus:
 - `feedback-hooks.json -> feedback-ledger.json`
 - `hypothesis-register.json -> governance review boundary`
 
+Suggested execution profile:
+
+- `共创稳推`
+
 ### 3. Advanced -> Representation
 
 - `references/mode-resolution-example-advanced-representation.json`
@@ -58,6 +66,10 @@ Key interaction focus:
 
 - `actor-network.json -> sequence-diagram.mmd`
 - `solution-set.json -> representation-bundle.json`
+
+Suggested execution profile:
+
+- `自治深探`
 
 ### 4. Template -> Orchestration
 
@@ -75,6 +87,10 @@ Key interaction focus:
 - `template-chain.json -> orchestration-plan.json`
 - `shared-context-map.json -> execution-supervision.json`
 - `writeback-ledger.json -> future template refinement`
+
+Suggested execution profile:
+
+- `自治深探`
 
 ## Reading Order
 
@@ -104,6 +120,10 @@ Key interaction focus:
 - `optimization-report.json -> decision-weighting.json`
 - `decision-weighting.json -> override-policy.json`
 
+Suggested execution profile:
+
+- `自治深探`
+
 ### 6. Representation + Governance Approval
 
 - `references/mode-resolution-example-representation-governance-approval.json`
@@ -119,6 +139,10 @@ Key interaction focus:
 
 - `xml-rewrite.xml -> governance-checkpoints.json`
 - `governance-checkpoints.json / override-policy.json -> final export release`
+
+Suggested execution profile:
+
+- `共创稳推`
 
 ### 7. Template + Discovery
 
@@ -136,6 +160,10 @@ Key interaction focus:
 - `demand-visibility.json / hypothesis-register.json -> template-chain.json`
 - `pruning-notes.json -> future discovery reopening`
 
+Suggested execution profile:
+
+- `自治深探`
+
 ### 8. Representation + Governance Multi-Reviewer Approval
 
 - `references/mode-resolution-example-multi-reviewer-export-approval.json`
@@ -152,6 +180,10 @@ Key interaction focus:
 - `xml-rewrite.xml / representation-bundle.json -> multi-reviewer visibility package`
 - `governance-checkpoints.json -> approval order and review topology`
 - `override-policy.json -> rejection reentry and regeneration rules`
+
+Suggested execution profile:
+
+- `共创稳推`
 
 ## Coverage Status
 

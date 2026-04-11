@@ -25,6 +25,7 @@
         "decision-weighting.json -> override-policy.json",
         "override-policy.json -> representation outputs"
       ],
+      "recommended_execution_profile": "autonomous_deep",
       "architecture_focus": "authority handoff from automatic ranking to human override before serialization",
       "related_source_nodes": [
         "src_003_multiple_solution_sorting",
@@ -53,6 +54,7 @@
         "feedback-hooks.json -> feedback-ledger.json",
         "hypothesis-register.json -> governance review boundary"
       ],
+      "recommended_execution_profile": "co_create_steady",
       "architecture_focus": "discovery owns framing while governance owns actual review and writeback",
       "related_source_nodes": [
         "src_002_user_question_style",
@@ -78,6 +80,7 @@
         "actor-network.json -> sequence-diagram.mmd",
         "solution-set.json -> representation-bundle.json"
       ],
+      "recommended_execution_profile": "autonomous_deep",
       "architecture_focus": "representation remains downstream-only and non-authoritative over advanced semantics",
       "related_source_nodes": [
         "src_033_resource_graph_artifact",
@@ -108,6 +111,7 @@
         "shared-context-map.json -> execution-supervision.json",
         "writeback-ledger.json -> future template refinement"
       ],
+      "recommended_execution_profile": "autonomous_deep",
       "architecture_focus": "template stays semantic-upstream while orchestration stays execution-downstream",
       "related_source_nodes": [
         "src_004_shared_file_editor",
@@ -142,6 +146,7 @@
         "optimization-report.json -> decision-weighting.json",
         "decision-weighting.json -> override-policy.json"
       ],
+      "recommended_execution_profile": "autonomous_deep",
       "architecture_focus": "portfolio owns candidate-space preservation, weighting owns internal ranking, governance owns final adoption",
       "related_source_nodes": [
         "src_003_multiple_solution_sorting",
@@ -171,6 +176,7 @@
         "xml-rewrite.xml -> governance-checkpoints.json",
         "governance-checkpoints.json / override-policy.json -> final export release"
       ],
+      "recommended_execution_profile": "co_create_steady",
       "architecture_focus": "representation builds payload structure while governance decides release eligibility",
       "related_source_nodes": [
         "src_002_user_question_style",
@@ -196,6 +202,7 @@
         "demand-visibility.json / hypothesis-register.json -> template-chain.json",
         "pruning-notes.json -> future discovery reopening"
       ],
+      "recommended_execution_profile": "autonomous_deep",
       "architecture_focus": "discovery keeps demand framing open while template mode compresses only the reusable method shell",
       "related_source_nodes": [
         "src_005_template_format",
@@ -223,6 +230,7 @@
         "governance-checkpoints.json -> approval order and review topology",
         "override-policy.json -> rejection reentry and regeneration rules"
       ],
+      "recommended_execution_profile": "co_create_steady",
       "architecture_focus": "representation builds one stable export candidate while governance defines the multi-reviewer approval topology over that same payload",
       "related_source_nodes": [
         "src_002_user_question_style",
