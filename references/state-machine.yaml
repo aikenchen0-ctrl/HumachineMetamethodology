@@ -104,6 +104,56 @@ source_first_class_conditional_layers:
 source_grounded_non_default_expansion_planes:
   - orchestration_and_memory_mode
 
+execution_profile_policy:
+  profile_defaults:
+    normal_round: autonomous_deep
+    source_aligned_self_review: autonomous_steady
+  profiles:
+    co_create_deep:
+      user_keywords:
+        - 共创深探
+      interaction_profile: co_create
+      expansion_profile: deep_probe
+      confirmation_policy: stepwise_and_high_signal_probe
+      mode_probe_policy: opportunistic_single_signal
+      branch_budget: high
+      search_depth: deep
+    co_create_steady:
+      user_keywords:
+        - 共创稳推
+      interaction_profile: co_create
+      expansion_profile: steady_probe
+      confirmation_policy: milestone_only
+      mode_probe_policy: explicit_or_two_signal
+      branch_budget: medium
+      search_depth: medium
+    autonomous_deep:
+      user_keywords:
+        - 自治深探
+      interaction_profile: autonomous
+      expansion_profile: deep_probe
+      confirmation_policy: silent_unless_blocked
+      mode_probe_policy: opportunistic_single_signal
+      branch_budget: high
+      search_depth: deep
+    autonomous_steady:
+      user_keywords:
+        - 自治稳推
+      interaction_profile: autonomous
+      expansion_profile: steady_probe
+      confirmation_policy: silent_unless_blocked
+      mode_probe_policy: explicit_or_two_signal
+      branch_budget: medium
+      search_depth: medium
+  rules:
+    - "若用户显式给出执行档位关键词，则 mode-resolution.json 必须采用对应 execution_profile，且 profile_source 标记为 user_keyword。"
+    - "若当前轮是 source-aligned self-review 且用户未显式给出执行档位，则 execution_profile 默认取 autonomous_steady。"
+    - "若当前轮不是 source-aligned self-review 且用户未显式给出执行档位，则 execution_profile 默认取 autonomous_deep。"
+    - "若 execution_profile 属于 deep_probe 档，则当某可选模式出现一个高信号收益触发且无硬边界阻断时，允许先以 probe_activation 方式进入 resolved_modes。"
+    - "若 execution_profile 属于 steady_probe 档，则非核心模式应等待显式用户请求或两条及以上系统推断信号后再进入 resolved_modes。"
+    - "若 execution_profile 属于 co_create 档，则 confirmation_policy 应决定向用户反馈的节奏；若属于 autonomous 档，则默认不因常规分支而打断用户。"
+    - "执行档位可以放宽 probe activation，但不得覆盖 source_alignment_rules、authorization_boundaries 或 derived runtime blocking。"
+
 core_extension_boundary:
   separation_rules:
     - "parallel_branch, parallel_worker, serial_branch, suspended_traversal, and parallel_fork belong to orchestration branch classes rather than the core state chain."
@@ -709,6 +759,12 @@ mode_inference_signals:
 mode_resolution_policy:
   owner_state: branch_plan_generation
   required_fields:
+    - execution_profile
+    - profile_source
+    - interaction_profile
+    - expansion_profile
+    - mode_probe_policy
+    - confirmation_policy
     - resolved_modes
     - mode_sources
     - activation_reasons
@@ -727,10 +783,15 @@ mode_resolution_policy:
   rules:
     - "若当前轮存在 scope drift，则 stage_dispatch_target 默认优先回到 branch_plan_generation 或更早的 scope-definition 层，而不是继续扩展 downstream 运维产物。"
     - "若当前轮是 source alignment，则 mode-resolution.json 必须显式记录 source_alignment_basis、source_aligned_core_outputs、blocked_derived_runtime_outputs 与 scope_alignment_status。"
+    - "mode-resolution.json 必须显式记录 execution_profile、interaction_profile、expansion_profile、mode_probe_policy、confirmation_policy 与 profile_source。"
     - "若当前轮不涉及真实 runtime/service/provider/governance 运维目标，则 derived runtime extension 不得进入 required_outputs；若被点名但当前轮不生成，必须写入 blocked_outputs 与 blocked_derived_runtime_outputs。"
     - "当没有扩展模式被激活时，resolved_modes 允许为空数组，但 mode-resolution.json 仍应存在。"
     - "branch_plan_generation 必须同时检查用户显式要求与 mode_inference_signals，不得只依赖用户点名。"
     - "若某模式满足两条及以上系统推断信号，即使用户未点名也应激活，并把来源标记为 system_inference。"
+    - "若 execution_profile 属于 deep_probe 档，则可把单个高信号收益触发写入 activation_reasons，并把对应模式以 probe_activation 方式加入 resolved_modes。"
+    - "若 execution_profile 属于 steady_probe 档，则不得仅凭单个高信号收益触发激活非核心模式。"
+    - "若当前轮发生 probe_activation，则 mode-resolution.json 应优先记录 probe_activations，并说明 trigger_reason、probe_scope、probe_status 与 deepen_when。"
+    - "若当前轮评估发现执行档位明显不合适，则 mode-resolution.json 可预留 profile_adjustment_recommendation，供 evaluation-report.xml 与 loop-decision.json 承接。"
     - "当某模式 activation_if 被满足时，必须把该模式写入 resolved_modes。"
     - "每个已激活模式都必须给出 activation_reasons。"
     - "每个已激活模式都必须给出 attach_after_states 与 required_outputs。"
@@ -746,6 +807,7 @@ mode_resolution_policy:
     - "若 representation_and_serialization_mode 与任一上游分析模式同时激活，则 authority_boundaries 必须表明表示层只序列化既有语义，不得发明新语义。"
     - "若两个及以上扩展模式同时激活，则 evaluation-report.xml 应优先包含 mode_interaction_checks，用于显式审查 handoff、authority boundary 与 cross-mode drift。"
     - "若 decision-weighting.json 用于多个候选方案排序，则 ranking_scope 或 ranked_subjects_ref 必须绑定稳定候选 id，不得使用显示顺序、方案编号措辞或示例位置作为排序依据。"
+    - "若 mode-resolution.json 已显式记录 execution_profile，则 evaluation-report.xml 应优先记录 profile_adherence、under_expansion_risk、over_expansion_risk；若发生 probe_activation，还应优先记录 probe_activation_checks。"
 
 mode_aware_state_requirements:
   after_semantic_clarification:
@@ -1120,7 +1182,7 @@ states:
       - "unresolved_couplings 过多，导致计划不可执行。"
     done_if:
       - "mode-resolution.json 已生成。"
-      - "mode-resolution.json 已显式记录 stage_requirements 与 dispatch_actions。"
+      - "mode-resolution.json 已显式记录 execution_profile、interaction_profile、expansion_profile、mode_probe_policy、confirmation_policy、stage_requirements 与 dispatch_actions。"
       - "branch-plan.json 已生成。"
       - "branches 非空。"
       - "每个分支都具备 goal、dependencies、validation_target。"
@@ -1150,6 +1212,7 @@ states:
       - "recommended_action 已给出。"
       - "blocking_issues 已显式记录。"
       - "same_source_consistency、cross_format_consistency、fact_validation_chain、unverifiable_assumptions 已显式记录。"
+      - "若 mode-resolution.json 已记录 execution_profile，则 profile_adherence、under_expansion_risk 与 over_expansion_risk 已显式记录。"
       - "mode_requirement_checks、missing_required_outputs、requested_output_status 已显式记录。"
       - "stage_requirement_checks、missing_stage_outputs、dispatch_recommendations 已显式记录。"
       - "scope_alignment_checks、scope_drift_findings、blocked_scope_expansions 已显式记录。"
@@ -1175,6 +1238,7 @@ states:
       - "unresolved_mode_requirements 已显式记录。"
       - "stage_dispatch_target 已显式记录。"
       - "scope_alignment_decision 与 scope_repair_target 已显式记录。"
+      - "若 evaluation-report.xml 已给出 profile_adjustment_recommendation，则 loop-decision.json 已显式记录并承接该建议。"
     next_on_done:
       finish_if: finish
       loop_if: dynamic_loop_target

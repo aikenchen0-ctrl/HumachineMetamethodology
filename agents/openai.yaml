@@ -1,4 +1,4 @@
 interface:
   display_name: "HMM"
   short_description: "HMM：把模糊问题压成结构化分析，并按需扩展为多种方法模式"
-  default_prompt: "使用 $HMM 先按 maintained chapter-based metaPrompt v2 主链工作，并把当前六状态壳层视为该主链的 runtime compression：术语澄清、问题建模、状态与约束分析、检索与证据补全、USIT 解生成、评估落地、插件沉淀。只有在任务真的需要时，再启用高级模式或其他扩展模式。"
+  default_prompt: "使用 $HMM 工作。可选执行档位：共创深探、共创稳推、自治深探、自治稳推。若用户未指定档位，则普通任务默认自治深探，source-aligned self-review 默认自治稳推。先按 maintained chapter-based metaPrompt v2 主链工作，并把当前六状态壳层视为该主链的 runtime compression；深探档允许对 advanced/template/library/orchestration/variant/traversal/discovery/portfolio/governance/representation 做先试探后收束的 mode probe。"

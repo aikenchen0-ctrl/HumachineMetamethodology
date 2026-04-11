@@ -21,6 +21,46 @@ Default output shape:
 
 Prefer this skill when the user is not asking for a final domain solution yet, but first needs the problem itself to become structured, scoped, and executable.
 
+## Execution Profiles
+
+Use one execution-profile keyword to control interaction cadence and proactive expansion without changing the underlying mode system.
+
+Available user-facing keywords:
+
+- `共创深探`
+  - interact often
+  - probe optional modes aggressively
+  - confirm after major phase boundaries and high-signal probe activations
+- `共创稳推`
+  - interact at milestones rather than every branch
+  - keep expansion bounded unless stronger evidence appears
+- `自治深探`
+  - do not stop for routine confirmation
+  - proactively probe optional modes when clear gain is plausible
+  - prefer depth before early closure
+- `自治稳推`
+  - do not stop for routine confirmation
+  - stay on the mainline unless explicit need or stronger system signals appear
+
+Default rule:
+
+- if the user explicitly gives one of these keywords, use it
+- if the round is primarily a source-aligned self-review of HMM itself and no keyword is given, default to `自治稳推`
+- otherwise default to `自治深探`
+
+## Profile-Driven Mode Probing
+
+Execution profiles do not replace mode names.
+They control how aggressively HMM probes optional modes.
+
+Rules:
+
+- deep profiles may start a `probe activation` from one high-signal gain cue when no hard boundary blocks it
+- steady profiles should wait for an explicit user request or at least two system-inference cues before activating a non-core mode
+- probe activation should begin with the smallest useful artifact slice rather than the whole pipeline
+- `evaluation_validation` should decide whether to deepen, keep bounded, or prune that probe
+- execution profiles never override authorization boundaries, source authority, or derived runtime blocking rules
+
 ## Source Alignment Rule
 
 When the current task is explicitly grounded in the original source files:
@@ -62,6 +102,7 @@ When the task is to refine this skill itself, or to align this skill back to `me
 
 - treat `SKILL.md` plus `references/` as the current system under analysis
 - default to the source-aligned core and keep derived runtime operations blocked unless the user explicitly asks for real runtime behavior
+- when the current round is primarily a source-aligned self-review of HMM itself and the user did not pick a profile, prefer `自治稳推`
 - prefer repairing contract mismatches, scope drift, and stage-boundary confusion before adding new modes or new artifacts
 - use one bounded local `first_search` pass against the current repo and source files before widening scope
 - emit the full base artifact chain so the repair is auditable and reusable in the next round
@@ -111,9 +152,13 @@ Split the work into executable branches only when the branches are independently
 
 This stage must also produce `mode-resolution.json`. It should not only list active modes, but also expand:
 
+- which execution profile is active,
+- which interaction / expansion profile is active,
+- which confirmation policy and mode-probe policy apply in the current round,
 - which stages each mode attaches to,
 - which outputs become required at each stage,
 - which outputs were explicitly requested in the current round,
+- which optional mode probes are recommended, promoted, or blocked,
 - which derived runtime outputs stay blocked in source-alignment rounds,
 - what the current scope-alignment status is,
 - and which state should be revisited if those stage outputs are missing.
@@ -123,6 +168,9 @@ Check completeness, consistency, blocking issues, and whether the current plan i
 
 Do not stop at final-output checks. Also verify stage-level mode requirements:
 
+- whether the chosen execution profile was actually followed,
+- whether the round was under-expanded or over-expanded for that profile,
+- whether any probe activation was justified, excessive, or missing,
 - which stage requirements passed,
 - which explicitly requested outputs are already satisfied,
 - whether scope drift or blocked scope expansions are present,
@@ -131,6 +179,15 @@ Do not stop at final-output checks. Also verify stage-level mode requirements:
 
 6. `loop_or_finish`
 Either finish the round or loop back to the earliest state that can fix the current defect with the lowest repair cost. Record `scope_alignment_decision`, `scope_repair_target`, and `stage_dispatch_target` explicitly whenever the round is source-aligned or has stage-level output gaps.
+
+When execution profiles are active, `loop_or_finish` should also preserve any `profile_adjustment_recommendation` produced by evaluation so the next round can switch from:
+
+- `共创` to `自治`,
+- `自治` to `共创`,
+- `深探` to `稳推`,
+- or `稳推` to `深探`
+
+when the current round clearly under-expanded, over-expanded, or interrupted the user at the wrong cadence.
 
 ## Runtime Compression Of `metaPrompt v2`
 
@@ -235,6 +292,12 @@ Reopen broad boundary work only if at least one of these becomes true:
 2. a maintained source change invalidates the current compression,
 3. retrieval / generation / evaluation / pluginization begin drifting apart again,
 4. or runtime/provider/governance behavior is explicitly requested as real operational scope.
+
+Execution profiles may widen probing aggressiveness, but they do not cancel:
+
+- source authority,
+- authorization boundaries,
+- or derived runtime blocking rules.
 
 ## Global Mode Interaction
 

@@ -758,8 +758,14 @@ artifact_catalog:
     file: mode-resolution.json
     format: json
     owner_state: branch_plan_generation
-    purpose: "记录基础模式之外已激活的扩展模式、激活理由、挂载阶段、必需产物，以及哪些派生运维产物因当前轮 scope 不匹配而被阻断。"
+    purpose: "记录当前执行档位、基础模式之外已激活的扩展模式、激活理由、挂载阶段、必需产物，以及哪些派生运维产物因当前轮 scope 不匹配而被阻断。"
     required_top_level_fields:
+      - execution_profile
+      - profile_source
+      - interaction_profile
+      - expansion_profile
+      - mode_probe_policy
+      - confirmation_policy
       - resolved_modes
       - mode_sources
       - activation_reasons
@@ -776,10 +782,26 @@ artifact_catalog:
       - scope_alignment_status
       - resolution_status
     optional_top_level_fields:
+      - probe_activations
+      - profile_adjustment_recommendation
       - mode_precedence
       - cross_mode_handoffs
       - authority_boundaries
       - interaction_notes
+    optional_profile_fields:
+      - execution_profile
+      - profile_source
+      - interaction_profile
+      - expansion_profile
+      - mode_probe_policy
+      - confirmation_policy
+    optional_probe_activation_fields:
+      - mode
+      - trigger_class
+      - trigger_reason
+      - probe_scope
+      - probe_status
+      - deepen_when
     optional_mode_precedence_fields:
       - higher_mode
       - lower_mode
@@ -884,9 +906,20 @@ artifact_catalog:
       - dispatch_recommendations
     optional_top_level_fields:
       - key_step_role_checks
+      - profile_adherence
+      - under_expansion_risk
+      - over_expansion_risk
+      - probe_activation_checks
+      - profile_adjustment_recommendation
       - mode_interaction_checks
       - self_score
       - score_reason
+    optional_profile_assessment_fields:
+      - profile_adherence
+      - under_expansion_risk
+      - over_expansion_risk
+      - probe_activation_checks
+      - profile_adjustment_recommendation
     optional_key_step_role_check_fields:
       - step_or_artifact
       - role_classification
@@ -918,6 +951,14 @@ artifact_catalog:
       - scope_alignment_decision
       - scope_repair_target
       - stage_dispatch_target
+    optional_top_level_fields:
+      - profile_adjustment_recommendation
+    optional_profile_adjustment_fields:
+      - current_profile
+      - recommended_profile
+      - adjustment_reason
+      - apply_next_round
+      - blocked_by_user_override
 
 library_artifact_catalog:
   - artifact_id: glossary
