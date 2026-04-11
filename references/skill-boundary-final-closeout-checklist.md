@@ -274,6 +274,10 @@ Current recommendation:
 - keep real-task validation as the default next branch
 - keep packaging review as an optional branch when distribution is actually needed
 
+Current validation asset:
+
+- `references/execution-profile-real-task-validation-plan.md`
+
 ## Final Conclusion
 
 The current repository is close enough to the skill capability boundary limit that further broad boundary work should now be treated as out-of-band unless concrete pressure reappears.

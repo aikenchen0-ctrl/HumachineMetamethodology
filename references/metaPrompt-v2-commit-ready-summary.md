@@ -242,6 +242,10 @@ The next questions are now iterative rather than blocking:
 2. whether packaging review is needed for a distributable artifact
 3. whether later real-task pressure reveals under-expansion or over-expansion under `自治深探` / `自治稳推`
 
+Current validation asset:
+
+- `references/execution-profile-real-task-validation-plan.md`
+
 ## Final Summary
 
 The reconstruction has already crossed the line from “exploration” into “maintained structure”.
