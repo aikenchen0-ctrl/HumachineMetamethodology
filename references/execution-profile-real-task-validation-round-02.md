@@ -62,6 +62,11 @@ Do this next:
    - confirmation cadence
    - boundary integrity
 
+Concrete execution packet:
+
+- `references/execution-profile-non-self-comparison-plan.md`
+- `references/execution-profile-non-self-comparison-scorecard-template.json`
+
 ## Suggested Task Classes
 
 Use at least one of:

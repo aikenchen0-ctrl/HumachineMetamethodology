@@ -1,0 +1,60 @@
+{
+  "comparison_id": "",
+  "task_class": "",
+  "source_alignment_basis": [
+    "references/metaPrompt.md",
+    "references/execution-profile-real-task-validation-plan.md",
+    "references/execution-profile-non-self-comparison-plan.md"
+  ],
+  "run_mode": "isolated_preferred",
+  "shared_task_packet": {
+    "task_summary": "",
+    "input_materials": [],
+    "explicit_constraints": [],
+    "success_criteria": []
+  },
+  "runs": [
+    {
+      "profile": "autonomous_deep",
+      "profile_recognition": "",
+      "expansion_strength": "",
+      "probe_count": 0,
+      "probe_quality": "",
+      "evidence_writeback_status": "",
+      "artifact_depth": [],
+      "stop_timing": "",
+      "boundary_integrity": "",
+      "hard_fail": false,
+      "notes": []
+    },
+    {
+      "profile": "autonomous_steady",
+      "profile_recognition": "",
+      "expansion_strength": "",
+      "probe_count": 0,
+      "probe_quality": "",
+      "evidence_writeback_status": "",
+      "artifact_depth": [],
+      "stop_timing": "",
+      "boundary_integrity": "",
+      "hard_fail": false,
+      "notes": []
+    }
+  ],
+  "comparison_findings": {
+    "difference_visibility": "",
+    "deep_extra_gain": "",
+    "steady_mainline_quality": "",
+    "boundary_integrity_result": "",
+    "winner_for_this_task": "",
+    "over_expansion_risk": "",
+    "under_expansion_risk": ""
+  },
+  "overall_verdict": "",
+  "next_adjustment_recommendation": {
+    "adjust_profile_defaults": false,
+    "adjust_probe_policy": false,
+    "adjust_confirmation_policy": false,
+    "notes": []
+  }
+}

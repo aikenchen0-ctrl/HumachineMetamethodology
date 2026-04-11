@@ -148,6 +148,11 @@ After the primary repository self-refactor task, use at least one more task from
 
 The goal is to verify that execution profiles are not overfit to self-iteration only.
 
+Concrete execution packet:
+
+- `references/execution-profile-non-self-comparison-plan.md`
+- `references/execution-profile-non-self-comparison-scorecard-template.json`
+
 ## Closeout Rule
 
 Do not judge execution-profile success from one run only.
