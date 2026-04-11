@@ -12,8 +12,7 @@
   "repository_validation_context": [
     "references/execution-profile-real-task-validation-plan.md",
     "references/execution-profile-real-task-validation-round-01.md",
-    "references/execution-profile-real-task-validation-round-02.md",
-    "references/execution-profile-global-razor-closeout.md"
+    "references/execution-profile-real-task-validation-round-02.md"
   ],
   "non_self_comparison_core": [
     "references/execution-profile-non-self-comparison-plan.md",

@@ -31,7 +31,6 @@ Read in this order:
 - `references/execution-profile-real-task-validation-plan.md`
 - `references/execution-profile-real-task-validation-round-01.md`
 - `references/execution-profile-real-task-validation-round-02.md`
-- `references/execution-profile-global-razor-closeout.md`
 
 ## Non-Self Comparison Core
 
