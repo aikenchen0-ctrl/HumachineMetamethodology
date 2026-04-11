@@ -949,6 +949,28 @@ If advanced mode is active, extend the artifact set with:
 - `critique-report.json` before declaring the advanced round complete
 - `multi-screen-analysis.json` when the user wants super/current/sub-system evolution analysis
 
+If source-aligned candidate generation and implementation shaping is active, extend the artifact set with:
+
+- `selected-targets.json`
+- `operator-calls.json`
+- `candidate-pool.json`
+- `combination-hints.json`
+- `solution-comparison.json`
+- `solution-paths.json`
+- `validation-plan.json`
+- `implementation-steps.json`
+- `fallback-rules.json`
+
+When these artifacts are present, prefer making the generation and evaluation boundary explicit:
+
+- `selected-targets.json` should say which targets were chosen for generation and which were deferred.
+- `operator-calls.json` should show which operator families were applied to which targets instead of hiding generation provenance.
+- `candidate-pool.json` should keep each candidate's expected gain, new cost, and evidence-needed fields explicit.
+- `combination-hints.json` should stay advisory until evaluation promotes a path.
+- `solution-comparison.json` should compare expected gain, new cost, risk, validation need, and constraint fit before a route is treated as ready.
+- `solution-paths.json` should separate main and fallback paths.
+- `validation-plan.json`, `implementation-steps.json`, and `fallback-rules.json` should carry the evaluation result forward into executable next-step logic.
+
 If template mode is active, extend the artifact set with:
 
 - `template-chain.json`

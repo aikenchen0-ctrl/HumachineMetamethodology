@@ -960,6 +960,148 @@ artifact_catalog:
       - apply_next_round
       - blocked_by_user_override
 
+source_generation_and_evaluation_artifact_catalog:
+  - artifact_id: selected_targets
+    file: selected-targets.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "Record which modeled targets are selected for bounded candidate generation."
+    required_top_level_fields:
+      - selected_targets
+      - selection_basis
+      - deferred_targets
+      - target_status
+    optional_top_level_fields:
+      - evidence_refs
+      - blocking_constraints
+
+  - artifact_id: operator_calls
+    file: operator-calls.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "Record which operator classes were invoked against which selected targets."
+    required_top_level_fields:
+      - calls
+      - call_order
+      - target_bindings
+      - operator_status
+    optional_top_level_fields:
+      - deferred_calls
+      - operator_rationale
+
+  - artifact_id: candidate_pool
+    file: candidate-pool.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "Record the bounded candidate set produced by source-aligned generation work."
+    required_top_level_fields:
+      - candidates
+    optional_top_level_fields:
+      - pool_status
+      - generation_scope
+    optional_candidate_fields:
+      - candidate_id
+      - operator
+      - change_desc
+      - expected_gain
+      - resolved_target
+      - new_cost
+      - evidence_needed
+
+  - artifact_id: combination_hints
+    file: combination-hints.json
+    format: json
+    insertion_after_state: branch_plan_generation
+    purpose: "Record possible candidate combinations without treating them as already selected paths."
+    required_top_level_fields:
+      - hints
+      - combination_scope
+      - hint_status
+    optional_top_level_fields:
+      - excluded_pairs
+      - dependency_notes
+
+  - artifact_id: solution_comparison
+    file: solution-comparison.json
+    format: json
+    insertion_after_state: evaluation_validation
+    purpose: "Record the minimum comparison table for generated candidates before route selection is finalized."
+    required_top_level_fields:
+      - comparisons
+    optional_top_level_fields:
+      - comparison_basis
+      - comparison_status
+    optional_comparison_fields:
+      - candidate_id
+      - expected_gain
+      - new_cost
+      - risk_level
+      - needs_validation
+      - constraint_fit
+
+  - artifact_id: solution_paths
+    file: solution-paths.json
+    format: json
+    insertion_after_state: evaluation_validation
+    purpose: "Record main and fallback candidate paths assembled from the generated pool."
+    required_top_level_fields:
+      - paths
+      - path_status
+    optional_top_level_fields:
+      - path_selection_basis
+      - blocked_paths
+    optional_path_fields:
+      - path_id
+      - path_type
+      - included_candidates
+      - path_reason
+
+  - artifact_id: validation_plan
+    file: validation-plan.json
+    format: json
+    insertion_after_state: evaluation_validation
+    purpose: "Record what must still be validated before implementation or adoption."
+    required_top_level_fields:
+      - validations
+      - validation_status
+    optional_top_level_fields:
+      - validation_priority
+      - dependency_notes
+    optional_validation_fields:
+      - validation_id
+      - target_candidate
+      - validation_goal
+      - evidence_required
+      - pass_condition
+
+  - artifact_id: implementation_steps
+    file: implementation-steps.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "Record executable implementation steps for the selected main path."
+    required_top_level_fields:
+      - steps
+      - dependency_order
+      - implementation_status
+    optional_top_level_fields:
+      - rollback_points
+      - execution_notes
+
+  - artifact_id: fallback_rules
+    file: fallback-rules.json
+    format: json
+    insertion_after_state: loop_or_finish
+    purpose: "Record explicit fallback triggers and fallback targets for the current selected route."
+    required_top_level_fields:
+      - rules
+      - fallback_status
+    optional_top_level_fields:
+      - blocked_fallbacks
+      - fallback_scope
+    optional_rule_fields:
+      - trigger_condition
+      - fallback_target
+
 library_artifact_catalog:
   - artifact_id: glossary
     file: glossary.json

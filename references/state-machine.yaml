@@ -715,6 +715,52 @@ variant_rule_contracts:
       - same_source_consistency
       - mode_interaction_checks
 
+source_generation_and_evaluation_rule_contracts:
+  candidate_generation_boundary:
+    attach_after_state: branch_plan_generation
+    inputs:
+      - branch-plan.json
+      - constraints-matrix.json
+    optional_inputs:
+      - search-notes.json
+    outputs:
+      - selected-targets.json
+      - operator-calls.json
+      - candidate-pool.json
+    optional_outputs:
+      - combination-hints.json
+    rules:
+      - "search-notes.json should feed target selection, operator choice, and evidence_needed fields rather than remaining detached notes."
+      - "candidate-pool.json should record candidate_id, operator, change_desc, expected_gain, resolved_target, new_cost, and evidence_needed for each candidate."
+      - "operator-calls.json records operator application and target binding; it must not replace candidate-pool.json."
+      - "combination-hints.json may suggest mergeable candidates, but it must not be treated as final route selection."
+    evaluation_hooks:
+      - same_source_consistency
+      - fact_validation_chain
+
+  evaluation_and_implementation_boundary:
+    attach_after_state: evaluation_validation
+    inputs:
+      - candidate-pool.json
+    optional_inputs:
+      - combination-hints.json
+      - selected-targets.json
+    outputs:
+      - solution-comparison.json
+      - solution-paths.json
+      - validation-plan.json
+    optional_outputs:
+      - implementation-steps.json
+      - fallback-rules.json
+    rules:
+      - "solution-comparison.json should compare expected_gain, new_cost, risk_level, needs_validation, and constraint_fit before route finalization."
+      - "solution-paths.json should distinguish main and fallback paths instead of flattening all candidates into one undifferentiated list."
+      - "validation-plan.json should record what still needs proof before implementation rather than restating candidate descriptions."
+      - "fallback-rules.json should expose trigger_condition and fallback_target explicitly when a fallback path exists."
+    evaluation_hooks:
+      - same_source_consistency
+      - dispatch_recommendations
+
 pluginization_rule_contracts:
   pluginization_boundary:
     attach_after_state: loop_or_finish
