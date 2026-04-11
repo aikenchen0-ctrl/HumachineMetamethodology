@@ -66,6 +66,25 @@ Updated:
 
 These now stop talking as if the old draft were still the current source.
 
+### 4.5 Execution Profiles Were Introduced
+
+Updated:
+
+- `SKILL.md`
+- `agents/openai.yaml`
+- `references/state-machine.yaml`
+- `references/state-contracts.yaml`
+- `README.md`
+
+These now add a bounded behavior layer:
+
+- `共创深探`
+- `共创稳推`
+- `自治深探`
+- `自治稳推`
+
+This layer increases proactive probing without replacing mode ownership or cancelling source-alignment / runtime-blocking rules.
+
 ### 5. Boundary Files Were Realigned
 
 Updated or added:

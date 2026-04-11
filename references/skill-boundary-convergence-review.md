@@ -21,13 +21,14 @@ The goal is to determine whether these surfaces now tell a sufficiently consiste
 
 ## Convergence Questions
 
-This review asks five questions.
+This review asks six questions.
 
 1. Do they agree that `metaPrompt v2` is the maintained source authority?
 2. Do they agree that the six-state shell is a runtime compression rather than the source itself?
 3. Do they agree that retrieval and pluginization are first-class source layers?
 4. Do they agree that orchestration and memory must not silently enter the neutral core?
 5. Do they agree on the current release-facing repository state rather than drifting between reconstruction and maintenance wording?
+6. Do they agree that execution profiles can increase proactive probing without overriding boundary stop rules?
 
 ## Review Result
 
@@ -96,6 +97,23 @@ Why:
 - `release-consolidation-checklist.*` now describe maintenance consolidation rather than an active reconstruction wave
 - this matches the current clean working tree and pushed closeout history
 
+## 6. Execution Profile Boundary
+
+Result:
+
+- converged enough
+
+Why:
+
+- `SKILL.md` now defines execution profiles as a global behavior layer rather than as new modes
+- `state-machine.yaml` records execution-profile defaults and probe rules without cancelling source alignment or runtime blocking
+- `state-contracts.yaml` records execution-profile, probe, and profile-adjustment fields without promoting them into source authority
+
+Residual issue:
+
+- execution profiles increase proactive probing
+- but they are still bounded by source authority, authorization boundaries, and derived-runtime blocking
+
 ## Remaining Non-Blocking Inconsistencies
 
 These do not currently break boundary convergence:
@@ -127,6 +145,8 @@ Outside the four primary boundary-bearing surfaces, recent narrow reviews also i
    - now distinguishes targeted single-format export from genuine multi-format bundle coordination more explicitly
 7. `references/portfolio-and-optimization-mode.md`
    - now distinguishes portfolio-level approximate comparison from reusable weighting ownership more explicitly
+8. `SKILL.md`, `references/state-machine.yaml`, and `references/state-contracts.yaml`
+   - now distinguish execution profiles from mode ownership and allow proactive probing without cancelling boundary stop rules
 
 These changes do not redefine the core convergence result.
 

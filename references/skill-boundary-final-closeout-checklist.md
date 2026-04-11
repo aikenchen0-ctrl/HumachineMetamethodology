@@ -51,6 +51,7 @@ These are the only boundary-related items that still justify immediate work.
 Current note:
 
 - all three must-do tracks are now satisfied and should be preserved as invariants rather than reopened as broad redesign work.
+- execution profiles may increase proactive probing, but they do not reopen broad boundary redesign by themselves.
 
 ### 1. Keep release-facing truth synchronized
 
@@ -90,6 +91,7 @@ Only patch wording if it still creates one of these problems:
 1. a maintainer could mistake compatibility metadata for source authority
 2. a reader could think an optional plane belongs to the neutral default core
 3. a release-facing document could imply distribution readiness when the repo is still under reconstruction
+4. an execution profile could be mistaken for permission to bypass source authority, authorization boundaries, or derived runtime blocking
 
 ## Good-To-Defer
 
@@ -230,6 +232,7 @@ Close only high-signal optional-plane ambiguities.
 - allow tiny fixes only when an optional plane could be mistaken for default core
 - otherwise defer low-signal wording polish
 - keep ownership boundaries explicit across weighting / governance / orchestration / template / representation / portfolio
+- keep execution profiles above mode ownership rather than letting them silently redefine mode authority
 
 ### Step 6
 
