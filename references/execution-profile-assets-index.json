@@ -1,0 +1,63 @@
+{
+  "index_id": "execution_profile_assets_index_v1",
+  "purpose": "Machine-readable navigation index for the execution-profile validation and non-self comparison stack.",
+  "reading_order": [
+    "repository_validation_context",
+    "non_self_comparison_core",
+    "starter_task_packets",
+    "ready_to_run_materials",
+    "runbook",
+    "result_template"
+  ],
+  "repository_validation_context": [
+    "references/execution-profile-real-task-validation-plan.md",
+    "references/execution-profile-real-task-validation-round-01.md",
+    "references/execution-profile-real-task-validation-round-02.md"
+  ],
+  "non_self_comparison_core": [
+    "references/execution-profile-non-self-comparison-plan.md",
+    "references/execution-profile-non-self-comparison-scorecard-template.json",
+    "references/execution-profile-non-self-runbook.md",
+    "references/execution-profile-non-self-comparison-result-template.md"
+  ],
+  "starter_task_packets": [
+    {
+      "packet_id": "packet_a_problem_solving",
+      "file": "references/execution-profile-non-self-task-packet-a-problem-solving-v2.json",
+      "task_class": "problem_solving_with_real_evidence_gap",
+      "chapters_under_test": [
+        "chapter_8",
+        "chapter_9",
+        "chapter_10"
+      ]
+    },
+    {
+      "packet_id": "packet_b_template_pluginization",
+      "file": "references/execution-profile-non-self-task-packet-b-template-pluginization-v2.json",
+      "task_class": "template_construction_with_pluginization_signal",
+      "chapters_under_test": [
+        "chapter_9",
+        "chapter_10",
+        "chapter_11"
+      ]
+    }
+  ],
+  "ready_to_run_materials": [
+    {
+      "run_id": "run_01_problem_solving",
+      "brief": "references/execution-profile-non-self-run-01-problem-solving-brief.md",
+      "scorecard": "references/execution-profile-non-self-run-01-problem-solving-scorecard.json"
+    },
+    {
+      "run_id": "run_02_template_pluginization",
+      "brief": "references/execution-profile-non-self-run-02-template-pluginization-brief.md",
+      "scorecard": "references/execution-profile-non-self-run-02-template-pluginization-scorecard.json"
+    }
+  ],
+  "default_next_move": [
+    "execute_run_01",
+    "fill_run_01_scorecard",
+    "write_short_result_report",
+    "if_no_hard_fail_execute_run_02"
+  ]
+}
