@@ -1,4 +1,10 @@
 {
+  "execution_profile": "autonomous_deep",
+  "profile_source": "user_keyword",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
   "resolved_modes": [
     "template_mode",
     "orchestration_and_memory_mode"
@@ -129,6 +135,16 @@
   },
   "scope_alignment_status": "aligned",
   "resolution_status": "ready",
+  "probe_activations": [
+    {
+      "mode": "orchestration_and_memory_mode",
+      "trigger_class": "single_high_signal_gain",
+      "trigger_reason": "template outputs need explicit shared-context, execution topology, and writeback coordination",
+      "probe_scope": "source-aligned orchestration core only",
+      "probe_status": "kept",
+      "deepen_when": "only if real runtime/service/provider/governance operational scope later appears"
+    }
+  ],
   "mode_precedence": [
     {
       "higher_mode": "template_mode",
@@ -236,5 +252,12 @@
       "active_when": "paths are pruned, suspended, or replaced during orchestration-heavy rounds",
       "note": "Prefer memory_pruning, memory_edit_events, and replacement_summaries over generic history-editing tool language."
     }
-  ]
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "autonomous deep probing helped surface orchestration ownership without unnecessary user interruption",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
 }

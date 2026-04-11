@@ -1,4 +1,10 @@
 {
+  "execution_profile": "autonomous_deep",
+  "profile_source": "default_normal_round",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
   "resolved_modes": [
     "library_and_weighting_mode",
     "governance_and_feedback_mode",
@@ -171,6 +177,16 @@
   },
   "scope_alignment_status": "aligned",
   "resolution_status": "ready",
+  "probe_activations": [
+    {
+      "mode": "library_and_weighting_mode",
+      "trigger_class": "single_high_signal_gain",
+      "trigger_reason": "stable terminology and ranking targets already exist while no explicit human weight artifact exists yet",
+      "probe_scope": "weighting-first bounded expansion",
+      "probe_status": "kept",
+      "deepen_when": "if candidate ranking remains necessary after branch structure stabilizes"
+    }
+  ],
   "mode_precedence": [
     {
       "higher_mode": "governance_and_feedback_mode",
@@ -242,5 +258,12 @@
       "active_when": "the round is export-oriented and also has human override points",
       "note": "Export after override, not before."
     }
-  ]
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "the round probed one optional mode proactively without drifting into noisy over-expansion",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
 }
