@@ -1,0 +1,77 @@
+{
+  "comparison_id": "ep_nonself_run_01_problem_solving",
+  "task_class": "problem_solving_with_real_evidence_gap",
+  "source_alignment_basis": [
+    "references/metaPrompt.md",
+    "references/execution-profile-real-task-validation-plan.md",
+    "references/execution-profile-non-self-comparison-plan.md",
+    "references/execution-profile-non-self-run-01-problem-solving-brief.md",
+    "references/execution-profile-non-self-task-packet-a-problem-solving-v2.json"
+  ],
+  "run_mode": "isolated_preferred",
+  "shared_task_packet": {
+    "task_summary": "Choose a local-first research workflow for a small methodology research team and compare at least three candidate routes with explicit evidence writeback, validation planning, and fallback rules.",
+    "input_materials": [
+      "references/execution-profile-non-self-run-01-problem-solving-brief.md"
+    ],
+    "explicit_constraints": [
+      "local-first",
+      "low vendor lock-in",
+      "portable source files",
+      "moderate onboarding cost",
+      "supports later plugin or skill preparation",
+      "no runtime/provider/governance operations expansion"
+    ],
+    "success_criteria": [
+      "problem is structured before comparison expands",
+      "bounded search is used only when evidence gaps are real",
+      "search evidence writes back into candidate generation and comparison",
+      "one main path and at least one fallback path are explicit",
+      "deep and steady show observable behavior differences"
+    ]
+  },
+  "runs": [
+    {
+      "profile": "autonomous_deep",
+      "profile_recognition": "",
+      "expansion_strength": "",
+      "probe_count": 0,
+      "probe_quality": "",
+      "evidence_writeback_status": "",
+      "artifact_depth": [],
+      "stop_timing": "",
+      "boundary_integrity": "",
+      "hard_fail": false,
+      "notes": []
+    },
+    {
+      "profile": "autonomous_steady",
+      "profile_recognition": "",
+      "expansion_strength": "",
+      "probe_count": 0,
+      "probe_quality": "",
+      "evidence_writeback_status": "",
+      "artifact_depth": [],
+      "stop_timing": "",
+      "boundary_integrity": "",
+      "hard_fail": false,
+      "notes": []
+    }
+  ],
+  "comparison_findings": {
+    "difference_visibility": "",
+    "deep_extra_gain": "",
+    "steady_mainline_quality": "",
+    "boundary_integrity_result": "",
+    "winner_for_this_task": "",
+    "over_expansion_risk": "",
+    "under_expansion_risk": ""
+  },
+  "overall_verdict": "",
+  "next_adjustment_recommendation": {
+    "adjust_profile_defaults": false,
+    "adjust_probe_policy": false,
+    "adjust_confirmation_policy": false,
+    "notes": []
+  }
+}

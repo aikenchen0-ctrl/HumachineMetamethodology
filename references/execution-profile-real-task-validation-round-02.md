@@ -68,6 +68,8 @@ Concrete execution packet:
 - `references/execution-profile-non-self-comparison-scorecard-template.json`
 - `references/execution-profile-non-self-task-packet-a-problem-solving-v2.json`
 - `references/execution-profile-non-self-task-packet-b-template-pluginization-v2.json`
+- `references/execution-profile-non-self-run-01-problem-solving-brief.md`
+- `references/execution-profile-non-self-run-01-problem-solving-scorecard.json`
 
 ## Suggested Task Classes
 

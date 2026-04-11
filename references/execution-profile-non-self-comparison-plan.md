@@ -203,6 +203,11 @@
 - `references/execution-profile-non-self-task-packet-a-problem-solving-v2.json`
 - `references/execution-profile-non-self-task-packet-b-template-pluginization-v2.json`
 
+首轮可直接执行材料：
+
+- `references/execution-profile-non-self-run-01-problem-solving-brief.md`
+- `references/execution-profile-non-self-run-01-problem-solving-scorecard.json`
+
 ## 最低通过标准
 
 把一次对照记为 `pass`，至少要满足：
