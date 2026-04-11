@@ -72,6 +72,8 @@ Concrete execution packet:
 - `references/execution-profile-non-self-run-01-problem-solving-scorecard.json`
 - `references/execution-profile-non-self-run-02-template-pluginization-brief.md`
 - `references/execution-profile-non-self-run-02-template-pluginization-scorecard.json`
+- `references/execution-profile-non-self-runbook.md`
+- `references/execution-profile-non-self-comparison-result-template.md`
 
 ## Suggested Task Classes
 
