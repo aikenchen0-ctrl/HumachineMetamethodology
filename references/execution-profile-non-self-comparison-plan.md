@@ -207,6 +207,8 @@
 
 - `references/execution-profile-non-self-run-01-problem-solving-brief.md`
 - `references/execution-profile-non-self-run-01-problem-solving-scorecard.json`
+- `references/execution-profile-non-self-run-02-template-pluginization-brief.md`
+- `references/execution-profile-non-self-run-02-template-pluginization-scorecard.json`
 
 ## 最低通过标准
 
