@@ -33,45 +33,54 @@
   "runs": [
     {
       "profile": "autonomous_deep",
-      "profile_recognition": "",
-      "expansion_strength": "",
+      "profile_recognition": "pending_execution",
+      "expansion_strength": "pending_execution",
       "probe_count": 0,
-      "probe_quality": "",
-      "evidence_writeback_status": "",
+      "probe_quality": "pending_execution",
+      "evidence_writeback_status": "pending_execution",
       "artifact_depth": [],
-      "stop_timing": "",
-      "boundary_integrity": "",
+      "stop_timing": "pending_execution",
+      "boundary_integrity": "pending_execution",
       "hard_fail": false,
-      "notes": []
+      "notes": [
+        "execute second against the same task packet used by autonomous_steady",
+        "check whether deeper bounded retrieval and candidate expansion appear without boundary drift"
+      ]
     },
     {
       "profile": "autonomous_steady",
-      "profile_recognition": "",
-      "expansion_strength": "",
+      "profile_recognition": "pending_execution",
+      "expansion_strength": "pending_execution",
       "probe_count": 0,
-      "probe_quality": "",
-      "evidence_writeback_status": "",
+      "probe_quality": "pending_execution",
+      "evidence_writeback_status": "pending_execution",
       "artifact_depth": [],
-      "stop_timing": "",
-      "boundary_integrity": "",
+      "stop_timing": "pending_execution",
+      "boundary_integrity": "pending_execution",
       "hard_fail": false,
-      "notes": []
+      "notes": [
+        "execute first to establish the narrower baseline",
+        "check whether the mainline remains useful without premature stopping"
+      ]
     }
   ],
   "comparison_findings": {
-    "difference_visibility": "",
-    "deep_extra_gain": "",
-    "steady_mainline_quality": "",
-    "boundary_integrity_result": "",
-    "winner_for_this_task": "",
-    "over_expansion_risk": "",
-    "under_expansion_risk": ""
+    "difference_visibility": "pending_execution",
+    "deep_extra_gain": "pending_execution",
+    "steady_mainline_quality": "pending_execution",
+    "boundary_integrity_result": "pending_execution",
+    "winner_for_this_task": "pending_execution",
+    "over_expansion_risk": "pending_execution",
+    "under_expansion_risk": "pending_execution"
   },
-  "overall_verdict": "",
+  "overall_verdict": "pending_execution",
   "next_adjustment_recommendation": {
     "adjust_profile_defaults": false,
     "adjust_probe_policy": false,
     "adjust_confirmation_policy": false,
-    "notes": []
+    "notes": [
+      "fill only after both runs are completed",
+      "do not infer profile differences from style alone"
+    ]
   }
 }

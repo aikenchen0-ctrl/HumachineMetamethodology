@@ -70,11 +70,11 @@ Reason:
 
 ## Prompt For `autonomous_steady`
 
-`用 HMM，自治稳推。我要为一个 5 人的小型方法论研究团队选择一套 local-first 的资料沉淀与检索工作流。多数成员使用 Windows，可能有 1 人使用 macOS。目标是支持资料收集、证据回流、方法片段沉淀，以及后续插件或 skill 化准备。候选方向至少包括 plain Markdown + Git + search tooling、Obsidian-centered workflow、以及更结构化的本地数据库或混合方案。先结构化问题；只在证据足够强或明显必要时再继续做有界检索、候选解生成、比较、验证计划、实施步骤与回退规则，不要做低收益扩展。除非遇到真正关键分歧或硬阻塞，否则自行推进。`
+`Use HMM in autonomous_steady mode. I need to choose a local-first knowledge and research workflow for a five-person methodology research team. Most people use Windows and one person may use macOS. The workflow should support note collection, evidence review, structured method fragments, and later plugin or skill preparation. Candidate routes should include plain Markdown plus Git plus search tooling, an Obsidian-centered workflow, and a more structured local database or hybrid approach. Structure the problem first. Only continue into bounded retrieval, candidate generation, comparison, validation planning, implementation steps, and fallback rules when the need is explicit or strongly supported. Avoid low-value expansion unless there is a real blocker.`
 
 ## Prompt For `autonomous_deep`
 
-`用 HMM，自治深探。我要为一个 5 人的小型方法论研究团队选择一套 local-first 的资料沉淀与检索工作流。多数成员使用 Windows，可能有 1 人使用 macOS。目标是支持资料收集、证据回流、方法片段沉淀，以及后续插件或 skill 化准备。候选方向至少包括 plain Markdown + Git + search tooling、Obsidian-centered workflow、以及更结构化的本地数据库或混合方案。先结构化问题；如果有明显收益概率，就主动继续做有界检索、候选解生成、比较、验证计划、实施步骤与回退规则，不要过早停下。除非遇到真正关键分歧或硬阻塞，否则自行推进。`
+`Use HMM in autonomous_deep mode. I need to choose a local-first knowledge and research workflow for a five-person methodology research team. Most people use Windows and one person may use macOS. The workflow should support note collection, evidence review, structured method fragments, and later plugin or skill preparation. Candidate routes should include plain Markdown plus Git plus search tooling, an Obsidian-centered workflow, and a more structured local database or hybrid approach. Structure the problem first. If clear gain is likely, continue into bounded retrieval, candidate generation, comparison, validation planning, implementation steps, and fallback rules without stopping early unless there is a real blocker.`
 
 ## Expected Artifacts
 
