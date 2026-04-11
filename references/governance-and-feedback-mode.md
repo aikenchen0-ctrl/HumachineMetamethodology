@@ -25,6 +25,17 @@ Prefer:
 - explicit trigger conditions for asking,
 - and explicit avoid-styles for low-value questioning.
 
+When execution profiles are active, interaction should also respect the current profile:
+
+- `共创深探`
+  - prefer stepwise or high-signal probe confirmation
+- `共创稳推`
+  - prefer milestone confirmation rather than every branch
+- `自治深探`
+  - stay silent during normal forward motion, but keep strong writeback and probe depth
+- `自治稳推`
+  - stay silent during normal forward motion and avoid unnecessary confirmation expansion
+
 ### 2. Human Visibility And Editability Matter
 
 Do not assume model outputs are untouchable.
@@ -109,6 +120,15 @@ Useful optional structure:
 - `bounded_prompt_templates`
 - `heuristic_prompt_templates`
 - `escalation_question_rules`
+- `execution_profile_bindings`
+- `confirmation_cadence_map`
+- `profile_default_style_bindings`
+
+If execution profiles are active, prefer making these explicit:
+
+- which question style belongs to each execution profile
+- which confirmation cadence belongs to each execution profile
+- which profiles should stay silent unless blocked
 
 ### `governance-checkpoints.json`
 
@@ -171,6 +191,12 @@ The first computes or records ranking logic.
 The second decides what happens when human instruction conflicts with that ranking.
 
 Do not merge them into one artifact unless the broader contract is redesigned.
+
+Additional boundary:
+
+- execution profiles set interaction cadence and probe aggressiveness
+- governance mode owns the user-facing questioning policy and review surfaces
+- do not let governance mode silently redefine mode ownership or source authority just because a profile is interactive
 
 ## Activation
 

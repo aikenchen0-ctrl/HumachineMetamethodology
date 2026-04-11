@@ -2637,6 +2637,9 @@ governance_artifact_catalog:
       - bounded_prompt_templates
       - heuristic_prompt_templates
       - escalation_question_rules
+      - execution_profile_bindings
+      - confirmation_cadence_map
+      - profile_default_style_bindings
 
   - artifact_id: governance_checkpoints
     file: governance-checkpoints.json

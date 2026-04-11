@@ -27,7 +27,7 @@ This review asks five questions.
 2. Do they agree that the six-state shell is a runtime compression rather than the source itself?
 3. Do they agree that retrieval and pluginization are first-class source layers?
 4. Do they agree that orchestration and memory must not silently enter the neutral core?
-5. Do they agree that the repository is currently in active reconstruction rather than release-ready distribution?
+5. Do they agree on the current release-facing repository state rather than drifting between reconstruction and maintenance wording?
 
 ## Review Result
 
@@ -92,9 +92,9 @@ Result:
 
 Why:
 
-- `release-final-review.md/json` clearly say active reconstruction is still in progress
-- they no longer pretend the current repo is release-ready for distribution
-- this matches the actual working tree state
+- `release-final-review.md/json` now describe the repository as maintenance-ready with packaging review still optional
+- `release-consolidation-checklist.*` now describe maintenance consolidation rather than an active reconstruction wave
+- this matches the current clean working tree and pushed closeout history
 
 ## Remaining Non-Blocking Inconsistencies
 
@@ -102,7 +102,7 @@ These do not currently break boundary convergence:
 
 1. some compatibility-oriented field names still include historical vocabulary such as `linear`
 2. some roadmap and review files still mention the old numbered draft as historical contrast
-3. release-facing files will need another pass later when the repo actually leaves reconstruction mode
+3. some historical review summaries still lag one phase behind the current post-closeout maintenance wording
 
 These are now:
 

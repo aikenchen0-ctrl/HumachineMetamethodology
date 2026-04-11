@@ -125,6 +125,7 @@ Use this checklist when deciding whether to continue boundary work or stop.
 | Template-orchestration blur | Low | Could route pure collaboration or pruning tasks into template mode by mistake | Keep reuse semantics separate from execution orchestration |
 | Representation export inflation | Low | Could turn explicit export need into unnecessary all-format or bundle-by-default behavior | Keep single-format export normal and bundle export conditional |
 | Portfolio-weighting ownership blur | Low | Could let approximate portfolio comparison silently replace reusable ranking semantics | Keep portfolio consumption separate from weighting ownership |
+| Execution-profile overreach | Low | Could let proactive probing be mistaken for permission to bypass boundary stop rules | Keep profiles above modes and keep runtime blocking authoritative |
 
 ### Checklist Interpretation
 
@@ -175,6 +176,7 @@ The following high-risk issues are no longer active:
 8. template mode being misread as the default owner of shared-file collaboration or pruning semantics
 9. representation mode being misread as a default all-format export layer
 10. portfolio mode being misread as the default owner of reusable weighting semantics
+11. execution profiles being misread as permission to bypass source authority or derived runtime blocking
 
 ## Has The Repository Reached The Practical Capability Boundary?
 

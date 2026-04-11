@@ -144,7 +144,7 @@ Updated:
 - `references/release-final-review.md`
 - `references/release-final-review.json`
 
-These no longer falsely imply release readiness while active reconstruction is still happening.
+These now reflect maintenance consolidation after grouped closeout rather than an active reconstruction wave.
 
 ### 9. Reconstruction Review Files Were Added
 
@@ -213,20 +213,15 @@ Current closeout recommendation:
 - real-task validation is now the default next branch
 - packaging review is optional and may be performed when distribution is actually needed
 
-## Final Blockers Before True Closeout
+## Current Follow-Up Questions
 
-The remaining blockers are now practical rather than architectural:
+The current repository is already commit-clean.
 
-1. `39` working-tree entries are still uncommitted
-2. grouped commit preparation has been selected but not yet executed
-3. packaging remains deferred until the grouped history exists
+The next questions are now iterative rather than blocking:
 
-The remaining blockers are not:
-
-1. source drift
-2. shell/contract parse failure
-3. uncategorized files
-4. unresolved high-signal boundary ambiguity
+1. whether execution profiles restore enough proactive behavior in real tasks
+2. whether packaging review is needed for a distributable artifact
+3. whether later real-task pressure reveals under-expansion or over-expansion under `自治深探` / `自治稳推`
 
 ## Final Summary
 

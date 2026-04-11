@@ -63,10 +63,10 @@ Check together:
 
 They should continue to say the same thing:
 
-- active reconstruction
+- maintenance consolidation or later release-facing truth
 - source copies aligned
-- packaging deferred
-- not yet release-ready for distribution
+- grouped closeout history recorded
+- packaging review treated as optional follow-up work
 
 ### 2. Keep shell wording synchronized with contract wording
 
@@ -204,7 +204,7 @@ Keep release-facing truth synchronized to the actual working tree.
 
 - refresh dirty entry counts
 - refresh modified/new file counts when summaries mention them
-- make sure release docs still say active reconstruction rather than release-ready
+- make sure release docs match the actual repository state instead of preserving stale reconstruction wording
 
 ### Step 3
 
