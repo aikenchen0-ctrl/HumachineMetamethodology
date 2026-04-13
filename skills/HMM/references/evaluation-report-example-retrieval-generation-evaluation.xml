@@ -1,0 +1,153 @@
+<evaluation_report>
+  <evaluation_id>retrieval-generation-evaluation-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>search-notes.json</artifact>
+    <artifact>selected-targets.json</artifact>
+    <artifact>operator-calls.json</artifact>
+    <artifact>candidate-pool.json</artifact>
+    <artifact>solution-comparison.json</artifact>
+    <artifact>solution-paths.json</artifact>
+    <artifact>validation-plan.json</artifact>
+    <artifact>implementation-steps.json</artifact>
+    <artifact>fallback-rules.json</artifact>
+  </checked_artifacts>
+  <completeness_score>96</completeness_score>
+  <consistency_score>97</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If new evidence arrives after solution-comparison.json is stabilized, candidate ranking and fallback conditions may need to be recomputed together.</risk>
+  </non_blocking_risks>
+  <profile_adherence>
+    <status>pass</status>
+    <evidence>The run stayed autonomous and deep, pulled bounded search forward when evidence gaps were real, and continued into explicit candidate comparison without routine confirmation chatter.</evidence>
+  </profile_adherence>
+  <under_expansion_risk>low</under_expansion_risk>
+  <over_expansion_risk>low</over_expansion_risk>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.93</confidence>
+  <advanced_mode_findings>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The bounded search evidence, selected generation targets, candidate pool, and evaluated paths all refer to the same source-aligned task object.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>The JSON generation artifacts and the XML evaluation report use the same candidate ids, target references, and fallback logic.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm search-notes.json records bounded evidence and unresolved questions rather than a full modeling artifact.</item>
+    <item>Confirm selected-targets.json uses that evidence to choose generation targets explicitly.</item>
+    <item>Confirm operator-calls.json binds operator families to the selected targets.</item>
+    <item>Confirm candidate-pool.json records expected_gain, new_cost, and evidence_needed for each candidate.</item>
+    <item>Confirm solution-comparison.json and solution-paths.json remain downstream of the candidate pool rather than replacing it.</item>
+    <item>Confirm fallback-rules.json exposes trigger_condition and fallback_target explicitly when a fallback path exists.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The bounded first-search pass already captured the highest-priority evidence needed for the current comparison round.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>source_generation_and_evaluation_layer</mode>
+      <status>pass</status>
+      <note>search-notes.json, candidate generation artifacts, and implementation-shaping artifacts are all present and staged coherently.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>search-notes.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>candidate-pool.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>solution-comparison.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>validation-plan.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>fallback-rules.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>The round keeps bounded retrieval, candidate generation, and implementation shaping inside the source-aligned core and does not widen into runtime operations.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>derived runtime extension</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>semantic_clarification</state>
+      <status>pass</status>
+      <note>search-notes.json was created as bounded writeback evidence before later candidate generation.</note>
+    </check>
+    <check>
+      <state>branch_plan_generation</state>
+      <status>pass</status>
+      <note>selected-targets.json, operator-calls.json, and candidate-pool.json were created before comparison and route selection.</note>
+    </check>
+    <check>
+      <state>evaluation_validation</state>
+      <status>pass</status>
+      <note>solution-comparison.json, solution-paths.json, and validation-plan.json exist before finish logic.</note>
+    </check>
+    <check>
+      <state>loop_or_finish</state>
+      <status>pass</status>
+      <note>implementation-steps.json and fallback-rules.json carry the evaluated path into executable next-step logic.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because retrieval writeback, candidate generation, evaluation, and fallback shaping are all explicit and staged in the correct order.</item>
+  </dispatch_recommendations>
+  <probe_activation_checks>
+    <check>
+      <mode>source_generation_and_evaluation_layer</mode>
+      <status>pass</status>
+      <note>The autonomous deep profile justified one bounded retrieval-to-generation probe and kept it inside the source-aligned core.</note>
+    </check>
+  </probe_activation_checks>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>search-notes.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, target selection and evidence_needed fields would drift away from explicit evidence gaps.</why>
+      <evidence>selected-targets.json and candidate-pool.json both depend on bounded search writeback rather than unsupported inference.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>candidate-pool.json</step_or_artifact>
+      <role_classification>pivot_variable</role_classification>
+      <why>It is the pivot artifact between bounded generation and later comparison, validation, and fallback routing.</why>
+      <evidence>solution-comparison.json, solution-paths.json, validation-plan.json, and fallback-rules.json all depend on it.</evidence>
+    </check>
+  </key_step_role_checks>
+  <profile_adjustment_recommendation>
+    <current_profile>autonomous_deep</current_profile>
+    <recommended_profile>none</recommended_profile>
+    <adjustment_reason>The current profile fit the round because bounded retrieval and downstream evaluation both benefited from proactive expansion without user-interrupting chatter.</adjustment_reason>
+    <apply_next_round>false</apply_next_round>
+    <blocked_by_user_override>false</blocked_by_user_override>
+  </profile_adjustment_recommendation>
+  <self_score>93</self_score>
+  <score_reason>The example now covers a real source-layer interaction chain, but pluginization and self-upgrade still remain outside the standard example set.</score_reason>
+</evaluation_report>

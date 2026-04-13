@@ -12,6 +12,27 @@
 当前仓库已经完成与 [metaPrompt.md](references/metaPrompt.md) 的 `chapter-based metaPrompt v2` 对齐。
 现在仓库默认的下一步不是继续重写架构，而是做真实任务验证。
 
+## 官方安装器
+
+如果你是通过 Codex 官方 GitHub 安装器安装这个 skill，不要把仓库根目录当成 skill 路径。
+
+正确入口是：
+
+- `skills/HMM`
+
+原因是官方安装器默认使用 `--path` 的 basename 作为安装目录名，而不是读取 `SKILL.md` 里的 `name:`。
+把 GitHub 子路径设为 `skills/HMM` 后，安装目录会稳定落到：
+
+- `~/.codex/skills/HMM`
+
+推荐安装方式：
+
+```bash
+scripts/install-skill-from-github.py --repo aikenchen0-ctrl/HumachineMetamethodology --path skills/HMM
+```
+
+安装完成后需要重启 Codex，才能加载新 skill。
+
 ## 一句话理解
 
 如果普通提示词是在“直接答题”，那 HMM 更像是在“先搭方法，再跑任务”。
@@ -87,6 +108,9 @@ HMM 当前支持 4 种全局执行档位：
 - `共创稳推`
 - `自治深探`
 - `自治稳推`
+
+对外提示词只使用这 4 个中文关键词。
+仓库里的 `autonomous_deep`、`autonomous_steady` 等写法只作为内部 comparison label、example label 或 contract id 使用，不建议直接当作用户提示词。
 
 拆开看：
 
@@ -252,7 +276,7 @@ source-aligned 检索/生成/评估链常见产物：
 - template -> orchestration
 - portfolio -> weighting -> governance
 
-### 5. 用“共创深推”做阶段协作
+### 5. 用“共创稳推”做阶段协作
 
 如果你希望：
 
@@ -261,7 +285,7 @@ source-aligned 检索/生成/评估链常见产物：
 
 那就用：
 
-- `HMM共创深推`
+- `HMM共创稳推`
 
 它最适合：
 
@@ -272,7 +296,7 @@ source-aligned 检索/生成/评估链常见产物：
 
 最实用提示：
 
-`用 HMM，共创深推。先结构化问题；有明显收益时主动继续展开，但只在关键阶段向我反馈，不要每一步都打断。`
+`用 HMM，共创稳推。先结构化问题；有明显收益时主动继续展开，但只在关键阶段向我反馈，不要每一步都打断。`
 
 ### 6. 用“自治深探”做剃刀
 
@@ -293,8 +317,8 @@ source-aligned 检索/生成/评估链常见产物：
 
 1. 打开 [execution-profile-assets-index.md](references/execution-profile-assets-index.md)
 2. 看 [execution-profile-non-self-run-01-problem-solving-brief.md](references/execution-profile-non-self-run-01-problem-solving-brief.md)
-3. 先跑 `autonomous_steady`
-4. 再跑 `autonomous_deep`
+3. 先跑 `自治稳推`（内部 comparison label: `autonomous_steady`）
+4. 再跑 `自治深探`（内部 comparison label: `autonomous_deep`）
 5. 填 [execution-profile-non-self-run-01-problem-solving-scorecard.json](references/execution-profile-non-self-run-01-problem-solving-scorecard.json)
 6. 用 [execution-profile-non-self-comparison-result-template.md](references/execution-profile-non-self-comparison-result-template.md) 出短报告
 7. 若无硬失败，再跑 run-02
@@ -309,6 +333,9 @@ source-aligned 检索/生成/评估链常见产物：
 
 - `agents/openai.yaml`
   宿主读取的 agent 入口说明
+
+- `skills/HMM/`
+  官方 GitHub 安装器友好的子路径入口，供 `--path skills/HMM` 使用
 
 - `PORTABLE-PACKAGE-NOTES.md`
   可移植分发说明

@@ -1,0 +1,69 @@
+{
+  "mode_id": "optional-strategy-intervention-mode-v1",
+  "purpose": "Machine-readable boundary for optional strategy and intervention logic that should stay outside the neutral default core unless explicitly activated.",
+  "activation_only_if": [
+    "explicit_user_request_for_strategy_or_intervention_design",
+    "task_is_about_demand_visibility_shaping_or_field_construction",
+    "task_explicitly_wants_adoption_pressure_or_non_rational_acceleration_logic"
+  ],
+  "default_core_exclusions": [
+    "demand_visibility_shaping",
+    "field_construction",
+    "default_path_construction",
+    "adoption_pressure_design",
+    "non_rational_amplification",
+    "strategic_extraction_framing"
+  ],
+  "strategy_classes": [
+    {
+      "strategy_id": "strat_001_demand_visibility_shaping",
+      "title": "Demand Visibility Shaping",
+      "source_signals": [
+        "需求不是被发现的，是被制造出可见性",
+        "未被命名 / 未被分离 / 未被允许表达"
+      ],
+      "current_status": "optional_strategy_archive",
+      "why_optional": "This goes beyond neutral demand discovery into intervention logic."
+    },
+    {
+      "strategy_id": "strat_002_field_construction",
+      "title": "Field Construction",
+      "source_signals": [
+        "场域创造",
+        "将 OPP 变成默认路径",
+        "通过叙事、指标、排行榜、认证体系、合规语言强化路径"
+      ],
+      "current_status": "optional_strategy_archive",
+      "why_optional": "This is not default analysis; it is active field-design logic."
+    },
+    {
+      "strategy_id": "strat_003_adoption_pressure_design",
+      "title": "Adoption Pressure Design",
+      "source_signals": [
+        "北极星指标",
+        "竞争壁垒",
+        "让需求成为不得不行动"
+      ],
+      "current_status": "optional_strategy_archive",
+      "why_optional": "This introduces strategic adoption design rather than neutral modeling."
+    },
+    {
+      "strategy_id": "strat_004_non_rational_amplifier",
+      "title": "Non-Rational Amplifier",
+      "source_signals": [
+        "非理性放大器",
+        "从众",
+        "损失厌恶",
+        "稀缺",
+        "社会证明"
+      ],
+      "current_status": "optional_strategy_archive",
+      "why_optional": "These mechanisms can shape adoption but should not be silently fused into the neutral core."
+    }
+  ],
+  "default_rules": [
+    "Keep the neutral core descriptive unless strategy/intervention is explicitly requested.",
+    "Do not let optional strategy language silently redefine demand discovery or governance authority.",
+    "Treat this plane as an optional extension over the core, not as the default interpretation of every demand problem."
+  ]
+}

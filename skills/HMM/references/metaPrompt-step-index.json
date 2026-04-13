@@ -1,0 +1,192 @@
+{
+  "index_id": "metaPrompt-step-index-v2",
+  "source_file": "references/metaPrompt.md",
+  "source_version": "v2",
+  "structure_type": "chapter_chain",
+  "purpose": "Typed companion for the chapter-based source scaffold in metaPrompt v2.",
+  "normalization_policy": {
+    "chapter_labels_are_preserved": true,
+    "chapter_outputs_are_explicit": true,
+    "compatibility_field_names_are_preserved": true,
+    "skill_aligned_interpretation_is_recorded": true
+  },
+  "steps": [
+    {
+      "normalized_step_id": "mpv2_chapter_00_positioning",
+      "raw_step_label": "第 0 章",
+      "raw_title": "文档定位与适用边界",
+      "raw_sequence_position": 0,
+      "source_role": "meta",
+      "step_plane": "method_frame_plane",
+      "skill_aligned_interpretation": "method positioning, scope, and non-goals",
+      "downstream_refs": [
+        "references/core-method.md",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_01_symbol_system",
+      "raw_step_label": "第 1 章",
+      "raw_title": "核心对象与符号系统",
+      "raw_sequence_position": 1,
+      "source_role": "core",
+      "step_plane": "method_core_plane",
+      "skill_aligned_interpretation": "shared symbol system and forbidden-mix rules",
+      "downstream_refs": [
+        "references/core-method.md",
+        "references/state-contracts.yaml"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_02_six_box",
+      "raw_step_label": "第 2 章",
+      "raw_title": "总骨架",
+      "raw_sequence_position": 2,
+      "source_role": "core",
+      "step_plane": "method_core_plane",
+      "skill_aligned_interpretation": "Six-Box top scaffold and mainline routing",
+      "downstream_refs": [
+        "references/core-method.md",
+        "references/source-alignment-policy.md",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_03_modes",
+      "raw_step_label": "第 3 章",
+      "raw_title": "工作模式",
+      "raw_sequence_position": 3,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "mode selection among solve, search, pluginize, and review",
+      "downstream_refs": [
+        "SKILL.md",
+        "mode-resolution.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_04_intake_clarification",
+      "raw_step_label": "第 4 章",
+      "raw_title": "任务入口与术语澄清",
+      "raw_sequence_position": 4,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "intake, clarification, reframing, and task boundary setting",
+      "downstream_refs": [
+        "problem-brief.json",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_05_modeling",
+      "raw_step_label": "第 5 章",
+      "raw_title": "问题建模",
+      "raw_sequence_position": 5,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "ANT-EAFC style modeling of entities, attributes, functions, and conditions",
+      "downstream_refs": [
+        "constraints-matrix.json",
+        "references/core-method.md",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_06_constraints_ifr",
+      "raw_step_label": "第 6 章",
+      "raw_title": "状态、约束与理想解",
+      "raw_sequence_position": 6,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "state delta, constraint classes, contradictions, and ideal direction",
+      "downstream_refs": [
+        "constraints-matrix.json",
+        "references/core-method.md",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_07_resources_system_levels",
+      "raw_step_label": "第 7 章",
+      "raw_title": "资源与系统层级",
+      "raw_sequence_position": 7,
+      "source_role": "bridge_to_advanced",
+      "step_plane": "capability_mode_plane",
+      "skill_aligned_interpretation": "resource/system-level expansion and bridge into deeper system modeling",
+      "downstream_refs": [
+        "references/advanced-mode.md",
+        "resource-graph.json",
+        "actor-network.json"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_08_retrieval_evidence",
+      "raw_step_label": "第 8 章",
+      "raw_title": "检索与证据补全",
+      "raw_sequence_position": 8,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "structured retrieval, MCP skill activation, evidence ranking, and writeback",
+      "downstream_refs": [
+        "search-notes.json",
+        "constraints-matrix.json",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_09_generation",
+      "raw_step_label": "第 9 章",
+      "raw_title": "解生成",
+      "raw_sequence_position": 9,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "USIT-based candidate generation layer",
+      "downstream_refs": [
+        "branch-plan.json",
+        "references/advanced-mode.md",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_10_evaluation",
+      "raw_step_label": "第 10 章",
+      "raw_title": "评估、筛选与落地",
+      "raw_sequence_position": 10,
+      "source_role": "core",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "comparison, validation, path selection, and implementation planning",
+      "downstream_refs": [
+        "evaluation-report.xml",
+        "loop-decision.json",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_11_pluginization",
+      "raw_step_label": "第 11 章",
+      "raw_title": "插件沉淀与方法自升级",
+      "raw_sequence_position": 11,
+      "source_role": "core",
+      "step_plane": "capability_mode_plane",
+      "skill_aligned_interpretation": "plugin decision, plugin draft, writeback, and skill-exteriorization hints",
+      "downstream_refs": [
+        "references/plugins.md",
+        "SKILL.md"
+      ]
+    },
+    {
+      "normalized_step_id": "mpv2_chapter_12_mainline",
+      "raw_step_label": "第 12 章",
+      "raw_title": "通用执行序列",
+      "raw_sequence_position": 12,
+      "source_role": "meta",
+      "step_plane": "workflow_control_plane",
+      "skill_aligned_interpretation": "mainline order, force-loop conditions, and finish criteria",
+      "downstream_refs": [
+        "references/state-machine.yaml",
+        "references/state-contracts.yaml",
+        "SKILL.md"
+      ]
+    }
+  ]
+}

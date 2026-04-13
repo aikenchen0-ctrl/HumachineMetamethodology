@@ -10,6 +10,19 @@ This distributable package is intentionally limited to the runtime skill files:
 
 It does not include `artifacts/` because those files are historical iteration outputs and contain machine-specific absolute paths from the current workspace.
 
+## GitHub Installer Entry
+
+For the official Codex GitHub skill installer, the repository now exposes an installer-friendly subpath:
+
+- `skills/HMM`
+
+Use that subpath instead of the repository root.
+This keeps the install target aligned with the intended skill directory name:
+
+- `~/.codex/skills/HMM`
+
+The repository root still remains a valid local working copy and manual packaging root.
+
 ## Portability Rule
 
 The packaged runtime files were checked for:
@@ -38,4 +51,5 @@ The repository has completed the current reconstruction closeout.
 That means:
 
 - the portable package definition is already aligned to the new source,
+- the official-installer-friendly GitHub entry is `skills/HMM`,
 - and any new distributable zip should be regenerated from the current clean working tree before distribution.

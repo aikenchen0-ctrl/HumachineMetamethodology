@@ -1,0 +1,44 @@
+{
+  "policy_id": "legacy-artifact-compatibility-policy-v1",
+  "purpose": "Decide when a source-derived concrete artifact name should stay active, become compatibility-only, or become an archived reference.",
+  "artifact_classes": [
+    {
+      "class_id": "active_semantic_successor",
+      "meaning": "Semantic role survives in a current active contract, but the old filename itself is not required."
+    },
+    {
+      "class_id": "compatibility_artifact",
+      "meaning": "Old artifact identity is preserved only because a real downstream consumer still needs it."
+    },
+    {
+      "class_id": "archived_reference",
+      "meaning": "Historical artifact name is preserved as rationale or traceability, not as a default current contract."
+    }
+  ],
+  "decision_tests": [
+    "exact_artifact_identity_required_by_current_consumer",
+    "unique_semantics_not_absorbed_elsewhere",
+    "clarity_gain_exceeds_duplication_cost",
+    "historical_or_compatibility_value_only"
+  ],
+  "default_rules": [
+    "Prefer active semantic successors over reviving historical filenames as active contracts.",
+    "Use compatibility_artifact only when a real consumer requires the old identity.",
+    "Otherwise keep the historical filename as archived_reference."
+  ],
+  "current_source_aligned_decisions": [
+    {
+      "source_node_id": "src_018_create_initial_prompt_md",
+      "source_label": "创建初始提示词.md",
+      "semantic_successor_artifacts": [
+        "problem-brief.json",
+        "intake-record.json"
+      ],
+      "current_decision": "archived_reference",
+      "reactivation_gate": [
+        "real_external_consumer_requires_exact_filename",
+        "explicit_compatibility_test_requires_exact_identity"
+      ]
+    }
+  ]
+}

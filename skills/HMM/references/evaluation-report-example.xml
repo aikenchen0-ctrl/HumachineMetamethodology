@@ -1,0 +1,166 @@
+<evaluation_report>
+  <evaluation_id>mode-interaction-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>decision-weighting.json</artifact>
+    <artifact>override-policy.json</artifact>
+    <artifact>xml-rewrite.xml</artifact>
+    <artifact>representation-bundle.json</artifact>
+  </checked_artifacts>
+  <completeness_score>96</completeness_score>
+  <consistency_score>97</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If override-policy.json is changed after export generation, exported outputs must be regenerated.</risk>
+  </non_blocking_risks>
+  <profile_adherence>
+    <status>pass</status>
+    <evidence>The run stayed autonomous, expanded proactively, and avoided routine confirmation chatter.</evidence>
+  </profile_adherence>
+  <under_expansion_risk>low</under_expansion_risk>
+  <over_expansion_risk>low</over_expansion_risk>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.93</confidence>
+  <advanced_mode_findings>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The weighted ranking, override boundary, and export targets all refer to the same route-selection object.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>The XML and bundle exports serialize the same final authority boundary already declared in mode-resolution.json.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm candidate routes exist in branch-plan.json.</item>
+    <item>Confirm ranking exists in decision-weighting.json.</item>
+    <item>Confirm the ranking is bound to stable candidate ids rather than display order or example numbering.</item>
+    <item>Confirm override boundary exists in override-policy.json.</item>
+    <item>Confirm exported outputs occur after final authority is known.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The human override policy will remain stable for the current round after export generation.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>library_and_weighting_mode</mode>
+      <status>pass</status>
+      <note>decision-weighting.json exists and has a stable ranking result.</note>
+    </check>
+    <check>
+      <mode>governance_and_feedback_mode</mode>
+      <status>pass</status>
+      <note>override-policy.json exists and defines override priority.</note>
+    </check>
+    <check>
+      <mode>representation_and_serialization_mode</mode>
+      <status>pass</status>
+      <note>xml-rewrite.xml and representation-bundle.json exist and remain downstream-only.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>decision-weighting.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>override-policy.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>xml-rewrite.xml</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>representation-bundle.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>No runtime/provider/governance operations extension artifact was required for this round.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>derived runtime extension</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>branch_plan_generation</state>
+      <status>pass</status>
+      <note>mode-resolution.json includes required cross-mode declaration fields.</note>
+    </check>
+    <check>
+      <state>evaluation_validation</state>
+      <status>pass</status>
+      <note>override and export artifacts are both present and cross-mode interaction was reviewed.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because ranking, override, and serialization boundaries are all explicit and coherent.</item>
+  </dispatch_recommendations>
+  <probe_activation_checks>
+    <check>
+      <mode>library_and_weighting_mode</mode>
+      <status>pass</status>
+      <note>The autonomous deep profile justified one bounded weighting probe and did not trigger unnecessary secondary optional-mode expansion.</note>
+    </check>
+  </probe_activation_checks>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>decision-weighting.json</step_or_artifact>
+      <role_classification>pivot_variable</role_classification>
+      <why>It is not the final authority, but it is the pivot artifact that governance and export depend on.</why>
+      <evidence>override-policy.json and representation-bundle.json both consume its result indirectly.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>override-policy.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, the final authority boundary is not explicit once human review is in scope.</why>
+      <evidence>mode-resolution.json marks governance as higher precedence than weighting for final route selection.</evidence>
+    </check>
+  </key_step_role_checks>
+  <mode_interaction_checks>
+    <check>
+      <interacting_modes>library_and_weighting_mode,governance_and_feedback_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_human_override</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+    <check>
+      <interacting_modes>governance_and_feedback_mode,representation_and_serialization_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>serialization_after_override</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+    <check>
+      <interacting_modes>library_and_weighting_mode,representation_and_serialization_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>representation_stays_downstream_of_ranked_candidate_identity</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+  </mode_interaction_checks>
+  <profile_adjustment_recommendation>
+    <current_profile>autonomous_deep</current_profile>
+    <recommended_profile>none</recommended_profile>
+    <adjustment_reason>The current profile matched the round: proactive enough to probe, bounded enough to avoid mode sprawl.</adjustment_reason>
+    <apply_next_round>false</apply_next_round>
+    <blocked_by_user_override>false</blocked_by_user_override>
+  </profile_adjustment_recommendation>
+  <self_score>93</self_score>
+  <score_reason>The example is structurally complete, but still demonstrates only one multi-mode interaction pattern rather than a full catalog.</score_reason>
+</evaluation_report>

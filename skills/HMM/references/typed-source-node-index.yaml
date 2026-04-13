@@ -1,0 +1,1020 @@
+index_version: 1
+index_id: typed-source-node-index-v1
+source_file: references/agentic-nested-state-machine.opml
+locator_policy:
+  root_anchor: agentor
+  locator_fields:
+    - root_anchor
+    - ancestor_hint
+    - leaf_text
+  note: "Ancestor hints are intentionally partial so the index stays stable even when long instructional parent text is edited."
+
+entries:
+  - source_node_id: src_001_optimize_prompt
+    source_label: 优化提示词
+    node_type: state
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_semantic_problem_rewrite
+    alias_group: semantic_clarification_family
+    alias_signals:
+      - 优化提示词
+      - 提示词语义澄清校准
+    concept_boundary_note: "This node names the broader prompt-optimization entry; nearby calibration nodes narrow it into semantic clarification."
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 优化提示词
+    structural_cluster: prompt_entry_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_002_user_question_style
+    source_label: 向用户询问时尽量不要开放式提问，而是选择式、启发式
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: interaction_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_guided_user_prompting
+    alias_group: interaction_family
+    alias_signals:
+      - 向用户询问时尽量不要开放式提问，而是选择式、启发式
+      - 引导用户、问用户的提示词
+    concept_boundary_note: "Bounded questioning is the downstream interaction rule; reusable prompt guidance stays in the reference layer."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 用户交互节点
+      leaf_text: 向用户询问时尽量不要开放式提问，而是选择式、启发式
+    structural_cluster: interaction_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_003_multiple_solution_sorting
+    source_label: 多个方案排序，默认按方案一提示词
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_multi_solution_selection
+    alias_group: solution_selection_family
+    alias_signals:
+      - 多个方案排序，默认按方案一提示词
+      - 用户可选择分支二、分支三
+    concept_boundary_note: "Ranking and selection semantics are normalized separately from UI display, color coding, and button layout."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 优化提示词
+      leaf_text: 多个方案排序，默认按方案一提示词
+    structural_cluster: multi_solution_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+      - references/opml-promotion-backlog.json
+
+  - source_node_id: src_004_shared_file_editor
+    source_label: 共享文件编辑工具
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_shared_context_coordination
+    alias_group: execution_surface_family
+    alias_signals:
+      - 共享文件编辑工具
+      - 共享文件
+    concept_boundary_note: "Shared-file tool wording is normalized into shared_context_contract, write_scope_rule, and writeback_audit_rule."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 标准节点内必有的功能
+      leaf_text: 共享文件编辑工具
+    structural_cluster: execution_surface_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_005_template_format
+    source_label: 模板格式
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 用户想使用修改后的方案1
+      leaf_text: 模板格式
+    structural_cluster: template_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_006_mermaid_sequence
+    source_label: Mermaid序列图
+    node_type: artifact
+    scope_layer: reference
+    source_plane: representation_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 节点间
+      leaf_text: Mermaid序列图(Sequence diagrams)
+    structural_cluster: representation_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_007_self_scoring
+    source_label: 自打分评估
+    node_type: rule
+    scope_layer: core
+    source_plane: evaluation_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_evaluation_auxiliary_self_score
+    alias_group: evaluation_family
+    alias_signals:
+      - 自打分评估
+      - 评价agent
+    concept_boundary_note: "Self-scoring is an auxiliary evaluation check inside the broader evaluation concept."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 评价agent
+      leaf_text: 自打分评估
+    structural_cluster: evaluation_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_008_ui_collection_view
+    source_label: UICollectionView + CompositionalLayout
+    node_type: ui
+    scope_layer: ui-product
+    source_plane: product_interaction_archive_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 用户想多个方案同时执行
+      leaf_text: UICollectionView + CompositionalLayout
+    structural_cluster: product_interaction_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+      - references/ui-pattern-archive.json
+
+  - source_node_id: src_009_user_wants_multiple_solutions_execute
+    source_label: 用户想多个方案同时执行
+    node_type: example
+    scope_layer: ui-product
+    source_plane: product_interaction_archive_plane
+    promotion_status: exploratory_example
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 多个方案排序，默认按方案一提示词
+      leaf_text: 用户想多个方案同时执行
+    structural_cluster: product_interaction_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+      - references/ui-pattern-archive.json
+
+  - source_node_id: src_ui_candidate_color_diff
+    source_label: 用字体颜色黑红黄蓝来区分方案一、方案二、方案三的每个步骤
+    node_type: ui
+    scope_layer: ui-product
+    source_plane: product_interaction_archive_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 多个方案排序，默认按方案一提示词
+      leaf_text: 用字体颜色黑红黄蓝来区分方案一、方案二、方案三的每个步骤，并附+号增加方案
+    structural_cluster: product_interaction_cluster
+    downstream_refs:
+      - references/ui-pattern-archive.json
+
+  - source_node_id: src_ui_extract_to_variant
+    source_label: 点击该颜色文本后浮标选项出现提取到方案四
+    node_type: ui
+    scope_layer: ui-product
+    source_plane: product_interaction_archive_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 用户想从1,2,3方案中各取出一部分，组合在一起成为方案4并行执行
+      leaf_text: 点击该颜色文本后浮标选项出现提取到方案四
+    structural_cluster: product_interaction_cluster
+    downstream_refs:
+      - references/ui-pattern-archive.json
+
+  - source_node_id: src_ui_multi_viewport_scroll
+    source_label: 多个 Text Viewport 拼在一个可滚动空间里
+    node_type: ui
+    scope_layer: ui-product
+    source_plane: product_interaction_archive_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 用户想多个方案同时执行
+      leaf_text: 多个 Text Viewport 拼在一个可滚动空间里
+    structural_cluster: product_interaction_cluster
+    downstream_refs:
+      - references/ui-pattern-archive.json
+
+  - source_node_id: src_013_evaluation_agent
+    source_label: 评价agent
+    node_type: state
+    scope_layer: core
+    source_plane: evaluation_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_evaluation_validation
+    alias_group: evaluation_family
+    alias_signals:
+      - 评价agent
+      - 同源一致性校验
+      - 自打分评估
+    concept_boundary_note: "This is the broader evaluation state; specific checks such as self-score stay subordinate."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 节点间
+      leaf_text: 评价agent
+    structural_cluster: evaluation_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_010_ant_safc_ostm_triz_fusion
+    source_label: ant+safc+ostm+流分析+triz系统功能模型融合
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - prompt
+      leaf_text: ant+safc+ostm+流分析+triz系统功能模型融合
+    structural_cluster: method_fusion_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_011_true_demand_true_constraints
+    source_label: 真需求-真约束方法论
+    node_type: state
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_true_demand_true_constraints
+    alias_group: demand_modeling_family
+    alias_signals:
+      - 真需求-真约束方法论
+      - 提示词意图需求校准
+    concept_boundary_note: "Intent-demand calibration is the entry probe; true-demand / true-constraint is the more stabilized modeling concept."
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 真需求-真约束方法论
+    structural_cluster: demand_modeling_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_012_problem_statement_define_problem
+    source_label: 问题陈述、定义问题
+    node_type: state
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_problem_intake_definition
+    alias_group: prompt_entry_family
+    alias_signals:
+      - 问题陈述、定义问题
+      - 用户输入问题，判断为两种，单步出结果的，和多步的
+    concept_boundary_note: "Problem statement and task-mode classification are adjacent but distinct parts of the intake boundary."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 解决流程
+      leaf_text: 问题陈述、定义问题
+    structural_cluster: problem_definition_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_018_create_initial_prompt_md
+    source_label: 创建初始提示词.md
+    node_type: artifact
+    scope_layer: core
+    source_plane: archive_and_compatibility_plane
+    promotion_status: archived_reference
+    normalized_concept_id: concept_initial_prompt_artifact
+    alias_group: historical_artifact_family
+    alias_signals:
+      - 创建初始提示词.md
+      - 将x主题初始提示词.md作为搜索提示词模板中的变量输入
+    concept_boundary_note: "The concrete markdown filename is archived; its semantic role survives elsewhere."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 优化提示词
+      leaf_text: 创建初始提示词.md
+    structural_cluster: historical_artifact_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+      - references/legacy-artifact-compatibility-policy.json
+
+  - source_node_id: src_014_parallel_branch
+    source_label: 并行分支
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_branch_topology_parallel_branch
+    alias_group: topology_family
+    alias_signals:
+      - 并行分支
+      - 允许进入不同问题空间
+    concept_boundary_note: "Parallel branch changes assumptions or problem space while still sharing history."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - ai人间体的社交分工网络
+        - 节点2节点
+      leaf_text: 并行分支
+    structural_cluster: topology_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_015_parallel_worker
+    source_label: 并行
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_branch_topology_parallel_worker
+    alias_group: topology_family
+    alias_signals:
+      - 并行
+      - 只是多个 Worker 同时执行不同 todo
+    concept_boundary_note: "Parallel worker keeps one problem definition and shared history while splitting execution tasks."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - ai人间体的社交分工网络
+        - 节点2节点
+      leaf_text: 并行
+    structural_cluster: topology_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_016_serial_branch
+    source_label: 分支串行
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_branch_topology_serial_branch
+    alias_group: topology_family
+    alias_signals:
+      - 分支串行
+      - 分支但各分支内部是串行
+    concept_boundary_note: "Serial branch keeps branching semantics but imposes strict internal order."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 并行/串行
+      leaf_text: 分支串行：分支但各分支内部是串行
+    structural_cluster: topology_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_017_suspended_traversal
+    source_label: 悬置遍历
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_branch_topology_suspended_traversal
+    alias_group: topology_family
+    alias_signals:
+      - 悬置遍历
+      - 暂时束之高阁
+    concept_boundary_note: "Suspended traversal postpones a path without declaring it detached or dead."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - ai人间体的社交分工网络
+        - 节点2节点
+      leaf_text: 悬置遍历
+    structural_cluster: topology_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_019_parameter_library
+    source_label: 参数库
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 参数库
+    structural_cluster: library_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_020_effect_library
+    source_label: 效应库
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 效应库
+    structural_cluster: library_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_021_temporary_library
+    source_label: 临时库
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 临时库
+    structural_cluster: library_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_024_semantic_clarification_calibration
+    source_label: 提示词语义澄清校准
+    node_type: state
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_semantic_problem_rewrite
+    alias_group: semantic_clarification_family
+    alias_signals:
+      - 提示词语义澄清校准
+      - 优化提示词
+    concept_boundary_note: "This is the narrower calibration-stage phrase for the broader prompt rewrite concept."
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 提示词语义澄清校准
+    structural_cluster: prompt_entry_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_025_intent_demand_calibration
+    source_label: 提示词意图需求校准
+    node_type: state
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_true_demand_true_constraints
+    alias_group: demand_modeling_family
+    alias_signals:
+      - 提示词意图需求校准
+      - 真需求-真约束方法论
+    concept_boundary_note: "This is the earlier calibration-stage phrase for the later stabilized true-demand / true-constraint modeling concept."
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 提示词意图需求校准
+    structural_cluster: demand_modeling_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_026_first_search
+    source_label: 首次搜索
+    node_type: state
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 首次搜索
+    structural_cluster: search_modeling_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_022_graph_format_selection
+    source_label: 图格式选择（因果链、参数矩阵、）
+    node_type: reference
+    scope_layer: reference
+    source_plane: representation_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_graph_format_selection
+    alias_group: representation_family
+    alias_signals:
+      - 图格式选择（因果链、参数矩阵、）
+      - 图格式
+      - 三元组格式
+      - 有向无环图格式
+    concept_boundary_note: "Graph-format selection is the chooser concept around several downstream representation targets."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 图格式选择
+      leaf_text: 图格式选择（因果链、参数矩阵、）
+    structural_cluster: representation_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_023_execution_supervision
+    source_label: 执行监督
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_execution_supervision
+    alias_group: execution_surface_family
+    alias_signals:
+      - 执行监督
+      - 执行交给若干个openclaw
+    concept_boundary_note: "Execution supervision is the orchestration contract; concrete carriers belong to the execution substrate plane."
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 执行监督
+    structural_cluster: execution_surface_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_027_solution_flow
+    source_label: 解决流程
+    node_type: state
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 解决流程
+    structural_cluster: workflow_shell_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_029_parallel_fork
+    source_label: 平行分叉
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: topology_decision_plane
+    promotion_status: candidate_rule
+    normalized_concept_id: concept_branch_topology_parallel_fork
+    alias_group: topology_family
+    alias_signals:
+      - 平行分叉
+      - 不拥有完整历史记忆
+    concept_boundary_note: "Parallel fork remains distinct only when detached history and non-default merge behavior both matter."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - ai人间体的社交分工网络
+        - 节点2节点
+      leaf_text: 平行分叉
+    structural_cluster: topology_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+      - references/branch-topology-decision-table.json
+
+  - source_node_id: src_028_loop_rule
+    source_label: 循环
+    node_type: rule
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_workflow_loopback_rule
+    alias_group: workflow_loop_family
+    alias_signals:
+      - 循环
+      - 如果解决无效，则意味着此前对问题的分析和定义是不充分或不准确的
+    concept_boundary_note: "Loop is the abstract routing rule; source prose around failure and return gives one concrete trigger pattern."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 解决流程
+      leaf_text: 循环
+    structural_cluster: workflow_shell_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_030_child_agent
+    source_label: 子agent
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_substrate_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_execution_unit_identity
+    alias_group: execution_substrate_family
+    alias_signals:
+      - 子agent
+      - 子agent还是并agent的定义
+    concept_boundary_note: "Child-agent wording is normalized into execution-unit semantics and substrate taxonomy."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - ai人间体的社交分工网络
+      leaf_text: 子agent
+    structural_cluster: execution_substrate_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+      - references/execution-substrate-taxonomy.json
+
+  - source_node_id: src_exec_agent_taxonomy
+    source_label: agent分为 控制多个社交账号的agent / 单社交账号agent / 无账号但记忆连贯agent / 无账号但记忆有限agent / 临时外援agent
+    node_type: reference
+    scope_layer: reference
+    source_plane: execution_substrate_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 梳理以下维度，用更易懂且精确的方式描述、并且续写：
+      leaf_text: agent分为 控制多个社交账号的agent 只有控制单社交账号的agent 无账号但记忆连贯的agent 无账号但记忆有限的agent 临时外援agent....
+    structural_cluster: execution_substrate_cluster
+    downstream_refs:
+      - references/execution-substrate-taxonomy.json
+
+  - source_node_id: src_exec_openclaw_carrier
+    source_label: 执行交给若干个openclaw
+    node_type: reference
+    scope_layer: reference
+    source_plane: execution_substrate_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 执行监督
+      leaf_text: 执行交给若干个openclaw,可这样会造成一种割裂，一个好的规划往往是执行探索出来的
+    structural_cluster: execution_substrate_cluster
+    downstream_refs:
+      - references/execution-substrate-taxonomy.json
+
+  - source_node_id: src_exec_self_orchestration_imagination
+    source_label: 教agent编排自己
+    node_type: reference
+    scope_layer: reference
+    source_plane: execution_substrate_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 教agent编排自己 实质也是把人类总结的最佳实践教给他
+    structural_cluster: execution_substrate_cluster
+    downstream_refs:
+      - references/execution-substrate-taxonomy.json
+
+  - source_node_id: src_031_history_memory_edit_tool
+    source_label: 历史记忆编辑工具
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_memory_pruning_and_replacement
+    alias_group: execution_surface_family
+    alias_signals:
+      - 历史记忆编辑工具
+      - 收敛剪枝编辑记忆
+    concept_boundary_note: "Generic tool wording is normalized into pruning, replacement summaries, and memory edit events."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 标准节点内必有的功能
+      leaf_text: 历史记忆编辑工具
+    structural_cluster: memory_governance_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_032_annotation_tool
+    source_label: 批注工具
+    node_type: rule
+    scope_layer: orchestration
+    source_plane: execution_plane
+    promotion_status: archived_reference
+    normalized_concept_id: concept_annotation_collaboration
+    alias_group: execution_surface_family
+    alias_signals:
+      - 批注工具
+      - 模型自己可以使用批注工具进行相同操作
+    concept_boundary_note: "Annotation remains archived as collaboration imagery rather than an active execution contract."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 标准节点内必有的功能
+      leaf_text: 批注工具
+    structural_cluster: execution_surface_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_033_resource_graph_artifact
+    source_label: 资源图格式文件
+    node_type: artifact
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 资源图格式文件
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_034_actor_network_graph_artifact
+    source_label: 行动者网络图格式文件
+    node_type: artifact
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 行动者网络图格式文件
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_035_single_vs_multi_step_classification
+    source_label: 用户输入问题，判断为两种，单步出结果的，和多步的
+    node_type: rule
+    scope_layer: core
+    source_plane: workflow_control_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 用户输入问题，判断为两种，单步出结果的，和多步的
+    structural_cluster: prompt_entry_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_036_ant_reference
+    source_label: 行动者网络理论（ANT）
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_actor_network_reference
+    alias_group: advanced_analysis_family
+    alias_signals:
+      - 行动者网络理论（ANT）
+      - ANT
+    concept_boundary_note: "ANT reference remains distinct from nearby strategy-intervention material that the source places close to it."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - prompt
+      leaf_text: 行动者网络理论（ANT）
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_037_flow_analysis_reference
+    source_label: 流分析
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_flow_analysis_reference
+    alias_group: advanced_analysis_family
+    alias_signals:
+      - 流分析
+      - 物质流
+      - 能量流
+      - 信息流
+    concept_boundary_note: "The same label appears both as a fusion component and as a later standalone method reference."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - ant+safc+ostm+流分析+triz系统功能模型融合
+      leaf_text: 流分析
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_038_safc_reference
+    source_label: SAFC模型
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: SAFC模型
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_039_multi_screen_analysis_reference
+    source_label: 多屏幕分析法
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 多屏幕分析法
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_040_five_direction_near_optimal_method
+    source_label: 五向接近最优方法论
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 五向接近最优方法论
+    structural_cluster: portfolio_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_041_triz_reference
+    source_label: TRIZ
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - ant+safc+ostm+流分析+triz系统功能模型融合
+      leaf_text: TRIZ
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_042_usit32_reference
+    source_label: USIT32
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: USIT32
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_043_root_demand_effect_library
+    source_label: 根需求-心理学社会学行为经济学效应库
+    node_type: reference
+    scope_layer: reference
+    source_plane: optional_strategy_intervention_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_root_demand_effects
+    alias_group: strategy_intervention_family
+    alias_signals:
+      - 根需求-心理学社会学行为经济学效应库
+      - 从众
+      - 认知节能需求
+    concept_boundary_note: "This reference aggregates demand-shaping and behavioral signals; it should not be mistaken for neutral demand discovery by default."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - prompt
+        - 需求
+      leaf_text: 根需求-心理学社会学行为经济学效应库
+    structural_cluster: strategy_intervention_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+      - references/optional-strategy-mode.json
+
+  - source_node_id: src_strat_demand_visibility_shaping
+    source_label: 需求不是被发现的，是被制造出可见性
+    node_type: reference
+    scope_layer: reference
+    source_plane: optional_strategy_intervention_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - prompt
+      leaf_text: 定一个共识：需求不是被“发现”的，是被“制造出可见性”的
+    structural_cluster: strategy_intervention_cluster
+    downstream_refs:
+      - references/optional-strategy-mode.json
+
+  - source_node_id: src_strat_field_construction
+    source_label: 场域创造
+    node_type: reference
+    scope_layer: reference
+    source_plane: optional_strategy_intervention_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 行动者网络理论（ANT）
+      leaf_text: 第五步：场域创造（Field Construction）
+    structural_cluster: strategy_intervention_cluster
+    downstream_refs:
+      - references/optional-strategy-mode.json
+
+  - source_node_id: src_strat_non_rational_amplifier
+    source_label: 非理性放大器
+    node_type: reference
+    scope_layer: reference
+    source_plane: optional_strategy_intervention_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 行动者网络理论（ANT）
+      leaf_text: 第六步：非理性放大器（可选）
+    structural_cluster: strategy_intervention_cluster
+    downstream_refs:
+      - references/optional-strategy-mode.json
+
+  - source_node_id: src_strat_north_star_barrier
+    source_label: 北极星指标与竞争壁垒
+    node_type: reference
+    scope_layer: reference
+    source_plane: optional_strategy_intervention_plane
+    promotion_status: archived_reference
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - prompt
+      leaf_text: 若你所设计的系统，存在关键的核心杠杆点：北极星指标、竞争壁垒。
+    structural_cluster: strategy_intervention_cluster
+    downstream_refs:
+      - references/optional-strategy-mode.json
+
+  - source_node_id: src_044_prompt_guidance_source
+    source_label: 引导用户、问用户的提示词
+    node_type: reference
+    scope_layer: reference
+    source_plane: interaction_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_guided_user_prompting
+    alias_group: interaction_family
+    alias_signals:
+      - 引导用户、问用户的提示词
+      - 向用户询问时尽量不要开放式提问，而是选择式、启发式
+    concept_boundary_note: "Prompt guidance is the reusable reference layer; bounded questioning is the downstream interaction rule."
+    locator:
+      root_anchor: agentor
+      ancestor_hint: []
+      leaf_text: 引导用户、问用户的提示词
+    structural_cluster: interaction_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_045_resource_scan_reference
+    source_label: 寻找系统资源
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_resource_scan
+    alias_group: advanced_analysis_family
+    alias_signals:
+      - 寻找系统资源
+      - 列举资源的参数属性
+      - 资源图格式文件
+    concept_boundary_note: "Resource scan, resource parameter listing, and resource graph artifacts are adjacent but not identical concepts."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 提示词语义澄清校准
+        - 提示词意图需求校准
+      leaf_text: 寻找系统资源
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json
+
+  - source_node_id: src_046_resource_parameter_listing
+    source_label: 列举资源的参数属性
+    node_type: reference
+    scope_layer: reference
+    source_plane: capability_mode_plane
+    promotion_status: active_contract
+    normalized_concept_id: concept_resource_scan
+    alias_group: advanced_analysis_family
+    alias_signals:
+      - 列举资源的参数属性
+      - 寻找系统资源
+    concept_boundary_note: "This node focuses on resource attributes inside the broader resource-scan concept."
+    locator:
+      root_anchor: agentor
+      ancestor_hint:
+        - 寻找系统资源
+      leaf_text: 列举资源的参数属性
+    structural_cluster: advanced_analysis_cluster
+    downstream_refs:
+      - references/source-node-promotion-catalog.json

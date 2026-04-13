@@ -1,0 +1,155 @@
+{
+  "model_id": "opml-promotion-status-model-v1",
+  "purpose": "Machine-readable promotion model for ideas originating in agentic-nested-state-machine.opml.",
+  "statuses": [
+    {
+      "status_id": "exploratory_example",
+      "meaning": "Illustrative scenario or local probe.",
+      "allowed_roles": [
+        "example"
+      ],
+      "properties": [
+        "useful_for_ideation",
+        "not_authoritative",
+        "reversible",
+        "must_not_become_default_without_review"
+      ]
+    },
+    {
+      "status_id": "candidate_rule",
+      "meaning": "Reusable-looking pattern not yet normalized into contract language.",
+      "allowed_roles": [
+        "rule",
+        "reference"
+      ],
+      "properties": [
+        "scope_should_be_explicit",
+        "needs_justification_source",
+        "not_yet_contractual",
+        "promotion_blockers_should_be_explicit",
+        "decomposition_target_should_be_explicit"
+      ]
+    },
+    {
+      "status_id": "active_contract",
+      "meaning": "Promoted into executable or strongly structured contract surface such as state rule, artifact field, or active reference contract.",
+      "allowed_roles": [
+        "state",
+        "rule",
+        "artifact",
+        "reference"
+      ],
+      "properties": [
+        "machine_readable_or_strongly_structured",
+        "stable_for_reuse",
+        "auditable_by_evaluation",
+        "must_respect_authority_boundaries"
+      ]
+    },
+    {
+      "status_id": "archived_reference",
+      "meaning": "Preserved as theory or rationale without being a current default.",
+      "allowed_roles": [
+        "reference"
+      ],
+      "properties": [
+        "readable",
+        "citable",
+        "not_required_every_round",
+        "activated_only_when_domain_relevant"
+      ]
+    }
+  ],
+  "promotion_gates": [
+    {
+      "from_status": "exploratory_example",
+      "to_status": "candidate_rule",
+      "gate_checks": [
+        "repeated_pattern_detected",
+        "role_no_longer_only_illustrative"
+      ]
+    },
+    {
+      "from_status": "candidate_rule",
+      "to_status": "active_contract",
+      "gate_checks": [
+        "scope_is_explicit",
+        "responsibility_plane_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ]
+    },
+    {
+      "from_status": "candidate_rule",
+      "to_status": "archived_reference",
+      "gate_checks": [
+        "useful_to_remember",
+        "not_stable_enough_to_govern_execution"
+      ]
+    },
+    {
+      "from_status": "active_contract",
+      "to_status": "archived_reference",
+      "gate_checks": [
+        "no_longer_current_default",
+        "should_remain_preserved_as_rationale"
+      ]
+    }
+  ],
+  "promotion_tests": [
+    "node_type_is_clear",
+    "scope_layer_is_clear",
+    "computed_by_is_known",
+    "overridden_by_is_known",
+    "downstream_consumer_is_known",
+    "evaluation_check_is_known"
+  ],
+  "candidate_rule_extra_tests": [
+    "mixed_role_count_is_known",
+    "decomposition_target_is_known",
+    "promotion_blocker_is_explicit",
+    "resolution_action_is_explicit"
+  ],
+  "demotion_rules": [
+    {
+      "trigger": "repeated_cross_mode_ambiguity",
+      "allowed_demotions": [
+        "active_contract->candidate_rule",
+        "candidate_rule->exploratory_example"
+      ]
+    },
+    {
+      "trigger": "no_downstream_consumer",
+      "allowed_demotions": [
+        "active_contract->archived_reference",
+        "candidate_rule->archived_reference"
+      ]
+    },
+    {
+      "trigger": "belongs_to_ui_speculation_not_workflow",
+      "allowed_demotions": [
+        "active_contract->archived_reference",
+        "candidate_rule->exploratory_example"
+      ]
+    }
+  ],
+  "suggested_machine_fields": [
+    "source_node_id",
+    "source_label",
+    "node_type",
+    "scope_layer",
+    "promotion_status",
+    "promotion_basis",
+    "promotion_gates_passed",
+    "promotion_blockers",
+    "decomposition_required",
+    "decomposes_into",
+    "recommended_next_status",
+    "promotion_strategy",
+    "resolution_action",
+    "downstream_consumers",
+    "authority_owner",
+    "evaluation_hooks"
+  ]
+}

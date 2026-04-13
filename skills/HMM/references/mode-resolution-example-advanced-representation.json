@@ -1,0 +1,211 @@
+{
+  "execution_profile": "autonomous_deep",
+  "profile_source": "default_normal_round",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
+  "resolved_modes": [
+    "advanced_mode",
+    "representation_and_serialization_mode"
+  ],
+  "mode_sources": [
+    {
+      "mode": "advanced_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the round needs graph, flow, contradiction, and solution-set outputs",
+        "the problem already exceeds base-chain depth"
+      ]
+    },
+    {
+      "mode": "representation_and_serialization_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the round needs export-ready serialized outputs",
+        "downstream consumers want XML and Mermaid views"
+      ]
+    }
+  ],
+  "activation_reasons": [
+    {
+      "mode": "advanced_mode",
+      "reasons": [
+        "The system requires resource graph, actor network, flow analysis, contradiction analysis, and a solution set.",
+        "The round is not satisfiable with base artifacts only."
+      ]
+    },
+    {
+      "mode": "representation_and_serialization_mode",
+      "reasons": [
+        "The final advanced outputs must also be exported into serialized representations.",
+        "The representation layer must consume stable advanced artifacts rather than raw prose."
+      ]
+    }
+  ],
+  "source_alignment_basis": [
+    "references/advanced-mode.md",
+    "references/representation-and-serialization-mode.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "advanced_mode": [
+      "demand_constraint_modeling",
+      "branch_plan_generation",
+      "evaluation_validation",
+      "loop_or_finish"
+    ],
+    "representation_and_serialization_mode": [
+      "semantic_clarification",
+      "branch_plan_generation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "advanced_mode": [
+      "resource-graph.json",
+      "actor-network.json",
+      "function-field-model.json",
+      "flow-analysis.json",
+      "safc-model.json",
+      "contradiction-analysis.json",
+      "solution-set.json"
+    ],
+    "representation_and_serialization_mode": [
+      "sequence-diagram.mmd",
+      "representation-bundle.json"
+    ]
+  },
+  "optional_outputs": {
+    "advanced_mode": [
+      "resource-priority-policy.json",
+      "multi-screen-analysis.json",
+      "critique-report.json"
+    ],
+    "representation_and_serialization_mode": [
+      "xml-rewrite.xml"
+    ]
+  },
+  "requested_outputs": [
+    "resource-graph.json",
+    "actor-network.json",
+    "flow-analysis.json",
+    "contradiction-analysis.json",
+    "solution-set.json",
+    "sequence-diagram.mmd",
+    "representation-bundle.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "executor-runtime-hook.json",
+    "provider-health-check.json"
+  ],
+  "stage_requirements": {
+    "after_demand_constraint_modeling": {
+      "advanced_mode": [
+        "resource-graph.json",
+        "actor-network.json"
+      ]
+    },
+    "after_branch_plan_generation": {
+      "advanced_mode": [
+        "function-field-model.json",
+        "flow-analysis.json"
+      ],
+      "representation_and_serialization_mode": [
+        "sequence-diagram.mmd"
+      ]
+    },
+    "before_finish": {
+      "advanced_mode": [
+        "solution-set.json"
+      ],
+      "representation_and_serialization_mode": [
+        "representation-bundle.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "advanced_mode": {
+      "if_missing": "loop back to demand_constraint_modeling or branch_plan_generation depending on the missing advanced artifact",
+      "why": "advanced outputs depend on stable system modeling layers"
+    },
+    "representation_and_serialization_mode": {
+      "if_missing": "loop back to branch_plan_generation or loop_or_finish depending on the missing export target",
+      "why": "representation should follow stable advanced artifacts"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "mode_precedence": [
+    {
+      "higher_mode": "advanced_mode",
+      "lower_mode": "representation_and_serialization_mode",
+      "precedence_basis": "representation serializes advanced outputs and cannot redefine their semantics",
+      "applies_to": [
+        "sequence export",
+        "bundle export",
+        "logic export targets"
+      ],
+      "note": "Advanced artifacts remain the semantic source of truth."
+    }
+  ],
+  "cross_mode_handoffs": [
+    {
+      "from_mode": "advanced_mode",
+      "to_mode": "representation_and_serialization_mode",
+      "via_artifact": "actor-network.json",
+      "handoff_purpose": "Provide stable participants and interaction order for Mermaid export.",
+      "conflict_if_missing": "The sequence diagram may become decorative or semantically detached."
+    },
+    {
+      "from_mode": "advanced_mode",
+      "to_mode": "representation_and_serialization_mode",
+      "via_artifact": "solution-set.json",
+      "handoff_purpose": "Provide stable downstream targets for representation-bundle export.",
+      "conflict_if_missing": "Bundle targets may point to an incomplete or pre-solution artifact set."
+    }
+  ],
+  "authority_boundaries": [
+    {
+      "subject": "system model semantics",
+      "computed_by": "advanced_mode",
+      "overridden_by": "none",
+      "serialized_by": "representation_and_serialization_mode",
+      "final_authority": "advanced_mode"
+    },
+    {
+      "subject": "export packaging",
+      "computed_by": "representation_and_serialization_mode",
+      "overridden_by": "none",
+      "serialized_by": "representation_and_serialization_mode",
+      "final_authority": "representation_and_serialization_mode"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "advanced_mode",
+        "representation_and_serialization_mode"
+      ],
+      "active_when": "the round needs deep system modeling and export-ready outputs in the same pass",
+      "note": "Do not let export get ahead of contradiction analysis or solution-set stabilization."
+    }
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "the default deep autonomous profile fit the round because advanced modeling and downstream export both needed sustained expansion without extra confirmation turns",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
+}

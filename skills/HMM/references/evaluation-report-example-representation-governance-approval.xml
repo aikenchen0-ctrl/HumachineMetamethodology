@@ -1,0 +1,139 @@
+<evaluation_report>
+  <evaluation_id>representation-governance-approval-example-eval</evaluation_id>
+  <checked_artifacts>
+    <artifact>problem-brief.json</artifact>
+    <artifact>constraints-matrix.json</artifact>
+    <artifact>branch-plan.json</artifact>
+    <artifact>mode-resolution.json</artifact>
+    <artifact>governance-checkpoints.json</artifact>
+    <artifact>override-policy.json</artifact>
+    <artifact>xml-rewrite.xml</artifact>
+    <artifact>representation-bundle.json</artifact>
+  </checked_artifacts>
+  <completeness_score>96</completeness_score>
+  <consistency_score>97</consistency_score>
+  <blocking_issues>
+    <issue>none</issue>
+  </blocking_issues>
+  <non_blocking_risks>
+    <risk>If governance-checkpoints.json changes after xml-rewrite.xml is generated, the export candidate may need to be regenerated or re-reviewed.</risk>
+  </non_blocking_risks>
+  <profile_adherence>
+    <status>pass</status>
+    <evidence>The run used co-create steady pacing, which matched the approval-heavy export round and kept interaction focused on meaningful release checkpoints.</evidence>
+  </profile_adherence>
+  <under_expansion_risk>low</under_expansion_risk>
+  <over_expansion_risk>low</over_expansion_risk>
+  <recommended_action>proceed</recommended_action>
+  <recommended_loop_target>none</recommended_loop_target>
+  <confidence>0.93</confidence>
+  <advanced_mode_findings>
+  </advanced_mode_findings>
+  <same_source_consistency>
+    <status>pass</status>
+    <evidence>The approval checkpoint, override policy, and exported representation all refer to the same bounded output object.</evidence>
+  </same_source_consistency>
+  <cross_format_consistency>
+    <status>pass</status>
+    <evidence>The XML export and representation bundle refer to the same release candidate already bounded by governance artifacts.</evidence>
+  </cross_format_consistency>
+  <fact_validation_chain>
+    <item>Confirm xml-rewrite.xml exists as a concrete export candidate.</item>
+    <item>Confirm governance-checkpoints.json declares review points and non-overridable constraints.</item>
+    <item>Confirm override-policy.json defines how human review may block, approve, or regenerate exports.</item>
+    <item>Confirm representation-bundle.json is not treated as final before the approval boundary is satisfied.</item>
+  </fact_validation_chain>
+  <unverifiable_assumptions>
+    <item>The human reviewer will actually inspect the same exported payload that the current xml-rewrite.xml records.</item>
+  </unverifiable_assumptions>
+  <mode_requirement_checks>
+    <check>
+      <mode>governance_and_feedback_mode</mode>
+      <status>pass</status>
+      <note>governance-checkpoints.json and override-policy.json exist and define approval boundaries.</note>
+    </check>
+    <check>
+      <mode>representation_and_serialization_mode</mode>
+      <status>pass</status>
+      <note>xml-rewrite.xml and representation-bundle.json exist as the current export payload and bundle index.</note>
+    </check>
+  </mode_requirement_checks>
+  <missing_required_outputs>
+  </missing_required_outputs>
+  <requested_output_status>
+    <item>
+      <output>governance-checkpoints.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>override-policy.json</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>xml-rewrite.xml</output>
+      <status>present</status>
+    </item>
+    <item>
+      <output>representation-bundle.json</output>
+      <status>present</status>
+    </item>
+  </requested_output_status>
+  <scope_alignment_checks>
+    <item>The round stays on human review and export authorization logic and does not widen into runtime governance operations.</item>
+  </scope_alignment_checks>
+  <scope_drift_findings>
+    <item>none</item>
+  </scope_drift_findings>
+  <blocked_scope_expansions>
+    <item>governance runtime operations extension</item>
+  </blocked_scope_expansions>
+  <stage_requirement_checks>
+    <check>
+      <state>after_semantic_clarification</state>
+      <status>pass</status>
+      <note>xml-rewrite.xml can be prepared early, but remains a candidate until governance approval is complete.</note>
+    </check>
+    <check>
+      <state>before_finish</state>
+      <status>pass</status>
+      <note>governance-checkpoints.json and override-policy.json exist before the export is treated as final.</note>
+    </check>
+  </stage_requirement_checks>
+  <missing_stage_outputs>
+  </missing_stage_outputs>
+  <dispatch_recommendations>
+    <item>Proceed because export construction and export authorization are explicitly separated and governed.</item>
+  </dispatch_recommendations>
+  <key_step_role_checks>
+    <check>
+      <step_or_artifact>governance-checkpoints.json</step_or_artifact>
+      <role_classification>necessary_condition</role_classification>
+      <why>Without it, the export approval boundary and non-overridable constraints would remain implicit.</why>
+      <evidence>mode-resolution.json places governance above export authorization timing.</evidence>
+    </check>
+    <check>
+      <step_or_artifact>xml-rewrite.xml</step_or_artifact>
+      <role_classification>pivot_variable</role_classification>
+      <why>It is the concrete payload under review, bridging construction and approval.</why>
+      <evidence>Both governance-checkpoints.json and representation-bundle.json refer to it conceptually.</evidence>
+    </check>
+  </key_step_role_checks>
+  <mode_interaction_checks>
+    <check>
+      <interacting_modes>governance_and_feedback_mode,representation_and_serialization_mode</interacting_modes>
+      <handoff_status>explicit</handoff_status>
+      <authority_status>resolved_in_favor_of_governance_for_export_release_and_representation_for_payload_structure</authority_status>
+      <drift_risk>low</drift_risk>
+      <decision>pass</decision>
+    </check>
+  </mode_interaction_checks>
+  <profile_adjustment_recommendation>
+    <current_profile>co_create_steady</current_profile>
+    <recommended_profile>none</recommended_profile>
+    <adjustment_reason>The current profile already matched approval-oriented export work and did not show a need for either deeper probing or more frequent user interruption.</adjustment_reason>
+    <apply_next_round>false</apply_next_round>
+    <blocked_by_user_override>false</blocked_by_user_override>
+  </profile_adjustment_recommendation>
+  <self_score>93</self_score>
+  <score_reason>The example cleanly covers approval-heavy export governance, but still assumes a relatively simple review topology rather than a multi-reviewer approval chain.</score_reason>
+</evaluation_report>

@@ -1,0 +1,263 @@
+{
+  "execution_profile": "autonomous_deep",
+  "profile_source": "user_keyword",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
+  "resolved_modes": [
+    "template_mode",
+    "orchestration_and_memory_mode"
+  ],
+  "mode_sources": [
+    {
+      "mode": "template_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the current method should be compressed into a reusable template chain",
+        "downstream steps need variable mapping and handoff rules"
+      ]
+    },
+    {
+      "mode": "orchestration_and_memory_mode",
+      "source": "system_inference",
+      "basis": [
+        "the current flow needs explicit shared-context and execution coordination",
+        "template outputs will be consumed by multiple bounded execution units"
+      ]
+    }
+  ],
+  "activation_reasons": [
+    {
+      "mode": "template_mode",
+      "reasons": [
+        "The round is no longer only solving one instance; it is packaging a reusable method chain.",
+        "Template handoff structure and variable mapping must become explicit."
+      ]
+    },
+    {
+      "mode": "orchestration_and_memory_mode",
+      "reasons": [
+        "Execution paths, shared files, and reference_context boundaries must be explicit.",
+        "The template chain alone does not tell workers who writes what or how writeback is audited."
+      ]
+    }
+  ],
+  "source_alignment_basis": [
+    "references/template-mode.md",
+    "references/orchestration-and-memory-mode.md",
+    "references/source-alignment-policy.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "template_mode": [
+      "loop_or_finish"
+    ],
+    "orchestration_and_memory_mode": [
+      "branch_plan_generation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "template_mode": [
+      "template-chain.json"
+    ],
+    "orchestration_and_memory_mode": [
+      "shared-context-map.json",
+      "orchestration-plan.json",
+      "execution-supervision.json",
+      "executor-interface.json",
+      "executor-capability-registry.json",
+      "writeback-ledger.json"
+    ]
+  },
+  "optional_outputs": {
+    "template_mode": [
+      "pruning-notes.json",
+      "checklist-migration-map.json"
+    ],
+    "orchestration_and_memory_mode": [
+      "memory-pruning.json"
+    ]
+  },
+  "requested_outputs": [
+    "template-chain.json",
+    "shared-context-map.json",
+    "orchestration-plan.json",
+    "execution-supervision.json",
+    "executor-interface.json",
+    "executor-capability-registry.json",
+    "writeback-ledger.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "executor-runtime-hook.json",
+    "runtime-event-source-contract.json",
+    "consumer-runtime-discovery.json"
+  ],
+  "stage_requirements": {
+    "after_branch_plan_generation": {
+      "orchestration_and_memory_mode": [
+        "shared-context-map.json",
+        "orchestration-plan.json",
+        "execution-supervision.json",
+        "executor-interface.json",
+        "executor-capability-registry.json"
+      ]
+    },
+    "before_finish": {
+      "template_mode": [
+        "template-chain.json"
+      ],
+      "orchestration_and_memory_mode": [
+        "writeback-ledger.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "template_mode": {
+      "if_missing": "loop back to loop_or_finish",
+      "why": "template compression depends on already-stable upstream outputs"
+    },
+    "orchestration_and_memory_mode": {
+      "if_missing": "loop back to branch_plan_generation",
+      "why": "execution topology and reference_context boundaries depend on stable branch structure"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "probe_activations": [
+    {
+      "mode": "orchestration_and_memory_mode",
+      "trigger_class": "single_high_signal_gain",
+      "trigger_reason": "template outputs need explicit shared-context, execution topology, and writeback coordination",
+      "probe_scope": "source-aligned orchestration core only",
+      "probe_status": "kept",
+      "deepen_when": "only if real runtime/service/provider/governance operational scope later appears"
+    }
+  ],
+  "mode_precedence": [
+    {
+      "higher_mode": "template_mode",
+      "lower_mode": "orchestration_and_memory_mode",
+      "precedence_basis": "template mode defines reusable method semantics and variable handoffs",
+      "applies_to": [
+        "template structure",
+        "method handoff meaning"
+      ],
+      "note": "Orchestration consumes the template outputs but should not rewrite the template chain's semantic intent."
+    },
+    {
+      "higher_mode": "orchestration_and_memory_mode",
+      "lower_mode": "template_mode",
+      "precedence_basis": "orchestration defines execution topology, write scopes, and writeback policy for the current round",
+      "applies_to": [
+        "execution coordination",
+        "shared-file policy",
+        "reference_context boundaries"
+      ],
+      "note": "Template mode does not own execution authority."
+    }
+  ],
+  "cross_mode_handoffs": [
+    {
+      "from_mode": "template_mode",
+      "to_mode": "orchestration_and_memory_mode",
+      "via_artifact": "template-chain.json",
+      "handoff_purpose": "Provide stable template steps, variable handoffs, and dependencies before execution topology is assigned.",
+      "conflict_if_missing": "Orchestration may build worker packets with no stable upstream method boundary."
+    },
+    {
+      "from_mode": "orchestration_and_memory_mode",
+      "to_mode": "orchestration_and_memory_mode",
+      "via_artifact": "executor-interface.json",
+      "handoff_purpose": "Bind execution_units, worker scopes, and reference_context_refs into one executable coordination surface.",
+      "conflict_if_missing": "Execution identity may fall back to informal agent language instead of explicit unit contracts."
+    },
+    {
+      "from_mode": "orchestration_and_memory_mode",
+      "to_mode": "template_mode",
+      "via_artifact": "writeback-ledger.json",
+      "handoff_purpose": "Preserve observed writebacks and merge outcomes that later template refinement may reuse.",
+      "conflict_if_missing": "Template evolution loses concrete evidence about which handoffs actually worked."
+    },
+    {
+      "from_mode": "orchestration_and_memory_mode",
+      "to_mode": "orchestration_and_memory_mode",
+      "via_artifact": "memory-pruning.json",
+      "handoff_purpose": "Expose which paths were pruned or suspended and which replacement summaries should align with later memory_edit_events.",
+      "conflict_if_missing": "Writeback audit may record memory edits without a stable pruning and replacement boundary."
+    }
+  ],
+  "authority_boundaries": [
+    {
+      "subject": "template semantics and variable mapping",
+      "computed_by": "template_mode",
+      "overridden_by": "none",
+      "serialized_by": "none",
+      "final_authority": "template_mode"
+    },
+    {
+      "subject": "execution unit identity, worker scope, and reference_context handling",
+      "computed_by": "orchestration_and_memory_mode",
+      "overridden_by": "none",
+      "serialized_by": "none",
+      "final_authority": "orchestration_and_memory_mode"
+    },
+    {
+      "subject": "writeback evidence for future reuse",
+      "computed_by": "orchestration_and_memory_mode",
+      "overridden_by": "human_reviewer",
+      "serialized_by": "none",
+      "final_authority": "orchestration_and_memory_mode"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "template_mode",
+        "orchestration_and_memory_mode"
+      ],
+      "active_when": "the round both packages a reusable method chain and coordinates bounded execution units",
+      "note": "Keep template semantics upstream and execution policy downstream."
+    },
+    {
+      "related_modes": [
+        "template_mode",
+        "orchestration_and_memory_mode"
+      ],
+      "active_when": "shared files are used as coordination channels",
+      "note": "shared-context-map.json should be treated as an orchestration-owned planning source; writeback-ledger.json should be treated as an execution evidence sink."
+    },
+    {
+      "related_modes": [
+        "orchestration_and_memory_mode"
+      ],
+      "active_when": "execution identity is being assigned to bounded workers",
+      "note": "Prefer execution_units, worker_scopes, and reference_context_refs over informal child-agent identity language."
+    },
+    {
+      "related_modes": [
+        "orchestration_and_memory_mode"
+      ],
+      "active_when": "paths are pruned, suspended, or replaced during orchestration-heavy rounds",
+      "note": "Prefer memory_pruning, memory_edit_events, and replacement_summaries over generic history-editing tool language."
+    }
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "autonomous deep probing helped surface orchestration ownership without unnecessary user interruption",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
+}

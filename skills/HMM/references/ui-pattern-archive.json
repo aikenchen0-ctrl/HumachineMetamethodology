@@ -1,0 +1,118 @@
+{
+  "archive_id": "ui-pattern-archive-v1",
+  "purpose": "Archive UI and product interaction patterns from the OPML without promoting them into executable workflow contracts.",
+  "patterns": [
+    {
+      "pattern_id": "ui_001_candidate_color_diff",
+      "title": "Color-Coded Multi-Solution Comparison",
+      "pattern_class": "candidate_comparison_presentation",
+      "source_signals": [
+        "用字体颜色黑红黄蓝来区分方案一、方案二、方案三的每个步骤",
+        "用高亮表示该文本是相同的"
+      ],
+      "related_source_nodes": [
+        "src_003_multiple_solution_sorting"
+      ],
+      "current_status": "product_archive",
+      "related_contract_assets": [
+        "variant-set.json",
+        "decision-weighting.json"
+      ],
+      "why_archived": "Display encoding and emphasis style are UI concerns, not ranking or default-selection semantics.",
+      "promotion_trigger": "Only if a workflow contract truly depends on one specific display encoding for authority or review."
+    },
+    {
+      "pattern_id": "ui_002_variant_selection_buttons",
+      "title": "Variant Selection Buttons And Switching",
+      "pattern_class": "candidate_comparison_presentation",
+      "source_signals": [
+        "底部有按钮选择按方案1、2、3执行",
+        "默认仅展示方案一与方案二，左右箭头可以切换1<>3"
+      ],
+      "related_source_nodes": [
+        "src_009_user_wants_multiple_solutions_execute"
+      ],
+      "current_status": "product_archive",
+      "related_contract_assets": [
+        "variant-set.json",
+        "override-policy.json"
+      ],
+      "why_archived": "Button layout and switching behavior are product controls layered on top of already-defined candidate semantics.",
+      "promotion_trigger": "Only if workflow authority truly depends on one serialized selection control."
+    },
+    {
+      "pattern_id": "ui_003_selection_and_extract_to_draft",
+      "title": "Selection And Extract-To-Draft Interaction",
+      "pattern_class": "selection_and_extraction_interaction",
+      "source_signals": [
+        "选取文字并标记认可",
+        "重按触发选取方案块，并且可以多选，多选后可提取到方案草稿中",
+        "点击该颜色文本后浮标选项出现提取到方案四"
+      ],
+      "related_source_nodes": [
+        "src_009_user_wants_multiple_solutions_execute"
+      ],
+      "current_status": "product_archive",
+      "related_contract_assets": [
+        "variant-set.json",
+        "composition-plan.json"
+      ],
+      "why_archived": "Selection gesture and extraction UX should consume composition semantics, not define them.",
+      "promotion_trigger": "Only if extraction becomes a workflow-stage artifact requirement rather than a product gesture."
+    },
+    {
+      "pattern_id": "ui_004_inline_edit_and_new_variant",
+      "title": "Inline Editing And New Variant Creation",
+      "pattern_class": "inline_editing_and_recomposing_interaction",
+      "source_signals": [
+        "用户也可以直接编辑修改",
+        "直接编辑方案文本时，右上角出打勾符号，键盘编辑框显示，将选中的x步新建为方案4"
+      ],
+      "related_source_nodes": [
+        "src_003_multiple_solution_sorting"
+      ],
+      "current_status": "product_archive",
+      "related_contract_assets": [
+        "variant-set.json",
+        "composition-plan.json",
+        "step-normalization.json"
+      ],
+      "why_archived": "Inline edit UX does not own step identity, dependency repair, or coherence logic.",
+      "promotion_trigger": "Only if the edit-confirm interaction itself becomes a required review gate."
+    },
+    {
+      "pattern_id": "ui_005_viewport_scroll_focus",
+      "title": "Viewport Composition, Scroll, Keyboard, And Focus",
+      "pattern_class": "viewport_and_layout_composition",
+      "source_signals": [
+        "多个 Text Viewport 拼在一个可滚动空间里",
+        "SwiftUI ScrollView 包含多个交互元素时，键盘、滚动、焦点不能按预期工作"
+      ],
+      "related_source_nodes": [
+        "src_008_ui_collection_view"
+      ],
+      "current_status": "product_archive",
+      "related_contract_assets": [
+        "representation-bundle.json"
+      ],
+      "why_archived": "Viewport, focus, and scroll behavior are client interaction design, not workflow semantics.",
+      "promotion_trigger": "Only if one viewport contract becomes necessary for review or serialization validity."
+    },
+    {
+      "pattern_id": "ui_006_client_implementation_choice",
+      "title": "Client Implementation Choice",
+      "pattern_class": "client_implementation_choice",
+      "source_signals": [
+        "TextKit2",
+        "UICollectionView + CompositionalLayout"
+      ],
+      "related_source_nodes": [
+        "src_008_ui_collection_view"
+      ],
+      "current_status": "product_archive",
+      "related_contract_assets": [],
+      "why_archived": "Concrete client stacks and layout engines are product implementation choices rather than workflow contract surfaces.",
+      "promotion_trigger": "Only if a future product architecture repository adopts them as implementation defaults."
+    }
+  ]
+}

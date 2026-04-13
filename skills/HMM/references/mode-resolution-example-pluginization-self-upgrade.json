@@ -1,0 +1,112 @@
+{
+  "execution_profile": "autonomous_deep",
+  "profile_source": "user_keyword",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
+  "resolved_modes": [],
+  "mode_sources": [],
+  "activation_reasons": [],
+  "source_alignment_basis": [
+    "references/metaPrompt.md",
+    "references/core-method.md",
+    "references/source-alignment-policy.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "source_pluginization_and_self_upgrade_layer": [
+      "evaluation_validation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "source_pluginization_and_self_upgrade_layer": [
+      "plugin-decisions.json",
+      "plugin-drafts.json"
+    ]
+  },
+  "optional_outputs": {
+    "source_pluginization_and_self_upgrade_layer": [
+      "plugin-interfaces.json",
+      "plugin-feedbacks.json",
+      "plugin-upgrade-rules.json"
+    ]
+  },
+  "requested_outputs": [
+    "plugin-decisions.json",
+    "plugin-drafts.json",
+    "plugin-interfaces.json",
+    "plugin-feedbacks.json",
+    "plugin-upgrade-rules.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json",
+    "plugin-decisions.json",
+    "plugin-drafts.json",
+    "plugin-interfaces.json",
+    "plugin-feedbacks.json",
+    "plugin-upgrade-rules.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "executor-runtime-hook.json",
+    "runtime-event-source-contract.json",
+    "governance-review-scheduler.json"
+  ],
+  "stage_requirements": {
+    "after_evaluation_validation": {
+      "source_pluginization_and_self_upgrade_layer": [
+        "plugin-decisions.json",
+        "plugin-drafts.json"
+      ]
+    },
+    "before_finish": {
+      "source_pluginization_and_self_upgrade_layer": [
+        "plugin-interfaces.json",
+        "plugin-feedbacks.json",
+        "plugin-upgrade-rules.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "source_pluginization_and_self_upgrade_layer": {
+      "if_missing": "loop back to evaluation_validation or loop_or_finish depending on which pluginization artifact is absent",
+      "why": "pluginization should stay downstream of stable evaluation outputs and should not be reduced to an untracked closing note"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "probe_activations": [
+    {
+      "mode": "source_pluginization_and_self_upgrade_layer",
+      "trigger_class": "single_high_signal_gain",
+      "trigger_reason": "stable term structure, evidence-source preferences, operator mappings, and failure patterns became reusable enough to justify plugin drafting",
+      "probe_scope": "source-aligned plugin drafting and skill-shell exteriorization only",
+      "probe_status": "kept",
+      "deepen_when": "if repeated later rounds confirm the same reusable structure and justify P0 to P1 promotion"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "source_pluginization_and_self_upgrade_layer"
+      ],
+      "active_when": "the round has stabilized reusable method structure and wants future plugin or skill reuse",
+      "note": "Keep plugin drafts distinct from MCP skills, and keep skill-facing interfaces downstream of the plugin draft rather than vice versa."
+    }
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "autonomous deep probing was appropriate because pluginization required proactive crystallization after evaluation had stabilized reusable structure",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
+}

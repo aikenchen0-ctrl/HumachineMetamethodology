@@ -1,0 +1,50 @@
+{
+  "review_id": "release-final-review-v1",
+  "purpose": "Current release-facing closeout record for the maintained HMM reference stack.",
+  "blocking_findings": [],
+  "non_blocking_residual_risks": [
+    "The OPML itself remains a free-form source archive rather than a typed source of truth.",
+    "One intentional deferred concept remains: src_029_parallel_fork.",
+    "Long-term maintenance still depends on keeping typed source, promotion catalog, and release checklist synchronized."
+  ],
+  "current_state": {
+    "source_review_reference_assets_present": true,
+    "source_review_reference_count": 28,
+    "promotion_catalog_count": 46,
+    "typed_source_entry_count": 56,
+    "backlog_total": 8,
+    "backlog_non_done": 0,
+    "source_hash_match": true,
+    "working_tree_dirty_entry_count": 0,
+    "example_count": 8,
+    "ui_pattern_count": 6,
+    "execution_substrate_class_count": 6,
+    "strategy_class_count": 4,
+    "remaining_candidate_rule_count": 1,
+    "remaining_candidate_rule_ids": [
+      "src_029_parallel_fork"
+    ],
+    "typed_source_covers_promotion_catalog": true,
+    "dual_source_precedence_explicit": true,
+    "frozen_archive_planes_bounded": true,
+    "release_checklist_self_covered": true,
+    "stop_rule_satisfied": true
+  },
+  "release_judgment": "maintenance_ready_packaging_review_pending",
+  "basis_refs": [
+    "references/opml-architecture-optimization-roadmap.json",
+    "references/release-consolidation-checklist.json",
+    "references/boundary-razor-policy.json",
+    "references/typed-source-node-index.yaml",
+    "references/metaPrompt-step-index.json"
+  ],
+  "source_hashes": {
+    "agentic-nested-state-machine.opml": "578F9A8F428DAA1C77E83B60EF768AF51769D51C871F512E1F8A62BBC15C3884",
+    "metaPrompt.md": "790994339F3817D3033C245C9DECA724EA2D3A0765E376EA34235B13000C2887"
+  },
+  "assumptions": [
+    "source copies remain aligned",
+    "grouped closeout commits remain the current source of truth",
+    "packaging is treated as a follow-up concern rather than a blocker for repository closeout"
+  ]
+}

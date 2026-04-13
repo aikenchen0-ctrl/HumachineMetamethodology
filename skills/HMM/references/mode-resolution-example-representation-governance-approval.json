@@ -1,0 +1,211 @@
+{
+  "execution_profile": "co_create_steady",
+  "profile_source": "user_keyword",
+  "interaction_profile": "co_create",
+  "expansion_profile": "steady_probe",
+  "mode_probe_policy": "explicit_or_two_signal",
+  "confirmation_policy": "milestone_only",
+  "resolved_modes": [
+    "governance_and_feedback_mode",
+    "representation_and_serialization_mode"
+  ],
+  "mode_sources": [
+    {
+      "mode": "governance_and_feedback_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "export outputs require explicit human review before release",
+        "modifiable artifacts and non-overridable constraints must be visible"
+      ]
+    },
+    {
+      "mode": "representation_and_serialization_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the round needs XML and bundle export for downstream consumption",
+        "the export layer must be approval-aware"
+      ]
+    }
+  ],
+  "activation_reasons": [
+    {
+      "mode": "governance_and_feedback_mode",
+      "reasons": [
+        "The round contains explicit approval checkpoints before export release.",
+        "Exportable artifacts must remain reviewable and overridable by humans."
+      ]
+    },
+    {
+      "mode": "representation_and_serialization_mode",
+      "reasons": [
+        "The round must emit structured XML and an export bundle.",
+        "The export layer should only serialize artifacts that have passed approval gates."
+      ]
+    }
+  ],
+  "source_alignment_basis": [
+    "references/governance-and-feedback-mode.md",
+    "references/representation-and-serialization-mode.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "governance_and_feedback_mode": [
+      "semantic_clarification",
+      "evaluation_validation",
+      "loop_or_finish"
+    ],
+    "representation_and_serialization_mode": [
+      "semantic_clarification",
+      "branch_plan_generation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "governance_and_feedback_mode": [
+      "governance-checkpoints.json",
+      "override-policy.json"
+    ],
+    "representation_and_serialization_mode": [
+      "xml-rewrite.xml",
+      "representation-bundle.json"
+    ]
+  },
+  "optional_outputs": {
+    "governance_and_feedback_mode": [
+      "interaction-policy.json",
+      "feedback-ledger.json"
+    ],
+    "representation_and_serialization_mode": [
+      "sequence-diagram.mmd"
+    ]
+  },
+  "requested_outputs": [
+    "governance-checkpoints.json",
+    "override-policy.json",
+    "xml-rewrite.xml",
+    "representation-bundle.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "governance-source-drift-report.json",
+    "governance-review-scheduler.json"
+  ],
+  "stage_requirements": {
+    "after_semantic_clarification": {
+      "governance_and_feedback_mode": [
+        "interaction-policy.json"
+      ],
+      "representation_and_serialization_mode": [
+        "xml-rewrite.xml"
+      ]
+    },
+    "before_finish": {
+      "governance_and_feedback_mode": [
+        "governance-checkpoints.json",
+        "override-policy.json"
+      ],
+      "representation_and_serialization_mode": [
+        "representation-bundle.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "governance_and_feedback_mode": {
+      "if_missing": "loop back to evaluation_validation",
+      "why": "approval boundary and override scope must be explicit before export release"
+    },
+    "representation_and_serialization_mode": {
+      "if_missing": "loop back to semantic_clarification or branch_plan_generation depending on the missing export target",
+      "why": "representation must wait for stable semantics and approval scope"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "mode_precedence": [
+    {
+      "higher_mode": "governance_and_feedback_mode",
+      "lower_mode": "representation_and_serialization_mode",
+      "precedence_basis": "approval checkpoint outranks export release timing",
+      "applies_to": [
+        "export authorization",
+        "release eligibility"
+      ],
+      "note": "Representation may prepare the export structure, but governance decides whether it may be treated as final."
+    },
+    {
+      "higher_mode": "source_aligned_core",
+      "lower_mode": "representation_and_serialization_mode",
+      "precedence_basis": "representation cannot redefine source semantics",
+      "applies_to": [
+        "xml payload content",
+        "bundle target meaning"
+      ],
+      "note": "Representation remains downstream-only over semantics."
+    }
+  ],
+  "cross_mode_handoffs": [
+    {
+      "from_mode": "representation_and_serialization_mode",
+      "to_mode": "governance_and_feedback_mode",
+      "via_artifact": "xml-rewrite.xml",
+      "handoff_purpose": "Expose the concrete export candidate to approval checkpoints before final release.",
+      "conflict_if_missing": "Governance reviews an abstract export intention instead of the actual export payload."
+    },
+    {
+      "from_mode": "governance_and_feedback_mode",
+      "to_mode": "representation_and_serialization_mode",
+      "via_artifact": "override-policy.json",
+      "handoff_purpose": "Define whether approval or override changes require export regeneration or export blocking.",
+      "conflict_if_missing": "Serialization may finalize an export that governance has not authorized."
+    },
+    {
+      "from_mode": "governance_and_feedback_mode",
+      "to_mode": "representation_and_serialization_mode",
+      "via_artifact": "governance-checkpoints.json",
+      "handoff_purpose": "Define which representation targets require review and which constraints remain non-overridable.",
+      "conflict_if_missing": "Export selection may ignore release gating and non-overridable constraints."
+    }
+  ],
+  "authority_boundaries": [
+    {
+      "subject": "export payload structure",
+      "computed_by": "representation_and_serialization_mode",
+      "overridden_by": "none",
+      "serialized_by": "representation_and_serialization_mode",
+      "final_authority": "representation_and_serialization_mode"
+    },
+    {
+      "subject": "export release approval",
+      "computed_by": "governance_and_feedback_mode",
+      "overridden_by": "human_reviewer",
+      "serialized_by": "none",
+      "final_authority": "governance_and_feedback_mode"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "governance_and_feedback_mode",
+        "representation_and_serialization_mode"
+      ],
+      "active_when": "the round needs structured export but treats export release as an approval-governed act",
+      "note": "Separate export construction from export authorization."
+    }
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "co_create_steady",
+    "recommended_profile": "none",
+    "adjustment_reason": "the co-create steady profile fit an approval-heavy export round because milestone feedback matters more than continuous exploratory narration",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
+}

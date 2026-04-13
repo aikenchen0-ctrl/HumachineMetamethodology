@@ -1,0 +1,1125 @@
+{
+  "catalog_id": "source-node-promotion-catalog-v1",
+  "source_file": "references/agentic-nested-state-machine.opml",
+  "entries": [
+    {
+      "source_node_id": "src_001_optimize_prompt",
+      "source_label": "优化提示词",
+      "node_type": "state",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into semantic_clarification workflow stage",
+        "has clear downstream artifact consumers"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "downstream_consumers": [
+        "problem-brief.json",
+        "constraints-matrix.json"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "cross_format_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_002_user_question_style",
+      "source_label": "向用户询问时尽量不要开放式提问，而是选择式、启发式",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into governance and interaction policy",
+        "has explicit downstream consumer in interaction-policy.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "interaction-policy.json",
+        "SKILL.md default rules"
+      ],
+      "authority_owner": "governance_and_feedback_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_003_multiple_solution_sorting",
+      "source_label": "多个方案排序，默认按方案一提示词",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "ranking semantics are now explicit in multiple_solution_sorting_rule and decision-weighting.json",
+        "candidate listing and default-selection boundary are separated through variant-set.json instead of being fused with UI phrasing or example order"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "resolution_action": "Keep ranking semantics in decision-weighting.json and candidate-list semantics in variant-set.json; leave UI order and example phrasing out of executable contract logic.",
+      "backlog_item_ref": "pb_001_multiple_solution_sorting_split",
+      "example_refs": [
+        "ex_weighting_governance_representation",
+        "ex_portfolio_weighting_governance"
+      ],
+      "downstream_consumers": [
+        "decision-weighting.json",
+        "variant-set.json"
+      ],
+      "authority_owner": "library_and_weighting_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_004_shared_file_editor",
+      "source_label": "共享文件编辑工具",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "the source concept is now split into shared_context_contract, write_scope_rule, and writeback_audit_rule",
+        "shared-context-map.json, execution-supervision.json, executor-interface.json, and writeback-ledger.json now carry the coordination surface explicitly"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "resolution_action": "Keep shared-file semantics on explicit orchestration contracts and artifacts instead of preserving the tool label itself as the contract.",
+      "backlog_item_ref": "pb_002_shared_file_editor_split",
+      "example_refs": [
+        "ex_template_orchestration"
+      ],
+      "downstream_consumers": [
+        "shared-context-map.json",
+        "execution-supervision.json",
+        "executor-interface.json",
+        "writeback-ledger.json"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_005_template_format",
+      "source_label": "模板格式",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "template chain contract already exists",
+        "variable handoff semantics are formalized"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "downstream_consumers": [
+        "template-chain.json",
+        "shared-context-map.json"
+      ],
+      "authority_owner": "template_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_006_mermaid_sequence",
+      "source_label": "Mermaid序列图",
+      "node_type": "artifact",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "representation mode already formalizes Mermaid export",
+        "the artifact now has stable downstream semantics"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "sequence-diagram.mmd",
+        "representation-bundle.json"
+      ],
+      "authority_owner": "representation_and_serialization_mode",
+      "evaluation_hooks": [
+        "cross_format_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_007_self_scoring",
+      "source_label": "自打分评估",
+      "node_type": "rule",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "the limitation that self-score is only auxiliary is now normalized into evaluation rules"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "evaluation_hook_exists"
+      ],
+      "downstream_consumers": [
+        "evaluation-report.xml"
+      ],
+      "authority_owner": "evaluation_validation",
+      "evaluation_hooks": [
+        "self_score_without_findings"
+      ]
+    },
+    {
+      "source_node_id": "src_008_ui_collection_view",
+      "source_label": "UICollectionView + CompositionalLayout",
+      "node_type": "ui",
+      "scope_layer": "ui-product",
+      "promotion_status": "archived_reference",
+      "promotion_basis": [
+        "important product implementation idea",
+        "not part of executable workflow contract"
+      ],
+      "promotion_gates_passed": [],
+      "downstream_consumers": [],
+      "authority_owner": "ui_product_layer",
+      "evaluation_hooks": []
+    },
+    {
+      "source_node_id": "src_009_user_wants_multiple_solutions_execute",
+      "source_label": "用户想多个方案同时执行",
+      "node_type": "example",
+      "scope_layer": "ui-product",
+      "promotion_status": "exploratory_example",
+      "promotion_basis": [
+        "illustrative scenario only",
+        "still mixed with UI-level interaction design"
+      ],
+      "promotion_gates_passed": [],
+      "downstream_consumers": [
+        "examples-index.json"
+      ],
+      "authority_owner": "example_plane",
+      "evaluation_hooks": []
+    },
+    {
+      "source_node_id": "src_010_ant_safc_ostm_triz_fusion",
+      "source_label": "ant+safc+ostm+流分析+triz系统功能模型融合",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "archived_reference",
+      "promotion_basis": [
+        "the fused label remains too composite for direct contract use",
+        "its subparts are promoted separately into active references and modes"
+      ],
+      "promotion_gates_passed": [],
+      "downstream_consumers": [
+        "advanced-mode references"
+      ],
+      "authority_owner": "reference_plane",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_011_true_demand_true_constraints",
+      "source_label": "真需求-真约束方法论",
+      "node_type": "state",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into demand_constraint_modeling and core-method guidance",
+        "has explicit downstream consumers in constraints-matrix.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "downstream_consumers": [
+        "constraints-matrix.json",
+        "core-method.md"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "fact_validation_chain"
+      ]
+    },
+    {
+      "source_node_id": "src_012_problem_statement_define_problem",
+      "source_label": "问题陈述、定义问题",
+      "node_type": "state",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into intake and semantic clarification boundary",
+        "has stable downstream consumers in problem-brief.json and branch-plan.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "problem-brief.json",
+        "branch-plan.json"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_013_evaluation_agent",
+      "source_label": "评价agent",
+      "node_type": "state",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into evaluation_validation",
+        "the source evaluation ideas are now formalized in evaluation-report.xml"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "evaluation_hook_exists"
+      ],
+      "downstream_consumers": [
+        "evaluation-report.xml",
+        "loop-decision.json"
+      ],
+      "authority_owner": "evaluation_validation",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "cross_format_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_014_parallel_branch",
+      "source_label": "并行分支",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized as branch class in orchestration planning",
+        "has stable downstream consumers in orchestration-plan.json and execution-supervision.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "orchestration-plan.json",
+        "execution-supervision.json"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_015_parallel_worker",
+      "source_label": "并行",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized as worker-level parallel execution semantics",
+        "has explicit downstream consumers in execution-supervision.json and executor-interface.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "execution-supervision.json",
+        "executor-interface.json"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_016_serial_branch",
+      "source_label": "分支串行",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized as serial-branch execution semantics",
+        "has explicit downstream consumers in orchestration-plan.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "orchestration-plan.json",
+        "executor-interface.json"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_017_suspended_traversal",
+      "source_label": "悬置遍历",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized as suspended_traversal branch class",
+        "memory-pruning.json and state-machine rules consume it explicitly"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "downstream_consumers": [
+        "orchestration-plan.json",
+        "memory-pruning.json",
+        "state-machine.yaml"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_018_create_initial_prompt_md",
+      "source_label": "创建初始提示词.md",
+      "node_type": "artifact",
+      "scope_layer": "core",
+      "promotion_status": "archived_reference",
+      "promotion_basis": [
+        "the source treats it as an artifact candidate",
+        "the current skill preserved the semantic role but not this concrete md artifact as an active default"
+      ],
+      "promotion_gates_passed": [
+        "useful_to_remember",
+        "not_stable_enough_to_govern_execution"
+      ],
+      "resolution_action": "Keep the concrete md filename as historical reference unless a compatibility requirement appears that needs this exact artifact revived.",
+      "backlog_item_ref": "pb_007_create_initial_prompt_archive",
+      "example_refs": [],
+      "downstream_consumers": [
+        "problem-brief.json"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_019_parameter_library",
+      "source_label": "参数库",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into parameter-library.json",
+        "has stable downstream consumer in weighting and traversal layers"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "parameter-library.json",
+        "decision-weighting.json"
+      ],
+      "authority_owner": "library_and_weighting_mode",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_020_effect_library",
+      "source_label": "效应库",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into effect-library.json",
+        "has stable downstream consumer in solution ranking and traversal examples"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "effect-library.json",
+        "decision-weighting.json"
+      ],
+      "authority_owner": "library_and_weighting_mode",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_021_temporary_library",
+      "source_label": "临时库",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into temporary-library.json",
+        "captures non-stable knowledge without polluting long-term contracts"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "temporary-library.json"
+      ],
+      "authority_owner": "library_and_weighting_mode",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_022_graph_format_selection",
+      "source_label": "图格式选择（因果链、参数矩阵、）",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into graph-format-selection.json and representation references",
+        "has stable downstream role as selection aid rather than raw OPML note"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "graph-format-selection.json",
+        "representation-bundle.json"
+      ],
+      "authority_owner": "library_and_weighting_mode",
+      "evaluation_hooks": [
+        "cross_format_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_023_execution_supervision",
+      "source_label": "执行监督",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into execution-supervision.json and executor-interface.json",
+        "the source concern about planning-execution split is now contract-backed"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "execution-supervision.json",
+        "executor-interface.json",
+        "writeback-ledger.json"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "mode_interaction_checks",
+        "fact_validation_chain"
+      ]
+    },
+    {
+      "source_node_id": "src_024_semantic_clarification_calibration",
+      "source_label": "提示词语义澄清校准",
+      "node_type": "state",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into semantic_clarification",
+        "has stable downstream consumers in problem-brief.json and mode inference"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "downstream_consumers": [
+        "problem-brief.json",
+        "mode-resolution.json"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_025_intent_demand_calibration",
+      "source_label": "提示词意图需求校准",
+      "node_type": "state",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into semantic_clarification and demand_constraint_modeling boundary",
+        "has stable downstream consumers in problem-brief.json and constraints-matrix.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "problem-brief.json",
+        "constraints-matrix.json"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "fact_validation_chain"
+      ]
+    },
+    {
+      "source_node_id": "src_026_first_search",
+      "source_label": "首次搜索",
+      "node_type": "state",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized as bounded first_search between semantic clarification and modeling",
+        "has explicit downstream artifact consumer in search-notes.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "search-notes.json",
+        "constraints-matrix.json"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "fact_validation_chain"
+      ]
+    },
+    {
+      "source_node_id": "src_027_solution_flow",
+      "source_label": "解决流程",
+      "node_type": "state",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "the minimal workflow shell is now explicit as a dedicated core workflow state chain",
+        "loop logic and orchestration extension boundaries are now separated from the shell rather than remaining fused inside one source branch"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "resolution_action": "Keep the workflow shell on explicit core workflow contracts and keep orchestration-heavy execution semantics outside the core state chain.",
+      "backlog_item_ref": "pb_003_solution_flow_split",
+      "example_refs": [],
+      "downstream_consumers": [
+        "state-machine.yaml",
+        "state-contracts.yaml",
+        "core-method.md",
+        "loop-decision.json"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "stage_requirement_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_028_loop_rule",
+      "source_label": "循环",
+      "node_type": "rule",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into loop_policy and loop_or_finish transitions",
+        "has explicit downstream consumers in state-machine.yaml and loop-decision.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "downstream_consumers": [
+        "state-machine.yaml",
+        "loop-decision.json"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "blocking_issues",
+        "recommended_loop_target"
+      ]
+    },
+    {
+      "source_node_id": "src_029_parallel_fork",
+      "source_label": "平行分叉",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "candidate_rule",
+      "promotion_basis": [
+        "the source concept is preserved, but still remains less central than parallel_branch and parallel_worker",
+        "the branch-topology decision table now makes its defer decision explicit until a real detached-history execution case appears"
+      ],
+      "promotion_gates_passed": [
+        "repeated_pattern_detected"
+      ],
+      "promotion_blockers": [
+        "the source concept is still less normalized than parallel_branch and parallel_worker and lacks a stable default contract shape"
+      ],
+      "decomposition_required": false,
+      "decomposes_into": [],
+      "recommended_next_status": "candidate_rule",
+      "promotion_strategy": "defer",
+      "resolution_action": "Keep as a non-default orchestration concept until a concrete executor-facing need distinguishes it from existing branch classes.",
+      "backlog_item_ref": "pb_008_parallel_fork_hold",
+      "example_refs": [
+        "ex_template_orchestration"
+      ],
+      "downstream_consumers": [
+        "orchestration-plan.json"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_030_child_agent",
+      "source_label": "子agent",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "the source role pattern is now normalized through execution_unit_contract, worker_scope_contract, and reference_context_binding_rule",
+        "executor-interface.json and execution-supervision.json now carry execution identity and scope semantics without relying on agent identity language"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "resolution_action": "Keep execution identity, worker scope, and reference-context semantics on explicit orchestration contracts instead of preserving the child-agent label as a contract surface.",
+      "backlog_item_ref": "pb_005_child_agent_rename",
+      "example_refs": [
+        "ex_template_orchestration"
+      ],
+      "downstream_consumers": [
+        "execution-supervision.json",
+        "executor-interface.json",
+        "state-contracts.yaml",
+        "state-machine.yaml"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_031_history_memory_edit_tool",
+      "source_label": "历史记忆编辑工具",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "the source concept is now normalized through memory_pruning_rule, writeback_memory_edit_event, and replacement_summary_rule",
+        "memory-pruning.json and writeback-ledger.json now carry pruning, replacement, and audited memory-edit semantics explicitly"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "authority_boundary_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "resolution_action": "Promote the memory-pruning and writeback semantics, not the tool label itself.",
+      "backlog_item_ref": "pb_006_history_memory_split",
+      "example_refs": [
+        "ex_template_orchestration"
+      ],
+      "downstream_consumers": [
+        "memory-pruning.json",
+        "writeback-ledger.json",
+        "state-contracts.yaml",
+        "state-machine.yaml"
+      ],
+      "authority_owner": "orchestration_and_memory_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_032_annotation_tool",
+      "source_label": "批注工具",
+      "node_type": "rule",
+      "scope_layer": "orchestration",
+      "promotion_status": "archived_reference",
+      "promotion_basis": [
+        "the idea is still useful as collaboration imagery",
+        "but it is not required as an executable contract because shared files and writebacks already carry the functional role"
+      ],
+      "promotion_gates_passed": [],
+      "downstream_consumers": [
+        "opml-functional-architecture-review.md"
+      ],
+      "authority_owner": "reference_plane",
+      "evaluation_hooks": []
+    },
+    {
+      "source_node_id": "src_033_resource_graph_artifact",
+      "source_label": "资源图格式文件",
+      "node_type": "artifact",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into resource-graph.json under advanced mode",
+        "has explicit downstream consumers in advanced analysis and representation examples"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "resource-graph.json",
+        "evaluation-report.xml"
+      ],
+      "authority_owner": "advanced_mode",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_034_actor_network_graph_artifact",
+      "source_label": "行动者网络图格式文件",
+      "node_type": "artifact",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into actor-network.json under advanced mode",
+        "has explicit downstream consumers in sequence export and advanced evaluation"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "actor-network.json",
+        "sequence-diagram.mmd"
+      ],
+      "authority_owner": "advanced_mode",
+      "evaluation_hooks": [
+        "cross_format_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_035_single_vs_multi_step_classification",
+      "source_label": "用户输入问题，判断为两种，单步出结果的，和多步的",
+      "node_type": "rule",
+      "scope_layer": "core",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into task_mode classification in intake-record.json",
+        "has explicit downstream consumers in intake logic and state-machine transitions"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "intake-record.json",
+        "state-machine.yaml"
+      ],
+      "authority_owner": "source_aligned_core",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_036_ant_reference",
+      "source_label": "行动者网络理论（ANT）",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into actor-network and advanced references",
+        "has explicit downstream consumers in actor-network.json and contradiction analysis"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "actor-network.json",
+        "contradiction-analysis.json"
+      ],
+      "authority_owner": "advanced_mode",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_037_flow_analysis_reference",
+      "source_label": "流分析",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into flow-analysis.json",
+        "has explicit downstream consumers in advanced modeling chain"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "flow-analysis.json",
+        "resource-graph.json"
+      ],
+      "authority_owner": "advanced_mode",
+      "evaluation_hooks": [
+        "cross_format_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_038_safc_reference",
+      "source_label": "SAFC模型",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into safc-model.json",
+        "has explicit downstream consumers in contradiction-analysis and solution-set"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "safc-model.json",
+        "contradiction-analysis.json",
+        "solution-set.json"
+      ],
+      "authority_owner": "advanced_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "fact_validation_chain"
+      ]
+    },
+    {
+      "source_node_id": "src_039_multi_screen_analysis_reference",
+      "source_label": "多屏幕分析法",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized as optional advanced extension multi-screen-analysis.json",
+        "has explicit downstream consumers in advanced review and representation examples"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "multi-screen-analysis.json",
+        "evaluation-report.xml"
+      ],
+      "authority_owner": "advanced_mode",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_040_five_direction_near_optimal_method",
+      "source_label": "五向接近最优方法论",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into portfolio-and-optimization-mode and portfolio artifacts",
+        "has explicit downstream consumers in methodology-portfolio.json and optimization-report.json"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "methodology-portfolio.json",
+        "optimization-report.json"
+      ],
+      "authority_owner": "portfolio_and_optimization_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_041_triz_reference",
+      "source_label": "TRIZ",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "archived_reference",
+      "promotion_basis": [
+        "the source theory remains important but is not directly normalized as an always-on contract in the current skill",
+        "its use is mediated through advanced and traversal references rather than a standalone default artifact chain"
+      ],
+      "promotion_gates_passed": [],
+      "downstream_consumers": [
+        "advanced-mode references",
+        "traversal-and-invention-mode.md"
+      ],
+      "authority_owner": "reference_plane",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_042_usit32_reference",
+      "source_label": "USIT32",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "archived_reference",
+      "promotion_basis": [
+        "the theory remains preserved as optional deep-method background",
+        "the current skill references it through advanced-mode and contradiction/solution work instead of a direct default contract"
+      ],
+      "promotion_gates_passed": [],
+      "downstream_consumers": [
+        "advanced-mode references",
+        "contradiction-analysis.json"
+      ],
+      "authority_owner": "reference_plane",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_043_root_demand_effect_library",
+      "source_label": "根需求-心理学社会学行为经济学效应库",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into effect-library.json and discovery references",
+        "has explicit downstream consumer in library and weighting mode"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "effect-library.json",
+        "demand-visibility.json"
+      ],
+      "authority_owner": "library_and_weighting_mode",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    },
+    {
+      "source_node_id": "src_044_prompt_guidance_source",
+      "source_label": "引导用户、问用户的提示词",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into prompt-guidance.json and interaction-policy.json",
+        "has explicit downstream consumers in library and governance layers"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "prompt-guidance.json",
+        "interaction-policy.json"
+      ],
+      "authority_owner": "library_and_weighting_mode",
+      "evaluation_hooks": [
+        "same_source_consistency",
+        "mode_interaction_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_045_resource_scan_reference",
+      "source_label": "寻找系统资源",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "the source phrase is now split into a bounded resource_scan_step, a structural resource-graph artifact, and a separate resource-priority-policy artifact",
+        "scan evidence, graph structure, and priority logic now live on separate contract surfaces"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists",
+        "evaluation_hook_exists"
+      ],
+      "resolution_action": "Keep bounded scan evidence in search-notes.json, graph structure in resource-graph.json, and scan/ranking policy in resource-priority-policy.json.",
+      "backlog_item_ref": "pb_004_resource_scan_split",
+      "example_refs": [
+        "ex_advanced_representation"
+      ],
+      "downstream_consumers": [
+        "resource-graph.json",
+        "resource-priority-policy.json",
+        "search-notes.json"
+      ],
+      "authority_owner": "advanced_mode",
+      "evaluation_hooks": [
+        "fact_validation_chain",
+        "same_source_consistency",
+        "mode_requirement_checks"
+      ]
+    },
+    {
+      "source_node_id": "src_046_resource_parameter_listing",
+      "source_label": "列举资源的参数属性",
+      "node_type": "reference",
+      "scope_layer": "reference",
+      "promotion_status": "active_contract",
+      "promotion_basis": [
+        "already normalized into parameter-library.json and resource-graph attribute handling",
+        "has stable downstream consumers in weighting and traversal layers"
+      ],
+      "promotion_gates_passed": [
+        "scope_is_explicit",
+        "downstream_consumer_exists"
+      ],
+      "downstream_consumers": [
+        "parameter-library.json",
+        "resource-graph.json"
+      ],
+      "authority_owner": "library_and_weighting_mode",
+      "evaluation_hooks": [
+        "same_source_consistency"
+      ]
+    }
+  ]
+}

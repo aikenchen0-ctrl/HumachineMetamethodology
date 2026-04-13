@@ -1,0 +1,269 @@
+{
+  "execution_profile": "autonomous_deep",
+  "profile_source": "default_normal_round",
+  "interaction_profile": "autonomous",
+  "expansion_profile": "deep_probe",
+  "mode_probe_policy": "opportunistic_single_signal",
+  "confirmation_policy": "silent_unless_blocked",
+  "resolved_modes": [
+    "library_and_weighting_mode",
+    "governance_and_feedback_mode",
+    "representation_and_serialization_mode"
+  ],
+  "mode_sources": [
+    {
+      "mode": "library_and_weighting_mode",
+      "source": "system_inference",
+      "basis": [
+        "stable terminology and ranking targets already exist",
+        "the round needs explicit weighting and reusable guidance"
+      ]
+    },
+    {
+      "mode": "governance_and_feedback_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "human override priority is in scope",
+        "real-world feedback writeback is expected later"
+      ]
+    },
+    {
+      "mode": "representation_and_serialization_mode",
+      "source": "explicit_user_request",
+      "basis": [
+        "the round requests export-ready outputs",
+        "downstream consumers need machine-readable serialized forms"
+      ]
+    }
+  ],
+  "activation_reasons": [
+    {
+      "mode": "library_and_weighting_mode",
+      "reasons": [
+        "Multiple candidate routes need explicit ranking.",
+        "No human weight artifact exists yet."
+      ]
+    },
+    {
+      "mode": "governance_and_feedback_mode",
+      "reasons": [
+        "Human review and override boundaries must be explicit.",
+        "The weighting result is not the final authority once humans intervene."
+      ]
+    },
+    {
+      "mode": "representation_and_serialization_mode",
+      "reasons": [
+        "The round needs explicit XML and representation bundle export.",
+        "The exported artifact must remain downstream-consumable without rereading prose."
+      ]
+    }
+  ],
+  "source_alignment_basis": [
+    "references/source-alignment-policy.md",
+    "references/state-contracts.yaml",
+    "references/state-machine.yaml"
+  ],
+  "attach_after_states": {
+    "library_and_weighting_mode": [
+      "semantic_clarification",
+      "demand_constraint_modeling",
+      "branch_plan_generation",
+      "loop_or_finish"
+    ],
+    "governance_and_feedback_mode": [
+      "semantic_clarification",
+      "evaluation_validation",
+      "loop_or_finish"
+    ],
+    "representation_and_serialization_mode": [
+      "semantic_clarification",
+      "branch_plan_generation",
+      "loop_or_finish"
+    ]
+  },
+  "required_outputs": {
+    "library_and_weighting_mode": [
+      "decision-weighting.json",
+      "prompt-guidance.json"
+    ],
+    "governance_and_feedback_mode": [
+      "override-policy.json",
+      "governance-checkpoints.json"
+    ],
+    "representation_and_serialization_mode": [
+      "xml-rewrite.xml",
+      "representation-bundle.json"
+    ]
+  },
+  "optional_outputs": {
+    "library_and_weighting_mode": [
+      "glossary.json",
+      "parameter-library.json",
+      "effect-library.json",
+      "checklist-summary.json",
+      "variant-set.json"
+    ],
+    "governance_and_feedback_mode": [
+      "interaction-policy.json",
+      "feedback-ledger.json"
+    ],
+    "representation_and_serialization_mode": [
+      "sequence-diagram.mmd"
+    ]
+  },
+  "requested_outputs": [
+    "decision-weighting.json",
+    "override-policy.json",
+    "xml-rewrite.xml",
+    "representation-bundle.json"
+  ],
+  "blocked_outputs": [],
+  "source_aligned_core_outputs": [
+    "problem-brief.json",
+    "constraints-matrix.json",
+    "branch-plan.json",
+    "mode-resolution.json",
+    "evaluation-report.xml",
+    "loop-decision.json"
+  ],
+  "blocked_derived_runtime_outputs": [
+    "executor-runtime-hook.json",
+    "runtime-event-source-contract.json",
+    "governance-source-drift-report.json"
+  ],
+  "stage_requirements": {
+    "after_semantic_clarification": {
+      "library_and_weighting_mode": [
+        "prompt-guidance.json"
+      ],
+      "governance_and_feedback_mode": [
+        "interaction-policy.json"
+      ],
+      "representation_and_serialization_mode": [
+        "xml-rewrite.xml"
+      ]
+    },
+    "after_branch_plan_generation": {
+      "library_and_weighting_mode": [
+        "decision-weighting.json"
+      ],
+      "representation_and_serialization_mode": [
+        "representation-bundle.json"
+      ]
+    },
+    "before_finish": {
+      "governance_and_feedback_mode": [
+        "override-policy.json"
+      ],
+      "representation_and_serialization_mode": [
+        "representation-bundle.json"
+      ]
+    }
+  },
+  "dispatch_actions": {
+    "library_and_weighting_mode": {
+      "if_missing": "loop back to branch_plan_generation",
+      "why": "weighting needs stable candidate structure"
+    },
+    "governance_and_feedback_mode": {
+      "if_missing": "loop back to evaluation_validation",
+      "why": "override priority should be decided before finish"
+    },
+    "representation_and_serialization_mode": {
+      "if_missing": "loop back to semantic_clarification or branch_plan_generation depending on missing export target",
+      "why": "representation must not run ahead of stable source semantics"
+    }
+  },
+  "scope_alignment_status": "aligned",
+  "resolution_status": "ready",
+  "probe_activations": [
+    {
+      "mode": "library_and_weighting_mode",
+      "trigger_class": "single_high_signal_gain",
+      "trigger_reason": "stable terminology and ranking targets already exist while no explicit human weight artifact exists yet",
+      "probe_scope": "weighting-first bounded expansion",
+      "probe_status": "kept",
+      "deepen_when": "if candidate ranking remains necessary after branch structure stabilizes"
+    }
+  ],
+  "mode_precedence": [
+    {
+      "higher_mode": "governance_and_feedback_mode",
+      "lower_mode": "library_and_weighting_mode",
+      "precedence_basis": "human override outranks automatic ranking",
+      "applies_to": [
+        "final route selection",
+        "weight adoption"
+      ],
+      "note": "Automatic weighting remains valid as upstream decision support."
+    },
+    {
+      "higher_mode": "source_aligned_core",
+      "lower_mode": "representation_and_serialization_mode",
+      "precedence_basis": "representation cannot redefine upstream semantics",
+      "applies_to": [
+        "xml export",
+        "bundle export"
+      ],
+      "note": "Representation mode serializes; it does not reinterpret."
+    }
+  ],
+  "cross_mode_handoffs": [
+    {
+      "from_mode": "library_and_weighting_mode",
+      "to_mode": "governance_and_feedback_mode",
+      "via_artifact": "decision-weighting.json",
+      "handoff_purpose": "Provide ranked options before any human override is applied.",
+      "conflict_if_missing": "Override policy loses a concrete upstream ranking target."
+    },
+    {
+      "from_mode": "governance_and_feedback_mode",
+      "to_mode": "representation_and_serialization_mode",
+      "via_artifact": "override-policy.json",
+      "handoff_purpose": "Ensure exported outputs reflect the final authority boundary rather than only automatic ranking.",
+      "conflict_if_missing": "Serialization may export a stale or unauthorized default route."
+    }
+  ],
+  "authority_boundaries": [
+    {
+      "subject": "route ranking",
+      "computed_by": "library_and_weighting_mode",
+      "overridden_by": "governance_and_feedback_mode",
+      "serialized_by": "representation_and_serialization_mode",
+      "final_authority": "governance_and_feedback_mode"
+    },
+    {
+      "subject": "export structure",
+      "computed_by": "source_aligned_core",
+      "overridden_by": "none",
+      "serialized_by": "representation_and_serialization_mode",
+      "final_authority": "source_aligned_core"
+    }
+  ],
+  "interaction_notes": [
+    {
+      "related_modes": [
+        "library_and_weighting_mode",
+        "governance_and_feedback_mode"
+      ],
+      "active_when": "the round has multiple candidate routes and explicit human review",
+      "note": "Do not treat ranking as final before override policy is present."
+    },
+    {
+      "related_modes": [
+        "governance_and_feedback_mode",
+        "representation_and_serialization_mode"
+      ],
+      "active_when": "the round is export-oriented and also has human override points",
+      "note": "Export after override, not before."
+    }
+  ],
+  "profile_adjustment_recommendation": {
+    "current_profile": "autonomous_deep",
+    "recommended_profile": "none",
+    "adjustment_reason": "the round probed one optional mode proactively without drifting into noisy over-expansion",
+    "apply_next_round": false,
+    "blocked_by_user_override": false
+  }
+}
